@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/currentDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:ems="10"
+            android:text="October 27th, 2021"
+            android:textAlignment="center"
+            android:textSize="@dimen/title_text_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/dischargeButtonToggleGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/currentDate">
+
+            <Button
+                android:id="@+id/numberOne"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="#1"
+                style="?attr/materialButtonOutlinedStyle" />
+
+            <Button
+                android:id="@+id/numberTwo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="#2"
+                style="?attr/materialButtonOutlinedStyle" />
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+        <LinearLayout
+            android:id="@+id/durationGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dischargeButtonToggleGroup">
+
+            <TextView
+                android:id="@+id/durationText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Duration"
+                android:textSize="@dimen/title_text_size" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/startTimer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00:00"
+                style="?attr/materialButtonOutlinedStyle"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/leakageGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/durationGroup">
+
+            <TextView
+                android:id="@+id/leakageText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Leakage?"
+                android:textSize="@dimen/title_text_size" />
+
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                android:id="@+id/yesNoToggleGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/leakageGroup">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/noButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No"
+                    style="?attr/materialButtonOutlinedStyle"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/yesButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Yes"
+                    style="?attr/materialButtonOutlinedStyle" />
+            </com.google.android.material.button.MaterialButtonToggleGroup>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/colorGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@id/leakageGroup"
+            android:layout_marginTop="32dp" >
+
+            <TextView
+                android:id="@+id/colorText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Color?"
+                android:textSize="@dimen/title_text_size"/>
+
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/colorButtonGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/color1"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="color1"/>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/color2"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="color2"/>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/color3"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="color3"/>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/color4"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="color4"/>
+
+            </com.google.android.material.button.MaterialButtonToggleGroup>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/consistGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@id/colorGroup"
+            android:layout_marginTop="32dp" >
+
+            <TextView
+                android:id="@+id/consistText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Consistency?"
+                android:textSize="@dimen/title_text_size"/>
+
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/consistButtonGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/consist1"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="consist1"/>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/consist2"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="consist2"/>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/consist3"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="consist3"/>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/consist4"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="consist4"/>
+            </com.google.android.material.button.MaterialButtonToggleGroup>
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

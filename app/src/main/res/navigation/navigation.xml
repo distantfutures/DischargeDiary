@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/discharge_diary_fragment">
+
+    <fragment
+        android:id="@+id/discharge_diary_fragment"
+        android:name="com.example.dischargediary.dischargediary.DischargeDiaryFragment"
+        android:label="DischargeDiaryFragment"
+        tools:layout="@layout/fragment_discharge_diary" >
+        <action
+            android:id="@+id/action_records_screen_fragment_to_session_fragment"
+            app:destination="@id/discharge_fragment"
+            app:popUpTo="@id/discharge_diary_fragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/discharge_fragment"
+        android:name="com.example.dischargediary.discharge.DischargeFragment"
+        android:label="DischargeFragment"
+        tools:layout="@layout/fragment_discharge" >
+        <action
+            android:id="@+id/action_session_fragment_to_records_screen_fragment"
+            app:destination="@id/discharge_diary_fragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+</navigation>
