@@ -11,10 +11,9 @@
         android:label="DischargeDiaryFragment"
         tools:layout="@layout/fragment_discharge_diary" >
         <action
-            android:id="@+id/action_records_screen_fragment_to_session_fragment"
+            android:id="@+id/action_discharge_diary_fragment_to_discharge_fragment"
             app:destination="@id/discharge_fragment"
-            app:popUpTo="@id/discharge_diary_fragment"
-            app:popUpToInclusive="true" />
+            app:launchSingleTop="false"/>
     </fragment>
 
     <fragment
@@ -23,8 +22,10 @@
         android:label="DischargeFragment"
         tools:layout="@layout/fragment_discharge" >
         <action
-            android:id="@+id/action_session_fragment_to_records_screen_fragment"
+            android:id="@+id/action_discharge_fragment_to_discharge_diary_fragment"
             app:destination="@id/discharge_diary_fragment"
+            app:launchSingleTop="false"
+            app:popUpTo="@id/discharge_diary_fragment"
             app:popUpToInclusive="true" />
     </fragment>
 
