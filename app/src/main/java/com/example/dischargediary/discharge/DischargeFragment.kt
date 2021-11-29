@@ -21,6 +21,7 @@ class DischargeFragment : Fragment() {
         binding.submitButton.setOnClickListener { view: View ->
             view.findNavController().navigate(R.id.action_discharge_fragment_to_discharge_diary_fragment)
         }
+        //binding.
         return binding.root
     }
 }

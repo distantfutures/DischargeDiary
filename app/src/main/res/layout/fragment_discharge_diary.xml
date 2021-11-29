@@ -27,27 +27,27 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/numberOne"
+            android:id="@+id/numberOneButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="#1"
             style="?attr/materialButtonOutlinedStyle"
-            app:layout_constraintEnd_toStartOf="@+id/numberTwo"
+            app:layout_constraintEnd_toStartOf="@+id/numberTwoButton"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/currentDate" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/numberTwo"
+            android:id="@+id/numberTwoButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="#2"
             style="?attr/materialButtonOutlinedStyle"
-            app:layout_constraintBaseline_toBaselineOf="@+id/numberOne"
+            app:layout_constraintBaseline_toBaselineOf="@+id/numberOneButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/numberOne" />
+            app:layout_constraintStart_toEndOf="@+id/numberOneButton" />
 
         <ScrollView
             android:layout_width="0dp"
@@ -55,7 +55,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/numberOne" >
+            app:layout_constraintTop_toBottomOf="@+id/numberOneButton" >
 
             <TextView
                 android:id="@+id/discharge_list"

@@ -18,10 +18,10 @@ class DischargeDiaryFragment : Fragment() {
     ): View? {
         val binding: FragmentDischargeDiaryBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_discharge_diary, container, false)
         // val application = requireNotNull(this.activity).application
-        binding.numberOne.setOnClickListener() { view: View ->
+        binding.numberOneButton.setOnClickListener() { view: View ->
             view.findNavController().navigate(R.id.action_discharge_diary_fragment_to_discharge_fragment)
         }
-        binding.numberTwo.setOnClickListener() { view: View ->
+        binding.numberTwoButton.setOnClickListener() { view: View ->
             view.findNavController().navigate(R.id.action_discharge_diary_fragment_to_discharge_fragment)
         }
         return binding.root
