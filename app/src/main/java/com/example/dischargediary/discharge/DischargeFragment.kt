@@ -33,17 +33,30 @@ class DischargeFragment : Fragment() {
             view.findNavController().navigate(R.id.action_discharge_fragment_to_discharge_diary_fragment)
         }
 
-        binding.dischargeButtonToggleGroup.addOnButtonCheckedListener { _, checkedType, isChecked ->
+        //Discharge Type Button
+        binding.dischargeButtonToggleGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
             if (isChecked) {
                 //Changes value of dischargeType to 1 or 2
-                when (checkedType) {
+                when (checkedId) {
                     R.id.numberOneButton -> viewModel.onSetDischargeType(1)//set LiveData to 1
                     R.id.numberTwoButton -> viewModel.onSetDischargeType(2) //_dischargeType.value = 2//set LiveData to 2
                 }
                 //checks value type
-                val toast = viewModel.dischargeType.value.toString()
-                showToast(toast)
+                val dischargeToast = viewModel.dischargeType.value.toString()
+                showToast(dischargeToast)
             }
+        }
+
+        //Leakage Button
+        binding.leakageYesNoToggleGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
+            if (isChecked) {
+                when (checkedId) {
+                    R.id.noButton -> viewModel.onSetLeakageYN(false)
+                    R.id.yesButton -> viewModel.onSetLeakageYN(true)
+                }
+            }
+            val leakToast = viewModel.leakageYN.value.toString()
+            showToast(leakToast)
         }
         return binding.root
     }

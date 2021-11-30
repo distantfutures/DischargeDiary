@@ -105,7 +105,7 @@
                 android:textSize="@dimen/title_text_size" />
 
             <com.google.android.material.button.MaterialButtonToggleGroup
-                android:id="@+id/yesNoToggleGroup"
+                android:id="@+id/leakageYesNoToggleGroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
