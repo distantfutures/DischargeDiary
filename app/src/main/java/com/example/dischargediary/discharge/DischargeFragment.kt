@@ -54,13 +54,56 @@ class DischargeFragment : Fragment() {
                     R.id.noButton -> viewModel.onSetLeakageYN(false)
                     R.id.yesButton -> viewModel.onSetLeakageYN(true)
                 }
+                val leakToast = viewModel.leakageYN.value.toString()
+                showToast(leakToast)
             }
-            val leakToast = viewModel.leakageYN.value.toString()
-            showToast(leakToast)
+        }
+
+        //Color Button, changes colorset depending on discharge type
+        binding.colorButtonGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
+            val dischargeType = viewModel.dischargeType.value
+            if (dischargeType == 1) {
+                if (isChecked) {
+                    when (checkedId) {
+                        R.id.color1Button -> viewModel.onSetDischargeColor(1)
+                        R.id.color2Button -> viewModel.onSetDischargeColor(2)
+                        R.id.color3Button -> viewModel.onSetDischargeColor(3)
+                        R.id.color4Button -> viewModel.onSetDischargeColor(4)
+                    }
+                    val colorToast = colorConverter(viewModel.dischargeColor.value)
+                    showToast(colorToast.toString())
+                }
+            } else if (dischargeType == 2) {
+                if (isChecked) {
+                    when (checkedId) {
+                        R.id.color1Button -> viewModel.onSetDischargeColor(5)
+                        R.id.color2Button -> viewModel.onSetDischargeColor(6)
+                        R.id.color3Button -> viewModel.onSetDischargeColor(7)
+                        R.id.color4Button -> viewModel.onSetDischargeColor(8)
+                    }
+                    val colorToast = colorConverter(viewModel.dischargeColor.value)
+                    showToast(colorToast)
+                }
+            }
         }
         return binding.root
     }
     fun showToast(str: String) {
         Toast.makeText(context, str, Toast.LENGTH_SHORT).show()
+    }
+    fun colorConverter(colorCode: Int?): String {
+        val colorName = when (colorCode) {
+            0 -> "Need Value"
+            1 -> "Clear"
+            2 -> "Light Yellow"
+            3 -> "Yellow"
+            4 -> "Dark Yellow"
+            5 -> "Light Brown"
+            6 -> "Brown"
+            7 -> "Green"
+            8 -> "Black"
+            else -> { "Other" }
+        }
+        return colorName
     }
 }
