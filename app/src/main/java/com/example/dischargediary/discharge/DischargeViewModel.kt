@@ -18,6 +18,10 @@ class DischargeViewModel() : ViewModel() {
     val dischargeColor: LiveData<Int>
         get() = _dischargeColor
 
+    private val _dischargeConsist = MutableLiveData<String?>()
+    val dischargeConsist: LiveData<String?>
+        get() = _dischargeConsist
+
     init {
         _dischargeType.value = 0
         _dischargeColor.value = 0
@@ -34,5 +38,9 @@ class DischargeViewModel() : ViewModel() {
 
     fun onSetDischargeColor(colorNumber: Int) {
         _dischargeColor.value = colorNumber
+    }
+
+    fun onSetDischargeConsist(consist: String?) {
+        _dischargeConsist.value = consist
     }
 }

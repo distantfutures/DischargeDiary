@@ -86,6 +86,24 @@ class DischargeFragment : Fragment() {
                 }
             }
         }
+
+        //Consistency Button, set to N/A if dischargeType != 2
+        binding.consistButtonGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
+            val dischargeType = viewModel.dischargeType.value
+            if (dischargeType == 2) {
+                if (isChecked) {
+                    when (checkedId) {
+                        R.id.consist1Button -> viewModel.onSetDischargeConsist("Diarrhea")
+                        R.id.consist2Button -> viewModel.onSetDischargeConsist("Loose")
+                        R.id.consist3Button -> viewModel.onSetDischargeConsist("Normal")
+                        R.id.consist4Button -> viewModel.onSetDischargeConsist("Lumps")
+                    }
+                }
+            } else {
+                viewModel.onSetDischargeConsist("N/A")
+                //add function to hide if dischargeType == 1
+            }
+        }
         return binding.root
     }
     fun showToast(str: String) {
