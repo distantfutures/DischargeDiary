@@ -43,4 +43,8 @@ class DischargeViewModel() : ViewModel() {
     fun onSetDischargeConsist(consist: String?) {
         _dischargeConsist.value = consist
     }
+
+    fun onSetVisibility() {
+        _dischargeType
+    }
 }

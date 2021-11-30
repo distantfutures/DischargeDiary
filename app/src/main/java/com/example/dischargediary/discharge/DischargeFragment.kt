@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.dischargediary.R
@@ -29,11 +30,20 @@ class DischargeFragment : Fragment() {
         binding.dischargeViewModel = viewModel
         binding.lifecycleOwner = this
 
+        val dischargeType = viewModel.dischargeType.value
+        viewModel.dischargeType.observe(viewLifecycleOwner, Observer { number ->
+            if (number != 2) {
+                binding.consistGroup.visibility = View.INVISIBLE
+            } else {
+                binding.consistGroup.visibility = View.VISIBLE
+            }
+        })
+
         binding.submitButton.setOnClickListener { view: View ->
             view.findNavController().navigate(R.id.action_discharge_fragment_to_discharge_diary_fragment)
         }
 
-        //Discharge Type Button
+        //Discharge Type Button - Sets Discharge
         binding.dischargeButtonToggleGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
             if (isChecked) {
                 //Changes value of dischargeType to 1 or 2
@@ -61,8 +71,8 @@ class DischargeFragment : Fragment() {
 
         //Color Button, changes colorset depending on discharge type
         binding.colorButtonGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
-            val dischargeType = viewModel.dischargeType.value
-            if (dischargeType == 1) {
+            //val dischargeType = viewModel.dischargeType.value
+            if (viewModel.dischargeType.value == 1) {
                 if (isChecked) {
                     when (checkedId) {
                         R.id.color1Button -> viewModel.onSetDischargeColor(1)
@@ -71,9 +81,9 @@ class DischargeFragment : Fragment() {
                         R.id.color4Button -> viewModel.onSetDischargeColor(4)
                     }
                     val colorToast = colorConverter(viewModel.dischargeColor.value)
-                    showToast(colorToast.toString())
+                    showToast(colorToast)
                 }
-            } else if (dischargeType == 2) {
+            } else if (viewModel.dischargeType.value == 2) {
                 if (isChecked) {
                     when (checkedId) {
                         R.id.color1Button -> viewModel.onSetDischargeColor(5)
@@ -89,8 +99,8 @@ class DischargeFragment : Fragment() {
 
         //Consistency Button, set to N/A if dischargeType != 2
         binding.consistButtonGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
-            val dischargeType = viewModel.dischargeType.value
-            if (dischargeType == 2) {
+            //val dischargeType = viewModel.dischargeType.value
+            if (viewModel.dischargeType.value == 2) {
                 if (isChecked) {
                     when (checkedId) {
                         R.id.consist1Button -> viewModel.onSetDischargeConsist("Diarrhea")
@@ -98,15 +108,15 @@ class DischargeFragment : Fragment() {
                         R.id.consist3Button -> viewModel.onSetDischargeConsist("Normal")
                         R.id.consist4Button -> viewModel.onSetDischargeConsist("Lumps")
                     }
+                    showToast(viewModel.dischargeConsist.value)
                 }
             } else {
                 viewModel.onSetDischargeConsist("N/A")
-                //add function to hide if dischargeType == 1
             }
         }
         return binding.root
     }
-    fun showToast(str: String) {
+    fun showToast(str: String?) {
         Toast.makeText(context, str, Toast.LENGTH_SHORT).show()
     }
     fun colorConverter(colorCode: Int?): String {
