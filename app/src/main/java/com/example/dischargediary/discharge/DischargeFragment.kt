@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.dischargediary.R
@@ -30,14 +29,16 @@ class DischargeFragment : Fragment() {
         binding.dischargeViewModel = viewModel
         binding.lifecycleOwner = this
 
-        val dischargeType = viewModel.dischargeType.value
-        viewModel.dischargeType.observe(viewLifecycleOwner, Observer { number ->
-            if (number != 2) {
-                binding.consistGroup.visibility = View.INVISIBLE
-            } else {
-                binding.consistGroup.visibility = View.VISIBLE
+        viewModel.dischargeType.observe(
+            viewLifecycleOwner,
+            { number ->
+                if (number != 2) {
+                    binding.consistGroup.visibility = View.INVISIBLE
+                } else {
+                    binding.consistGroup.visibility = View.VISIBLE
+                }
             }
-        })
+        )
 
         binding.submitButton.setOnClickListener { view: View ->
             view.findNavController().navigate(R.id.action_discharge_fragment_to_discharge_diary_fragment)
@@ -56,6 +57,8 @@ class DischargeFragment : Fragment() {
                 showToast(dischargeToast)
             }
         }
+        //Duration/Timer Button
+        binding.startTimerButton.setOnClickListener { }
 
         //Leakage Button
         binding.leakageYesNoToggleGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
