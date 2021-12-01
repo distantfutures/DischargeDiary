@@ -2,6 +2,11 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="dischargeViewModel"
+            type="com.example.dischargediary.discharge.DischargeViewModel" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -100,7 +105,7 @@
                 android:textSize="@dimen/title_text_size" />
 
             <com.google.android.material.button.MaterialButtonToggleGroup
-                android:id="@+id/yesNoToggleGroup"
+                android:id="@+id/leakageYesNoToggleGroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -196,6 +201,7 @@
             android:layout_marginTop="32dp"
             android:gravity="center"
             android:orientation="vertical"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="@+id/dischargeButtonToggleGroup"
             app:layout_constraintStart_toStartOf="@+id/dischargeButtonToggleGroup"
             app:layout_constraintTop_toBottomOf="@id/colorGroup">
@@ -220,7 +226,7 @@
                     android:layout_width="@dimen/consist_button_size"
                     android:layout_height="@dimen/consist_button_size"
                     app:icon="@android:drawable/ic_menu_delete"
-                    app:iconGravity="textStart"/>
+                    app:iconGravity="textStart" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/consist2Button"
@@ -228,7 +234,7 @@
                     android:layout_width="@dimen/consist_button_size"
                     android:layout_height="@dimen/consist_button_size"
                     app:icon="@android:drawable/ic_menu_delete"
-                    app:iconGravity="textStart"/>
+                    app:iconGravity="textStart" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/consist3Button"
@@ -236,7 +242,7 @@
                     android:layout_width="@dimen/consist_button_size"
                     android:layout_height="@dimen/consist_button_size"
                     app:icon="@android:drawable/ic_menu_delete"
-                    app:iconGravity="textStart"/>
+                    app:iconGravity="textStart" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/consist4Button"
@@ -245,7 +251,7 @@
                     android:layout_height="@dimen/consist_button_size"
                     android:layout_gravity="center"
                     app:icon="@android:drawable/ic_menu_delete"
-                    app:iconGravity="textStart"/>
+                    app:iconGravity="textStart" />
             </com.google.android.material.button.MaterialButtonToggleGroup>
         </LinearLayout>
 
