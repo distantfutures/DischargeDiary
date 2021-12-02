@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -29,6 +30,7 @@ class DischargeFragment : Fragment() {
         binding.dischargeViewModel = viewModel
         binding.lifecycleOwner = this
 
+        //Observes Discharge Type
         viewModel.dischargeType.observe(
             viewLifecycleOwner,
             { number ->
@@ -53,10 +55,18 @@ class DischargeFragment : Fragment() {
                 showToast(dischargeToast)
             }
         }
-//        //Duration/Timer Button
-//        val time = binding.durationInput.text
-//        viewModel.onSetDischargeDuration(time.toString())
-//        val dTime = viewModel.dischargeDurationTime.value
+
+        //Duration/Timer Button
+        binding.durationInput.setOnEditorActionListener { _, actionId, _ ->
+            return@setOnEditorActionListener when (actionId) {
+                EditorInfo.IME_ACTION_DONE -> {
+                    val time = binding.durationInput.text
+                    viewModel.onSetDischargeDuration(time.toString())
+                    false
+                }
+                else -> { true }
+            }
+        }
 
         //Leakage Button
         binding.leakageYesNoToggleGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
@@ -119,13 +129,10 @@ class DischargeFragment : Fragment() {
         //Submit Button
         binding.submitButton.setOnClickListener { view: View ->
             view.findNavController().navigate(R.id.action_discharge_fragment_to_discharge_diary_fragment)
-            //Duration/Timer Button
-            val time = binding.durationInput.text
-            viewModel.onSetDischargeDuration(time.toString())
-            val dTime = viewModel.dischargeDurationTime.value
 
             //String Concat
             val typeString = viewModel.dischargeType.value
+            val durationString = viewModel.dischargeDurationTime.value
             val leakageString = viewModel.leakageYN.value
             val colorString = viewModel.convertedColor.value
             val consistString = viewModel.dischargeConsist.value
@@ -134,7 +141,7 @@ class DischargeFragment : Fragment() {
             val dischargeAllInfo = StringBuilder()
                 .append(typeString)
                 .append(",")
-                .append(dTime)
+                .append(durationString)
                 .append(",")
                 .append(leakageString)
                 .append(",")
