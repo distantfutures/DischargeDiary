@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -29,6 +30,7 @@ class DischargeFragment : Fragment() {
         binding.dischargeViewModel = viewModel
         binding.lifecycleOwner = this
 
+        //Observes Discharge Type
         viewModel.dischargeType.observe(
             viewLifecycleOwner,
             { number ->
@@ -39,10 +41,6 @@ class DischargeFragment : Fragment() {
                 }
             }
         )
-
-        binding.submitButton.setOnClickListener { view: View ->
-            view.findNavController().navigate(R.id.action_discharge_fragment_to_discharge_diary_fragment)
-        }
 
         //Discharge Type Button - Sets Discharge
         binding.dischargeButtonToggleGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
@@ -57,8 +55,18 @@ class DischargeFragment : Fragment() {
                 showToast(dischargeToast)
             }
         }
+
         //Duration/Timer Button
-        binding.startTimerButton.setOnClickListener { }
+        binding.durationInput.setOnEditorActionListener { _, actionId, _ ->
+            return@setOnEditorActionListener when (actionId) {
+                EditorInfo.IME_ACTION_DONE -> {
+                    val time = binding.durationInput.text
+                    viewModel.onSetDischargeDuration(time.toString())
+                    false
+                }
+                else -> { true }
+            }
+        }
 
         //Leakage Button
         binding.leakageYesNoToggleGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
@@ -83,7 +91,7 @@ class DischargeFragment : Fragment() {
                         R.id.color3Button -> viewModel.onSetDischargeColor(3)
                         R.id.color4Button -> viewModel.onSetDischargeColor(4)
                     }
-                    val colorToast = colorConverter(viewModel.dischargeColor.value)
+                    val colorToast = viewModel.convertedColor.value
                     showToast(colorToast)
                 }
             } else if (viewModel.dischargeType.value == 2) {
@@ -94,7 +102,7 @@ class DischargeFragment : Fragment() {
                         R.id.color3Button -> viewModel.onSetDischargeColor(7)
                         R.id.color4Button -> viewModel.onSetDischargeColor(8)
                     }
-                    val colorToast = colorConverter(viewModel.dischargeColor.value)
+                    val colorToast = viewModel.convertedColor.value
                     showToast(colorToast)
                 }
             }
@@ -117,24 +125,39 @@ class DischargeFragment : Fragment() {
                 viewModel.onSetDischargeConsist("N/A")
             }
         }
+
+        //Submit Button
+        binding.submitButton.setOnClickListener { view: View ->
+            view.findNavController().navigate(R.id.action_discharge_fragment_to_discharge_diary_fragment)
+
+            //String Concat
+            val typeString = viewModel.dischargeType.value
+            val durationString = viewModel.dischargeDurationTime.value
+            val leakageString = viewModel.leakageYN.value
+            val colorString = viewModel.convertedColor.value
+            val consistString = viewModel.dischargeConsist.value
+
+//            val stringBuilder = StringBuilder()
+            val dischargeAllInfo = StringBuilder()
+                .append(typeString)
+                .append(",")
+                .append(durationString)
+                .append(",")
+                .append(leakageString)
+                .append(",")
+                .append(colorString)
+                .append(",")
+                .append(consistString)
+            showToastLong(dischargeAllInfo.toString())
+        }
+
         return binding.root
     }
     fun showToast(str: String?) {
         Toast.makeText(context, str, Toast.LENGTH_SHORT).show()
     }
-    fun colorConverter(colorCode: Int?): String {
-        val colorName = when (colorCode) {
-            0 -> "Need Value"
-            1 -> "Clear"
-            2 -> "Light Yellow"
-            3 -> "Yellow"
-            4 -> "Dark Yellow"
-            5 -> "Light Brown"
-            6 -> "Brown"
-            7 -> "Green"
-            8 -> "Black"
-            else -> { "Other" }
-        }
-        return colorName
+
+    fun showToastLong(str: String?) {
+        Toast.makeText(context, str, Toast.LENGTH_LONG).show()
     }
 }
