@@ -3,9 +3,19 @@ package com.example.dischargediary.discharge
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import java.text.SimpleDateFormat
+import java.util.*
 
 class DischargeViewModel() : ViewModel() {
-//number: Int
+
+    private val _dischargeDateTime = MutableLiveData<String?>()
+    val dischargeDateTime: LiveData<String?>
+        get() = _dischargeDateTime
+
+//    val currentDateTimeString = Transformations.map(dischargeDateTime) { time ->
+//        DateUtils.formatDateTime(time)
+//    }
+
     private val _dischargeType = MutableLiveData<Int?>()
     val dischargeType: LiveData<Int?>
         get() = _dischargeType
@@ -33,6 +43,20 @@ class DischargeViewModel() : ViewModel() {
     init {
         _dischargeType.value = 0
         _dischargeColorNumber.value = 0
+        _dischargeDateTime.value = getCurrentDateTime()
+    }
+
+    fun getCurrentDateTime(): String? {
+        // Get the current time (in millis)
+        val now = Date().time
+
+        // Create a formatter along with the desired output pattern
+        val formatter = SimpleDateFormat("dd MMMM yyyy HH:mm:ss", Locale.getDefault())
+
+        // Put the time (in millis) in our formatter
+        val result = formatter.format(now)
+
+        return result
     }
 
     fun onSetDischargeType(dischargeOneTwo: Int) {

@@ -30,6 +30,11 @@ class DischargeFragment : Fragment() {
         binding.dischargeViewModel = viewModel
         binding.lifecycleOwner = this
 
+        //Current Date & Time
+//        viewModel.dischargeDateTime.observe(viewLifecycleOwner, Observer { dateTime ->
+//
+//        })
+
         //Observes Discharge Type
         viewModel.dischargeType.observe(
             viewLifecycleOwner,
