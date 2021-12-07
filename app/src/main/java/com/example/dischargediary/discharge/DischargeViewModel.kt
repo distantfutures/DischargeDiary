@@ -51,7 +51,7 @@ class DischargeViewModel() : ViewModel() {
         val now = Date().time
 
         // Create a formatter along with the desired output pattern
-        val formatter = SimpleDateFormat("dd MMMM yyyy HH:mm:ss", Locale.getDefault())
+        val formatter = SimpleDateFormat("EEEE,  MMMM dd ''yy\n hh:mm a", Locale.getDefault())
 
         // Put the time (in millis) in our formatter
         val result = formatter.format(now)

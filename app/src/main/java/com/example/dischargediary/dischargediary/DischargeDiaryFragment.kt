@@ -14,7 +14,7 @@ import com.example.dischargediary.databinding.FragmentDischargeDiaryBinding
 class DischargeDiaryFragment : Fragment() {
 
     private lateinit var viewModel: DischargeDiaryViewModel
-    
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
