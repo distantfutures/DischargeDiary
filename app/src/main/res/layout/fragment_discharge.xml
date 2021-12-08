@@ -29,7 +29,7 @@
                 android:padding="10dp"
                 android:clickable="true"
                 android:background="@drawable/rounded_box_outline"
-                android:hint="Wednesday, January 07 '21 \n 10:20 AM"
+                android:hint="Wed, 01.07.2021 - 4:25 PM"
                 android:inputType="datetime"
                 android:text="@{dischargeViewModel.dischargeDateTime}"
                 android:textAlignment="center"

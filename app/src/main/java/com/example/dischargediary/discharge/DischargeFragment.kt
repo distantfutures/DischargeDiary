@@ -141,6 +141,7 @@ class DischargeFragment : Fragment() {
             view.findNavController().navigate(R.id.action_discharge_fragment_to_discharge_diary_fragment)
 
             //String Concat
+            val dateTimeString = viewModel.dischargeDateTime.value
             val typeString = viewModel.dischargeType.value
             val durationString = viewModel.dischargeDurationTime.value
             val leakageString = viewModel.leakageYN.value
@@ -149,6 +150,8 @@ class DischargeFragment : Fragment() {
 
 //            val stringBuilder = StringBuilder()
             val dischargeAllInfo = StringBuilder()
+                .append(dateTimeString)
+                .append(",")
                 .append(typeString)
                 .append(",")
                 .append(durationString)
@@ -185,7 +188,7 @@ class DischargeFragment : Fragment() {
             TimePickerDialog(requireContext(), { _, hour, minute ->
                 val pickedDateTime = Calendar.getInstance()
                 pickedDateTime.set(year, month, day, hour, minute)
-                val formatter = SimpleDateFormat("EEEE,  MMMM dd ''yy \n hh:mm a", Locale.getDefault())
+                val formatter = SimpleDateFormat("EEE, MM.dd.yyyy - h:mm a", Locale.getDefault())
                 dateString = formatter.format(pickedDateTime.time)
                 viewModel.getNewDateTime(dateString)
                 showToastLong(viewModel.dischargeDateTime.value)
