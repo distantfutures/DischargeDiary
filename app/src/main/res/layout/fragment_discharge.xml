@@ -12,27 +12,57 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/currentDateTime"
+        <LinearLayout
+            android:id="@+id/dateTimeGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="@{dischargeViewModel.dischargeDateTime}"
-            android:textAlignment="center"
-            android:textSize="@dimen/title_text_size"
-            android:inputType="datetime"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" >
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/dischargeDateTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@{dischargeViewModel.dischargeDateTime}"
+                android:textAlignment="center"
+                android:textSize="@dimen/title_text_size"
+                android:inputType="datetime"
+                style="?attr/materialButtonOutlinedStyle" />
+
+<!--            <com.google.android.material.button.MaterialButton-->
+<!--                android:id="@+id/dischargeDate"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="12dp"-->
+<!--                android:text="@{dischargeViewModel.dischargeDateTime}"-->
+<!--                android:textAlignment="center"-->
+<!--                android:textSize="@dimen/title_text_size"-->
+<!--                android:inputType="date"-->
+<!--                style="?attr/materialButtonOutlinedStyle" />-->
+
+<!--            <com.google.android.material.button.MaterialButton-->
+<!--                android:id="@+id/dischargeTime"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="12dp"-->
+<!--                android:text="@{dischargeViewModel.dischargeDateTime}"-->
+<!--                android:textAlignment="center"-->
+<!--                android:textSize="@dimen/title_text_size"-->
+<!--                android:inputType="time"-->
+<!--                style="?attr/materialButtonOutlinedStyle" />-->
+
+        </LinearLayout>
 
         <com.google.android.material.button.MaterialButtonToggleGroup
             android:id="@+id/dischargeButtonToggleGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/currentDateTime"
+            app:layout_constraintTop_toBottomOf="@id/dateTimeGroup"
             app:selectionRequired="true"
             app:singleSelection="true">
 

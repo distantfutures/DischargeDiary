@@ -1,19 +1,27 @@
 package com.example.dischargediary.discharge
 
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
+import android.icu.text.SimpleDateFormat
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.dischargediary.R
 import com.example.dischargediary.databinding.FragmentDischargeBinding
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.*
 
-class DischargeFragment : Fragment() {
+class DischargeFragment : Fragment(){
 
     private lateinit var viewModel: DischargeViewModel
     //private lateinit var viewModelFactory: DischargeViewModelFactory
@@ -31,9 +39,7 @@ class DischargeFragment : Fragment() {
         binding.lifecycleOwner = this
 
         //Current Date & Time
-//        viewModel.dischargeDateTime.observe(viewLifecycleOwner, Observer { dateTime ->
-//
-//        })
+        binding.dischargeDateTime.setOnClickListener { setNewDateTime() }
 
         //Observes Discharge Type
         viewModel.dischargeType.observe(
@@ -164,5 +170,25 @@ class DischargeFragment : Fragment() {
 
     fun showToastLong(str: String?) {
         Toast.makeText(context, str, Toast.LENGTH_LONG).show()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun setNewDateTime() {
+        val currentDateTime = Calendar.getInstance()
+        val startYear = currentDateTime.get(Calendar.YEAR)
+        val startMonth = currentDateTime.get(Calendar.MONTH)
+        val startDay = currentDateTime.get(Calendar.DAY_OF_MONTH)
+        val startHour = currentDateTime.get(Calendar.HOUR_OF_DAY)
+        val startMinute = currentDateTime.get(Calendar.MINUTE)
+
+        DatePickerDialog(requireContext(), { _, year, month, day ->
+            TimePickerDialog(requireContext(), { _, hour, minute ->
+                val pickedDateTime = Calendar.getInstance()
+                pickedDateTime.set(year, month, day, hour, minute)
+                val formatter = SimpleDateFormat("EEEE,  MMMM dd ''yy\n hh:mm a", Locale.getDefault())
+                val dateString = formatter.format(pickedDateTime.time)
+                showToastLong(dateString)
+            }, startHour, startMinute, false).show()
+        }, startYear, startMonth, startDay).show()
     }
 }

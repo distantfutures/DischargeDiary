@@ -12,9 +12,13 @@ class DischargeViewModel() : ViewModel() {
     val dischargeDateTime: LiveData<String?>
         get() = _dischargeDateTime
 
-//    val currentDateTimeString = Transformations.map(dischargeDateTime) { time ->
-//        DateUtils.formatDateTime(time)
-//    }
+    private val _dischargeDate = MutableLiveData<String?>()
+    val dischargeDate: LiveData<String?>
+        get() = _dischargeDate
+
+    private val _dischargeTime = MutableLiveData<String?>()
+    val dischargeTime: LiveData<String?>
+        get() = _dischargeTime
 
     private val _dischargeType = MutableLiveData<Int?>()
     val dischargeType: LiveData<Int?>
@@ -43,21 +47,54 @@ class DischargeViewModel() : ViewModel() {
     init {
         _dischargeType.value = 0
         _dischargeColorNumber.value = 0
-        _dischargeDateTime.value = getCurrentDateTime()
+        _dischargeDate.value = getCurrentDate()
+        _dischargeTime.value = getCurrentTime()
     }
 
-    fun getCurrentDateTime(): String? {
+    fun getCurrentDate(): String? {
         // Get the current time (in millis)
         val now = Date().time
-
         // Create a formatter along with the desired output pattern
         val formatter = SimpleDateFormat("EEEE,  MMMM dd ''yy\n hh:mm a", Locale.getDefault())
-
         // Put the time (in millis) in our formatter
         val result = formatter.format(now)
-
         return result
     }
+
+    fun getCurrentTime(): String? {
+        // Get the current time (in millis)
+        val now = Date().time
+        // Create a formatter along with the desired output pattern
+        val formatter = SimpleDateFormat("EEEE,  MMMM dd ''yy\n hh:mm a", Locale.getDefault())
+        // Put the time (in millis) in our formatter
+        val result = formatter.format(now)
+        return result
+    }
+
+//    fun getNewDate(): String? {
+//
+//    }
+//
+//    fun getNewTime(): String? {
+//
+//    }
+
+//    fun setNewDateTime(): String? {
+//        val currentDateTime = Calendar.getInstance()
+//        val startYear = currentDateTime.get(Calendar.YEAR)
+//        val startMonth = currentDateTime.get(Calendar.MONTH)
+//        val startDay = currentDateTime.get(Calendar.DAY_OF_MONTH)
+//        val startHour = currentDateTime.get(Calendar.HOUR_OF_DAY)
+//        val startMinute = currentDateTime.get(Calendar.MINUTE)
+//
+//        DatePickerDialog(requireContext(), DatePickerDialog.OnDateSetListener { _, year, month, day ->
+//            TimePickerDialog(requireContext(), TimePickerDialog.OnTimeSetListener { _, hour, minute ->
+//                val pickedDateTime = Calendar.getInstance()
+//                pickedDateTime.set(year, month, day, hour, minute)
+//                doSomethingWith(pickedDateTime)
+//            }, startHour, startMinute, false).show()
+//        }, startYear, startMonth, startDay).show()
+//    }
 
     fun onSetDischargeType(dischargeOneTwo: Int) {
         _dischargeType.value = dischargeOneTwo
