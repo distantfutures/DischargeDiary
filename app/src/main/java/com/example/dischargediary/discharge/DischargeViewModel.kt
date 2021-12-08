@@ -71,30 +71,9 @@ class DischargeViewModel() : ViewModel() {
         return result
     }
 
-//    fun getNewDate(): String? {
-//
-//    }
-//
-//    fun getNewTime(): String? {
-//
-//    }
-
-//    fun setNewDateTime(): String? {
-//        val currentDateTime = Calendar.getInstance()
-//        val startYear = currentDateTime.get(Calendar.YEAR)
-//        val startMonth = currentDateTime.get(Calendar.MONTH)
-//        val startDay = currentDateTime.get(Calendar.DAY_OF_MONTH)
-//        val startHour = currentDateTime.get(Calendar.HOUR_OF_DAY)
-//        val startMinute = currentDateTime.get(Calendar.MINUTE)
-//
-//        DatePickerDialog(requireContext(), DatePickerDialog.OnDateSetListener { _, year, month, day ->
-//            TimePickerDialog(requireContext(), TimePickerDialog.OnTimeSetListener { _, hour, minute ->
-//                val pickedDateTime = Calendar.getInstance()
-//                pickedDateTime.set(year, month, day, hour, minute)
-//                doSomethingWith(pickedDateTime)
-//            }, startHour, startMinute, false).show()
-//        }, startYear, startMonth, startDay).show()
-//    }
+    fun getNewDateTime(dateTime: String?) {
+        _dischargeDateTime.value = dateTime
+    }
 
     fun onSetDischargeType(dischargeOneTwo: Int) {
         _dischargeType.value = dischargeOneTwo
