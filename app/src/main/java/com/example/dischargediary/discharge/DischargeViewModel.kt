@@ -55,7 +55,7 @@ class DischargeViewModel() : ViewModel() {
         // Get the current time (in millis)
         val now = Date().time
         // Create a formatter along with the desired output pattern
-        val formatter = SimpleDateFormat("EEEE,  MMMM dd ''yy\n hh:mm a", Locale.getDefault())
+        val formatter = SimpleDateFormat("MM.dd.yyyy, EEE", Locale.getDefault())
         // Put the time (in millis) in our formatter
         val result = formatter.format(now)
         return result
@@ -65,7 +65,7 @@ class DischargeViewModel() : ViewModel() {
         // Get the current time (in millis)
         val now = Date().time
         // Create a formatter along with the desired output pattern
-        val formatter = SimpleDateFormat("EEEE,  MMMM dd ''yy\n hh:mm a", Locale.getDefault())
+        val formatter = SimpleDateFormat("h:mm a", Locale.getDefault())
         // Put the time (in millis) in our formatter
         val result = formatter.format(now)
         return result
@@ -73,6 +73,14 @@ class DischargeViewModel() : ViewModel() {
 
     fun getNewDateTime(dateTime: String?) {
         _dischargeDateTime.value = dateTime
+    }
+
+    fun getNewDate(date: String?) {
+        _dischargeDate.value = date
+    }
+
+    fun getNewTime(time: String?) {
+        _dischargeTime.value = time
     }
 
     fun onSetDischargeType(dischargeOneTwo: Int) {

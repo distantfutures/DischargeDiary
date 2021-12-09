@@ -29,9 +29,9 @@
                 android:padding="10dp"
                 android:clickable="true"
                 android:background="@drawable/rounded_box_outline"
-                android:hint="Wed, 01.07.2021 - 4:25 PM"
+                android:hint="@{@string/new_date_time(dischargeViewModel.dischargeDate, dischargeViewModel.dischargeTime)}"
                 android:inputType="datetime"
-                android:text="@{dischargeViewModel.dischargeDateTime}"
+                android:text="@{@string/new_date_time(dischargeViewModel.dischargeDate, dischargeViewModel.dischargeTime)}"
                 android:textAlignment="center"
                 android:textSize="24sp" />
 
