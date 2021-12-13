@@ -4,6 +4,7 @@
     <disabledRules>
       <list>
         <option value="comment-spacing" />
+        <option value="indent" />
       </list>
     </disabledRules>
   </component>

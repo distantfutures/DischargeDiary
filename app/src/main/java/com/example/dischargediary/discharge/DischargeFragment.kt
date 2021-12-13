@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.dischargediary.R
+import com.example.dischargediary.data.DischargeData
 import com.example.dischargediary.databinding.FragmentDischargeBinding
 import java.util.*
 
@@ -23,6 +24,7 @@ class DischargeFragment : Fragment() {
 
     private lateinit var viewModel: DischargeViewModel
     //private lateinit var viewModelFactory: DischargeViewModelFactory
+    private var dischargeData: DischargeData = DischargeData()
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
@@ -30,12 +32,17 @@ class DischargeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding: FragmentDischargeBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_discharge, container, false)
 
+        val binding: FragmentDischargeBinding = DataBindingUtil.inflate(
+            inflater, R.layout.fragment_discharge, container, false)
+
+        //val application = requireNotNull(this.activity).application
         //viewModelFactory = DischargeViewModelFactory(DischargeFragment.fromBundle(arguments!!).dischargeType)
         viewModel = ViewModelProvider(this).get(DischargeViewModel::class.java)
         binding.dischargeViewModel = viewModel
         binding.lifecycleOwner = this
+
+        binding.dischargeData = dischargeData
 
         //Current Date & Time
         binding.dischargeDateTime.setOnClickListener { setNewDateTime() }
@@ -149,7 +156,6 @@ class DischargeFragment : Fragment() {
             val colorString = viewModel.convertedColor.value
             val consistString = viewModel.dischargeConsist.value
 
-//            val stringBuilder = StringBuilder()
             val dischargeAllInfo = StringBuilder()
                 .append("$dateString - $timeString")
                 .append(",")
@@ -164,7 +170,6 @@ class DischargeFragment : Fragment() {
                 .append(consistString)
             showToastLong(dischargeAllInfo.toString())
         }
-
         return binding.root
     }
     fun showToast(str: String?) {

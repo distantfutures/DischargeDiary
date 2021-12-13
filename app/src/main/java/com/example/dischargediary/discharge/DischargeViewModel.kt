@@ -1,5 +1,6 @@
 package com.example.dischargediary.discharge
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,9 +9,9 @@ import java.util.*
 
 class DischargeViewModel() : ViewModel() {
 
-    private val _dischargeDateTime = MutableLiveData<String?>()
-    val dischargeDateTime: LiveData<String?>
-        get() = _dischargeDateTime
+    override fun onCleared() {
+        Log.d("DischargeFragment", "DischargeViewModel Destroyed")
+    }
 
     private val _dischargeDate = MutableLiveData<String?>()
     val dischargeDate: LiveData<String?>
@@ -45,6 +46,7 @@ class DischargeViewModel() : ViewModel() {
         get() = _convertedColor
 
     init {
+        Log.d("DischargeFragment", "DischargeViewModel Created")
         _dischargeType.value = 0
         _dischargeColorNumber.value = 0
         _dischargeDate.value = getCurrentDate()
@@ -71,9 +73,9 @@ class DischargeViewModel() : ViewModel() {
         return result
     }
 
-    fun getNewDateTime(dateTime: String?) {
-        _dischargeDateTime.value = dateTime
-    }
+//    fun getNewDateTime(dateTime: String?) {
+//        _dischargeDateTime.value = dateTime
+//    }
 
     fun getNewDate(date: String?) {
         _dischargeDate.value = date

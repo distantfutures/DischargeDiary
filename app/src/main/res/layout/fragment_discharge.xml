@@ -6,6 +6,9 @@
         <variable
             name="dischargeViewModel"
             type="com.example.dischargediary.discharge.DischargeViewModel" />
+        <variable
+            name="dischargeData"
+            type="com.example.dischargediary.data.DischargeData" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
