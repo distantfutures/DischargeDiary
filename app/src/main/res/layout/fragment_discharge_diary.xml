@@ -6,6 +6,9 @@
         <variable
             name="dischargeDiaryViewModel"
             type="com.example.dischargediary.dischargediary.DischargeDiaryViewModel" />
+        <variable
+            name="dischargeData"
+            type="com.example.dischargediary.data.DischargeData" />
 
     </data>
 
@@ -64,7 +67,7 @@
                 android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:layout_marginEnd="@dimen/margin_medium"
-                android:text="Discharge List Here"/>
+                android:text="@={dischargeData.dischargeDate}"/>
         </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

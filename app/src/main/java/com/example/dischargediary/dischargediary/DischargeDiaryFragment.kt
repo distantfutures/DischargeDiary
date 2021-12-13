@@ -9,11 +9,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.dischargediary.R
+import com.example.dischargediary.data.DischargeData
 import com.example.dischargediary.databinding.FragmentDischargeDiaryBinding
 
 class DischargeDiaryFragment : Fragment() {
 
     private lateinit var viewModel: DischargeDiaryViewModel
+    private var dischargeData: DischargeData = DischargeData()
+    //private val sharedViewModel: DischargeViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,6 +27,11 @@ class DischargeDiaryFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(DischargeDiaryViewModel::class.java)
         binding.dischargeDiaryViewModel = viewModel
         binding.lifecycleOwner = this
+
+        binding.dischargeData = dischargeData
+//        sharedViewModel.dischargeDate.observe(viewLifecycleOwner, { date ->
+//            binding.dischargeList.setText(date)
+//        })
 
         // val application = requireNotNull(this.activity).application
         binding.numberOneButton.setOnClickListener() { view: View ->
