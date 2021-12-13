@@ -16,7 +16,7 @@ abstract class DischargeDatabase : RoomDatabase() {
         private var INSTANCE: DischargeDatabase? = null
 
         fun getInstance(context: Context): DischargeDatabase {
-            return synchronized(this) {
+            synchronized(this) {
                 var instance = INSTANCE
 
                 if (instance == null) {
@@ -29,7 +29,7 @@ abstract class DischargeDatabase : RoomDatabase() {
                         .build()
                     INSTANCE = instance
                 }
-                return@synchronized instance
+                return instance
             }
         }
     }

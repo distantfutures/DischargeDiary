@@ -4,14 +4,24 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.dischargediary.data.DischargeDatabaseDao
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import java.text.SimpleDateFormat
 import java.util.*
 
-class DischargeViewModel() : ViewModel() {
+class DischargeViewModel(
+    private val dischargeKey: Long = 0L,
+    val database: DischargeDatabaseDao
+) : ViewModel() {
 
     override fun onCleared() {
         Log.d("DischargeFragment", "DischargeViewModel Destroyed")
     }
+
+    private val viewModelJob = Job()
+    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     private val _dischargeDate = MutableLiveData<String?>()
     val dischargeDate: LiveData<String?>
@@ -51,6 +61,16 @@ class DischargeViewModel() : ViewModel() {
         _dischargeColorNumber.value = 0
         _dischargeDate.value = getCurrentDate()
         _dischargeTime.value = getCurrentTime()
+    }
+
+    //NEW
+    fun onSubmitInfo() {
+        val discharge = database.get(dischargeKey) ?: return
+        discharge.dischargeType = dischargeType.value
+        discharge.dischargeDate = dischargeDate.value
+        discharge.dischargeTime = dischargeTime.value
+        database.update(discharge)
+        //type: Int, date: String, time: String
     }
 
     fun getCurrentDate(): String? {
