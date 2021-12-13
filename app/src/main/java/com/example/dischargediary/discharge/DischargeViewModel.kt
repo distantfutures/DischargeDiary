@@ -3,9 +3,23 @@ package com.example.dischargediary.discharge
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import java.text.SimpleDateFormat
+import java.util.*
 
 class DischargeViewModel() : ViewModel() {
-//number: Int
+
+    private val _dischargeDateTime = MutableLiveData<String?>()
+    val dischargeDateTime: LiveData<String?>
+        get() = _dischargeDateTime
+
+    private val _dischargeDate = MutableLiveData<String?>()
+    val dischargeDate: LiveData<String?>
+        get() = _dischargeDate
+
+    private val _dischargeTime = MutableLiveData<String?>()
+    val dischargeTime: LiveData<String?>
+        get() = _dischargeTime
+
     private val _dischargeType = MutableLiveData<Int?>()
     val dischargeType: LiveData<Int?>
         get() = _dischargeType
@@ -33,6 +47,40 @@ class DischargeViewModel() : ViewModel() {
     init {
         _dischargeType.value = 0
         _dischargeColorNumber.value = 0
+        _dischargeDate.value = getCurrentDate()
+        _dischargeTime.value = getCurrentTime()
+    }
+
+    fun getCurrentDate(): String? {
+        // Get the current time (in millis)
+        val now = Date().time
+        // Create a formatter along with the desired output pattern
+        val formatter = SimpleDateFormat("MM.dd.yyyy, EEE", Locale.getDefault())
+        // Put the time (in millis) in our formatter
+        val result = formatter.format(now)
+        return result
+    }
+
+    fun getCurrentTime(): String? {
+        // Get the current time (in millis)
+        val now = Date().time
+        // Create a formatter along with the desired output pattern
+        val formatter = SimpleDateFormat("h:mm a", Locale.getDefault())
+        // Put the time (in millis) in our formatter
+        val result = formatter.format(now)
+        return result
+    }
+
+    fun getNewDateTime(dateTime: String?) {
+        _dischargeDateTime.value = dateTime
+    }
+
+    fun getNewDate(date: String?) {
+        _dischargeDate.value = date
+    }
+
+    fun getNewTime(time: String?) {
+        _dischargeTime.value = time
     }
 
     fun onSetDischargeType(dischargeOneTwo: Int) {

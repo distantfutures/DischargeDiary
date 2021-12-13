@@ -1,23 +1,30 @@
 package com.example.dischargediary.discharge
 
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
+import android.icu.text.SimpleDateFormat
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.dischargediary.R
 import com.example.dischargediary.databinding.FragmentDischargeBinding
+import java.util.*
 
 class DischargeFragment : Fragment() {
 
     private lateinit var viewModel: DischargeViewModel
     //private lateinit var viewModelFactory: DischargeViewModelFactory
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -29,6 +36,9 @@ class DischargeFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(DischargeViewModel::class.java)
         binding.dischargeViewModel = viewModel
         binding.lifecycleOwner = this
+
+        //Current Date & Time
+        binding.dischargeDateTime.setOnClickListener { setNewDateTime() }
 
         //Observes Discharge Type
         viewModel.dischargeType.observe(
@@ -131,6 +141,8 @@ class DischargeFragment : Fragment() {
             view.findNavController().navigate(R.id.action_discharge_fragment_to_discharge_diary_fragment)
 
             //String Concat
+            val dateString = viewModel.dischargeDate.value
+            val timeString = viewModel.dischargeTime.value
             val typeString = viewModel.dischargeType.value
             val durationString = viewModel.dischargeDurationTime.value
             val leakageString = viewModel.leakageYN.value
@@ -139,6 +151,8 @@ class DischargeFragment : Fragment() {
 
 //            val stringBuilder = StringBuilder()
             val dischargeAllInfo = StringBuilder()
+                .append("$dateString - $timeString")
+                .append(",")
                 .append(typeString)
                 .append(",")
                 .append(durationString)
@@ -159,5 +173,41 @@ class DischargeFragment : Fragment() {
 
     fun showToastLong(str: String?) {
         Toast.makeText(context, str, Toast.LENGTH_LONG).show()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun setNewDateTime(): String? {
+        val currentDateTime = Calendar.getInstance()
+        val startYear = currentDateTime.get(Calendar.YEAR)
+        val startMonth = currentDateTime.get(Calendar.MONTH)
+        val startDay = currentDateTime.get(Calendar.DAY_OF_MONTH)
+        val startHour = currentDateTime.get(Calendar.HOUR_OF_DAY)
+        val startMinute = currentDateTime.get(Calendar.MINUTE)
+
+        var dateString = ""
+        var timeString = ""
+        DatePickerDialog(requireContext(), { _, year, month, day ->
+            TimePickerDialog(requireContext(), { _, hour, minute ->
+                val pickedDateTime = Calendar.getInstance()
+                pickedDateTime.set(year, month, day, hour, minute)
+//                val formatter = SimpleDateFormat("EEE, MM.dd.yyyy - h:mm a", Locale.getDefault())
+//                dateString = formatter.format(pickedDateTime.time)
+//                viewModel.getNewDateTime(dateString)
+//                showToastLong(viewModel.dischargeDateTime.value)
+                //format Date
+                val formatterDate = SimpleDateFormat("MM.dd.yyyy, EEE", Locale.getDefault())
+                dateString = formatterDate.format(pickedDateTime.time)
+                //format Time
+                val formatterTime = SimpleDateFormat("h:mm a", Locale.getDefault())
+                timeString = formatterTime.format(pickedDateTime.time)
+                //set Date & Time to ViewModel
+                viewModel.getNewDate(dateString)
+                viewModel.getNewTime(timeString)
+                //Toast Info
+                showToast(viewModel.dischargeDate.value)
+                showToast(viewModel.dischargeTime.value)
+            }, startHour, startMinute, false).show()
+        }, startYear, startMonth, startDay).show()
+        return dateString
     }
 }

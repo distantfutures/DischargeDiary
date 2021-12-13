@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
-            name="dischargeDiaryFragment"
+            name="dischargeDiaryViewModel"
             type="com.example.dischargediary.dischargediary.DischargeDiaryViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,12 +15,11 @@
         tools:context=".dischargediary.DischargeDiaryFragment">
 
         <TextView
-            android:id="@+id/currentDate"
+            android:id="@+id/dischargeDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:ems="10"
-            android:text="October 27th, 2021"
+            android:text="@{dischargeDiaryViewModel.dischargeDateTime}"
             android:textAlignment="center"
             android:textSize="@dimen/title_text_size"
             app:layout_constraintEnd_toEndOf="parent"
@@ -36,7 +36,7 @@
             app:layout_constraintEnd_toStartOf="@+id/numberTwoButton"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/currentDate" />
+            app:layout_constraintTop_toBottomOf="@+id/dischargeDate" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/numberTwoButton"
