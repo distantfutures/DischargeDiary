@@ -12,8 +12,7 @@
         tools:layout="@layout/fragment_discharge_diary" >
         <action
             android:id="@+id/action_discharge_diary_fragment_to_discharge_fragment"
-            app:destination="@id/discharge_fragment"
-            app:launchSingleTop="false"/>
+            app:destination="@id/discharge_fragment" />
     </fragment>
 
     <fragment
@@ -22,8 +21,8 @@
         android:label="DischargeFragment"
         tools:layout="@layout/fragment_discharge" >
         <argument
-            android:name="dischargeKey"
-            app:argType="integer"/>
+            android:name="entryIdKey"
+            app:argType="integer" />
         <action
             android:id="@+id/action_discharge_fragment_to_discharge_diary_fragment"
             app:destination="@id/discharge_diary_fragment"

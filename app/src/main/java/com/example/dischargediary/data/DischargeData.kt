@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 data class DischargeData(
 
     @PrimaryKey(autoGenerate = true)
-    var dischargeId: Int = 0,
+    var entryId: Int = 0,
 
     @ColumnInfo(name = "discharge_type")
     var dischargeType: Int = 0,

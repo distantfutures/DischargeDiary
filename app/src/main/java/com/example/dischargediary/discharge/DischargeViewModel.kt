@@ -10,13 +10,9 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class DischargeViewModel(
-    private val dischargeKey: Int = 0,
+    private val entryIdKey: Int = 0,
     val database: DischargeDatabaseDao
 ) : ViewModel() {
-
-    override fun onCleared() {
-        Log.d("DischargeFragment", "DischargeViewModel Destroyed")
-    }
 
     private val viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
@@ -53,6 +49,9 @@ class DischargeViewModel(
     val convertedColor: LiveData<String?>
         get() = _convertedColor
 
+    private val _navigateToDiary = MutableLiveData<Boolean?>()
+    val navigateToDiary: LiveData<Boolean?>
+        get() = _navigateToDiary
     init {
         Log.d("DischargeFragment", "DischargeViewModel Created")
         _dischargeType.value = 0
@@ -65,14 +64,14 @@ class DischargeViewModel(
     fun onSubmitInfo() {
         uiScope.launch {
             withContext(Dispatchers.IO) {
-                val discharge = database.get(dischargeKey) ?: return@withContext
+                val discharge = database.get(entryIdKey) ?: return@withContext
                 discharge.dischargeType = dischargeType.value!!
                 discharge.dischargeDate = dischargeDate.value!!
                 discharge.dischargeTime = dischargeTime.value!!
                 database.update(discharge)
-                //type: Int, date: String, time: String
             }
         }
+        _navigateToDiary.value = true
     }
 
     fun getCurrentDate(): String? {
@@ -144,5 +143,8 @@ class DischargeViewModel(
             else -> { "Other" }
         }
         _convertedColor.value = colorName
+    }
+    fun doneNavigating() {
+        _navigateToDiary.value = null
     }
 }

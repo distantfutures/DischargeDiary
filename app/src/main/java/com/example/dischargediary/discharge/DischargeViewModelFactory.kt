@@ -5,13 +5,13 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.dischargediary.data.DischargeDatabaseDao
 
 class DischargeViewModelFactory(
-    private val dischargeKey: Int,
+    private val entryIdKey: Int,
     private val datasource: DischargeDatabaseDao) : ViewModelProvider.Factory {
 
     @Suppress("unchecked_cast")
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(DischargeViewModelFactory::class.java)) {
-            return DischargeViewModel(dischargeKey, datasource) as T
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(DischargeViewModel::class.java)) {
+            return DischargeViewModel(entryIdKey, datasource) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

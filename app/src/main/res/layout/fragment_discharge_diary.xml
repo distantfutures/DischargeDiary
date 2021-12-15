@@ -36,6 +36,7 @@
             android:layout_marginTop="8dp"
             android:text="#1"
             style="?attr/materialButtonOutlinedStyle"
+            android:onClick="@{() -> dischargeDiaryViewModel.onNewEntry(1)}"
             app:layout_constraintEnd_toStartOf="@+id/numberTwoButton"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -67,7 +68,7 @@
                 android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:layout_marginEnd="@dimen/margin_medium"
-                android:text="@{dischargeDiaryViewModel.dischargeString}"/>
+                android:text="@{dischargeData.entryId + dischargeData.dischargeDate + dischargeData.dischargeType + dischargeData.dischargeTime}"/>
         </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

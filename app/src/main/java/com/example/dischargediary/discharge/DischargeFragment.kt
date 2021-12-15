@@ -2,9 +2,9 @@ package com.example.dischargediary.discharge
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
-import android.icu.text.SimpleDateFormat
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,10 +14,11 @@ import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.example.dischargediary.R
 import com.example.dischargediary.data.DischargeDatabase
 import com.example.dischargediary.databinding.FragmentDischargeBinding
+import java.text.SimpleDateFormat
 import java.util.*
 
 class DischargeFragment : Fragment() {
@@ -37,15 +38,15 @@ class DischargeFragment : Fragment() {
 
         val application = requireNotNull(this.activity).application
 
-        val arguments = DischargeFragmentArgs.fromBundle(arguments!!)
+        val arguments = DischargeFragmentArgs.fromBundle(requireArguments())
 
-        val datasource = DischargeDatabase.getInstance(application).dischargeDatabaseDao()
-        val viewModelFactory = DischargeViewModelFactory(arguments.dischargeKey, datasource)
-
+        val datasource = DischargeDatabase.getInstance(application).dischargeDatabaseDao
+        val viewModelFactory = DischargeViewModelFactory(arguments.entryIdKey, datasource)
+        Log.d("DischargeFrag", "${arguments.entryIdKey}")
         dischargeViewModel = ViewModelProvider(this, viewModelFactory).get(DischargeViewModel::class.java)
 
         binding.dischargeViewModel = dischargeViewModel
-        binding.lifecycleOwner = this
+        //binding.lifecycleOwner = this
 
         //Current Date & Time
         binding.dischargeDateTime.setOnClickListener { setNewDateTime() }
@@ -147,33 +148,35 @@ class DischargeFragment : Fragment() {
         }
 
         //Submit Button
-        binding.submitButton.setOnClickListener { view: View ->
-            view.findNavController().navigate(R.id.action_discharge_fragment_to_discharge_diary_fragment)
+        dischargeViewModel.navigateToDiary.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            if (it == true) {
+                this.findNavController().navigate(DischargeFragmentDirections.actionDischargeFragmentToDischargeDiaryFragment())
+                dischargeViewModel.doneNavigating()
 
-            //String Concat
-            val dateString = dischargeViewModel.dischargeDate.value
-            val timeString = dischargeViewModel.dischargeTime.value
-            val typeString = dischargeViewModel.dischargeType.value
-            val durationString = dischargeViewModel.dischargeDurationTime.value
-            val leakageString = dischargeViewModel.leakageYN.value
-            val colorString = dischargeViewModel.convertedColor.value
-            val consistString = dischargeViewModel.dischargeConsist.value
+                //Toast
+                val dateString = dischargeViewModel.dischargeDate.value
+                val timeString = dischargeViewModel.dischargeTime.value
+                val typeString = dischargeViewModel.dischargeType.value
+                val durationString = dischargeViewModel.dischargeDurationTime.value
+                val leakageString = dischargeViewModel.leakageYN.value
+                val colorString = dischargeViewModel.convertedColor.value
+                val consistString = dischargeViewModel.dischargeConsist.value
 
-            val dischargeAllInfo = StringBuilder()
-                .append("$dateString - $timeString")
-                .append(",")
-                .append(typeString)
-                .append(",")
-                .append(durationString)
-                .append(",")
-                .append(leakageString)
-                .append(",")
-                .append(colorString)
-                .append(",")
-                .append(consistString)
-            showToastLong(dischargeAllInfo.toString())
-        }
-        dischargeViewModel.onSubmitInfo()
+                val dischargeAllInfo = StringBuilder()
+                    .append("$dateString - $timeString")
+                    .append(",")
+                    .append(typeString)
+                    .append(",")
+                    .append(durationString)
+                    .append(",")
+                    .append(leakageString)
+                    .append(",")
+                    .append(colorString)
+                    .append(",")
+                    .append(consistString)
+                showToastLong(dischargeAllInfo.toString())
+            }
+        })
         return binding.root
     }
     fun showToast(str: String?) {
@@ -183,8 +186,7 @@ class DischargeFragment : Fragment() {
     fun showToastLong(str: String?) {
         Toast.makeText(context, str, Toast.LENGTH_LONG).show()
     }
-
-    @RequiresApi(Build.VERSION_CODES.O)
+    @RequiresApi(Build.VERSION_CODES.N)
     fun setNewDateTime(): String? {
         val currentDateTime = Calendar.getInstance()
         val startYear = currentDateTime.get(Calendar.YEAR)
@@ -192,7 +194,6 @@ class DischargeFragment : Fragment() {
         val startDay = currentDateTime.get(Calendar.DAY_OF_MONTH)
         val startHour = currentDateTime.get(Calendar.HOUR_OF_DAY)
         val startMinute = currentDateTime.get(Calendar.MINUTE)
-
         var dateString = ""
         var timeString = ""
         DatePickerDialog(requireContext(), { _, year, month, day ->
