@@ -16,7 +16,7 @@ abstract class DischargeDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: DischargeDatabase? = null
 
-        fun getInstance(context: Context): DischargeDatabase {
+        fun getDatabase(context: Context): DischargeDatabase {
             val tempInstance = INSTANCE
             if (tempInstance != null) {
                 return tempInstance

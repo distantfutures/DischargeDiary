@@ -44,7 +44,7 @@ class DischargeDiaryFragment : Fragment() {
         // val application = requireNotNull(this.activity).application
         binding.numberOneButton.setOnClickListener() { view: View ->
             view.findNavController().navigate(R.id.action_discharge_diary_fragment_to_discharge_fragment)
-            viewModel.initializeDischarge()
+            viewModel.addNewEntry()
             viewModel.onDischargeType(1)
         }
         binding.numberTwoButton.setOnClickListener() { view: View ->

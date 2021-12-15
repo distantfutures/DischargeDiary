@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.dischargediary.data.DischargeData
 import com.example.dischargediary.data.DischargeDatabaseDao
 import kotlinx.coroutines.*
 import java.text.SimpleDateFormat
@@ -53,6 +54,10 @@ class DischargeViewModel(
     val convertedColor: LiveData<String?>
         get() = _convertedColor
 
+    private val _entry = MutableLiveData<DischargeData?>()
+    val entry: LiveData<DischargeData?>
+        get() = _entry
+
     init {
         Log.d("DischargeFragment", "DischargeViewModel Created")
         _dischargeType.value = 0
@@ -65,12 +70,15 @@ class DischargeViewModel(
     fun onSubmitInfo() {
         uiScope.launch {
             withContext(Dispatchers.IO) {
-                val discharge = database.get(dischargeKey) ?: return@withContext
-                discharge.dischargeType = dischargeType.value!!
-                discharge.dischargeDate = dischargeDate.value!!
-                discharge.dischargeTime = dischargeTime.value!!
-                database.update(discharge)
-                //type: Int, date: String, time: String
+//                val discharge = database.get(dischargeKey) ?: return@withContext
+//                discharge.dischargeType = dischargeType.value!!
+//                discharge.dischargeDate = dischargeDate.value!!
+//                discharge.dischargeTime = dischargeTime.value!!
+//                database.update
+                val type = dischargeType.value!!
+                val date = dischargeDate.value!!
+                val time = dischargeTime.value!!
+                _entry.value = DischargeData(0, type, date, time)
             }
         }
     }
