@@ -8,7 +8,8 @@ import androidx.room.RoomDatabase
 @Database(entities = [DischargeData::class], version = 1, exportSchema = false)
 abstract class DischargeDatabase : RoomDatabase() {
 
-    abstract val dischargeDatabaseDao: DischargeDatabaseDao
+    //abstract val dischargeDatabaseDao: DischargeDatabaseDao
+    abstract fun dischargeDatabaseDao(): DischargeDatabaseDao
 
     companion object {
 
@@ -16,19 +17,17 @@ abstract class DischargeDatabase : RoomDatabase() {
         private var INSTANCE: DischargeDatabase? = null
 
         fun getInstance(context: Context): DischargeDatabase {
+            val tempInstance = INSTANCE
+            if (tempInstance != null) {
+                return tempInstance
+            }
             synchronized(this) {
-                var instance = INSTANCE
-
-                if (instance == null) {
-                    instance = Room.databaseBuilder(
-                        context.applicationContext,
-                        DischargeDatabase::class.java,
-                        "sleep_history_database"
-                    )
-                        .fallbackToDestructiveMigration()
-                        .build()
-                    INSTANCE = instance
-                }
+                val instance = Room.databaseBuilder(
+                    context.applicationContext,
+                    DischargeDatabase::class.java,
+                    "discharge_history_database"
+                ).build()
+                INSTANCE = instance
                 return instance
             }
         }

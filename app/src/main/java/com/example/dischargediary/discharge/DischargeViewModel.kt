@@ -5,14 +5,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.dischargediary.data.DischargeDatabaseDao
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.*
 import java.text.SimpleDateFormat
 import java.util.*
 
 class DischargeViewModel(
-    private val dischargeKey: Long = 0L,
+    private val dischargeKey: Int = 0,
     val database: DischargeDatabaseDao
 ) : ViewModel() {
 
@@ -65,12 +63,16 @@ class DischargeViewModel(
 
     //NEW
     fun onSubmitInfo() {
-        val discharge = database.get(dischargeKey) ?: return
-        discharge.dischargeType = dischargeType.value
-        discharge.dischargeDate = dischargeDate.value
-        discharge.dischargeTime = dischargeTime.value
-        database.update(discharge)
-        //type: Int, date: String, time: String
+        uiScope.launch {
+            withContext(Dispatchers.IO) {
+                val discharge = database.get(dischargeKey) ?: return@withContext
+                discharge.dischargeType = dischargeType.value!!
+                discharge.dischargeDate = dischargeDate.value!!
+                discharge.dischargeTime = dischargeTime.value!!
+                database.update(discharge)
+                //type: Int, date: String, time: String
+            }
+        }
     }
 
     fun getCurrentDate(): String? {

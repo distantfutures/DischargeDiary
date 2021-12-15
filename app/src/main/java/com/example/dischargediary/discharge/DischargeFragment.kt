@@ -39,8 +39,7 @@ class DischargeFragment : Fragment() {
 
         val arguments = DischargeFragmentArgs.fromBundle(arguments!!)
 
-        val datasource = DischargeDatabase.getInstance(application).dischargeDatabaseDao
-
+        val datasource = DischargeDatabase.getInstance(application).dischargeDatabaseDao()
         val viewModelFactory = DischargeViewModelFactory(arguments.dischargeKey, datasource)
 
         dischargeViewModel = ViewModelProvider(this, viewModelFactory).get(DischargeViewModel::class.java)

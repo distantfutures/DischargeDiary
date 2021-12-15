@@ -21,15 +21,15 @@
         android:name="com.example.dischargediary.discharge.DischargeFragment"
         android:label="DischargeFragment"
         tools:layout="@layout/fragment_discharge" >
+        <argument
+            android:name="dischargeKey"
+            app:argType="integer"/>
         <action
             android:id="@+id/action_discharge_fragment_to_discharge_diary_fragment"
             app:destination="@id/discharge_diary_fragment"
             app:launchSingleTop="false"
             app:popUpTo="@id/discharge_diary_fragment"
             app:popUpToInclusive="true" />
-        <argument
-            android:name="dischargeKey"
-            app:argType="long" />
     </fragment>
 
 </navigation>

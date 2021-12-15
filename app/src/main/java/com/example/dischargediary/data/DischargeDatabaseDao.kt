@@ -1,19 +1,16 @@
 package com.example.dischargediary.data
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 
 @Dao
 interface DischargeDatabaseDao {
-    @Insert
-        fun insert(dischargeId: DischargeData)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+        fun addNew(dischargeId: DischargeData)
     @Update
         fun update(dischargeId: DischargeData)
     @Query ("SELECT * from discharge_diary_table WHERE dischargeId = :key")
-        fun get(key: Long): DischargeData?
+        fun get(key: Int): DischargeData?
     @Query ("DELETE FROM discharge_diary_table")
         fun clear()
     @Query ("SELECT * FROM discharge_diary_table ORDER BY dischargeId DESC")

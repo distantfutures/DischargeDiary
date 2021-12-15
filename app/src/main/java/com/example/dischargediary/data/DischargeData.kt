@@ -6,17 +6,18 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "discharge_diary_table")
 data class DischargeData(
+
     @PrimaryKey(autoGenerate = true)
-    var dischargeId: Long = 0L,
+    var dischargeId: Int = 0,
 
     @ColumnInfo(name = "discharge_type")
-    var dischargeType: Int? = 0,
+    var dischargeType: Int = 0,
 
     @ColumnInfo(name = "discharge_date")
-    var dischargeDate: String? = "",
+    var dischargeDate: String = "",
 
     @ColumnInfo(name = "discharge_time")
-    var dischargeTime: String? = ""
+    var dischargeTime: String = ""
 //    var dischargeDuration: String = "",
 //    var leakage: Boolean = false,
 //    var dischargeColor: String = "",
