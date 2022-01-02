@@ -17,9 +17,17 @@ data class DischargeData(
     var dischargeDate: String = "",
 
     @ColumnInfo(name = "discharge_time")
-    var dischargeTime: String = ""
-//    var dischargeDuration: String = "",
-//    var leakage: Boolean = false,
-//    var dischargeColor: String = "",
-//    var dischargeConsistency: String = ""
+    var dischargeTime: String = "",
+
+    @ColumnInfo(name = "discharge_duration")
+    var dischargeDuration: String = "",
+
+    @ColumnInfo(name = "leakage")
+    var leakage: Boolean = false,
+
+    @ColumnInfo(name = "discharge_color")
+    var dischargeColor: String = "",
+
+    @ColumnInfo(name = "discharge_consistency")
+    var dischargeConsistency: String = ""
 )

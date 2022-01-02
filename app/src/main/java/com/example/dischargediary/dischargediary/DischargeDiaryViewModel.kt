@@ -5,8 +5,10 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import com.example.dischargediary.data.DischargeData
 import com.example.dischargediary.data.DischargeDatabaseDao
+import com.example.dischargediary.formatDischarges
 import kotlinx.coroutines.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -22,7 +24,11 @@ class DischargeDiaryViewModel(
 
     private var recentDischarge = MutableLiveData<DischargeData?>()
 
-    private val discharges = database.getAllDischarges()
+    private val getAllDischarges = database.getAllDischarges()
+
+    val dischargeEntriesString = Transformations.map(getAllDischarges) { discharges ->
+        formatDischarges(discharges, application.resources)
+    }
 
     private val _dischargeDateTime = MutableLiveData<String?>()
     val dischargeDateTime: LiveData<String?>
@@ -32,13 +38,9 @@ class DischargeDiaryViewModel(
     val navigateToDischargeEntry: LiveData<DischargeData?>
         get() = _navigateToDischargeEntry
 
-    val dischargeString = discharges.toString()
-//    val dischargeString = Transformations.map(discharges) { discharges ->
-//        formatDischarges(discharges, application.resources)
-//    }
-
     init {
         _dischargeDateTime.value = getCurrentDateTime()
+        //val getDiary = database.getAllDischarges()
 //        initializeDischarge()
     }
 
@@ -66,7 +68,7 @@ class DischargeDiaryViewModel(
             recentDischarge.value = getEntryfromDatabase()
             newEntry.dischargeType = type
             _navigateToDischargeEntry.value = getEntryfromDatabase()
-            Log.d("NewEntry", "New Entry recieved ${recentDischarge.value}")
+            Log.d("NewEntry", "New Entry received ${recentDischarge.value}")
         }
     }
     private suspend fun insertEntry(entryId: DischargeData) {

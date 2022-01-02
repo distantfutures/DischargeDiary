@@ -64,11 +64,14 @@ class DischargeViewModel(
     fun onSubmitInfo() {
         uiScope.launch {
             withContext(Dispatchers.IO) {
-                val discharge = database.get(entryIdKey) ?: return@withContext
-                discharge.dischargeType = dischargeType.value!!
-                discharge.dischargeDate = dischargeDate.value!!
-                discharge.dischargeTime = dischargeTime.value!!
-                database.update(discharge)
+                val dischargeData = database.get(entryIdKey) ?: return@withContext
+                dischargeData.dischargeType = dischargeType.value!!
+                dischargeData.dischargeDate = dischargeDate.value!!
+                dischargeData.dischargeTime = dischargeTime.value!!
+                dischargeData.dischargeDuration = dischargeDurationTime.value!!
+                dischargeData.dischargeColor = convertedColor.value!!
+                database.update(dischargeData)
+                Log.d("DischargeViewModel", "Submit ${database.get(entryIdKey)}")
             }
         }
         _navigateToDiary.value = true
