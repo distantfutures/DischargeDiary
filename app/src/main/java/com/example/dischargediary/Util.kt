@@ -11,13 +11,13 @@ fun formatDischarges(discharges: List<DischargeData>, resources: Resources): Spa
     val sb = StringBuilder()
     sb.apply {
         discharges.forEach {
-            append("<br>Date: ${it.dischargeDate}")
-            append("<br>Time: ${it.dischargeTime}")
-            append("<br>Type: ${it.dischargeType}")
-            append("<br>Duration: ${it.dischargeDuration}")
-            append("<br>Leakage: ${it.leakage}")
-            append("<br>Color: ${it.dischargeColor}")
-            append("<br>Consistency: ${it.dischargeConsistency}")
+            append("<br><b>Date: </b>${it.dischargeDate}")
+            append("<br><b>Time: </b>${it.dischargeTime}")
+            append("<br><b>Type: </b>${it.dischargeType}")
+            append("<br><b>Duration: </b>${it.dischargeDuration}")
+            append("<br><b>Leakage: </b>${it.leakage}")
+            append("<br><b>Color: </b>${it.dischargeColor}")
+            append("<br><b>Consistency: </b>${it.dischargeConsistency}")
             append("<br>")
         }
     }

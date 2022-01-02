@@ -70,6 +70,7 @@ class DischargeViewModel(
                 dischargeData.dischargeTime = dischargeTime.value!!
                 dischargeData.dischargeDuration = dischargeDurationTime.value!!
                 dischargeData.dischargeColor = convertedColor.value!!
+                dischargeData.dischargeConsistency = dischargeConsist.value!!
                 database.update(dischargeData)
                 Log.d("DischargeViewModel", "Submit ${database.get(entryIdKey)}")
             }
