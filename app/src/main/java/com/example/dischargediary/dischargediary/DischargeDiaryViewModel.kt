@@ -35,8 +35,13 @@ class DischargeDiaryViewModel(
     val navigateToDischargeEntry: LiveData<DischargeData?>
         get() = _navigateToDischargeEntry
 
+    val clearButtonVisible = Transformations.map(getAllDischarges) {
+        it?.isNotEmpty()
+    }
+
     init {
         _dischargeDateTime.value = getCurrentDateTime()
+
         //val getDiary = database.getAllDischarges()
 //        initializeDischarge()
     }
