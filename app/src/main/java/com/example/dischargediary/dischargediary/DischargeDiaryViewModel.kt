@@ -2,10 +2,7 @@ package com.example.dischargediary.dischargediary
 
 import android.app.Application
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.*
 import com.example.dischargediary.data.DischargeData
 import com.example.dischargediary.data.DischargeDatabaseDao
 import com.example.dischargediary.formatDischarges
@@ -99,5 +96,21 @@ class DischargeDiaryViewModel(
 
     fun doneNavigating() {
         _navigateToDischargeEntry.value = null
+    }
+
+    private suspend fun clear() {
+        withContext(Dispatchers.IO) {
+            database.clear()
+        }
+    }
+
+    fun onClear() {
+        viewModelScope.launch {
+            // Clear the database table.
+            clear()
+            // And clear tonight since it's no longer in the database
+            //recentDischarge.value = null
+        }
+        // Show a snackbar message, because it's friendly.
     }
 }
