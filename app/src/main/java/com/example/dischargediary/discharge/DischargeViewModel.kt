@@ -4,14 +4,18 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.dischargediary.data.DischargeDatabaseDao
+import kotlinx.coroutines.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class DischargeViewModel() : ViewModel() {
+class DischargeViewModel(
+    private val entryIdKey: Int = 0,
+    val database: DischargeDatabaseDao
+) : ViewModel() {
 
-    override fun onCleared() {
-        Log.d("DischargeFragment", "DischargeViewModel Destroyed")
-    }
+    private val viewModelJob = Job()
+    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     private val _dischargeDate = MutableLiveData<String?>()
     val dischargeDate: LiveData<String?>
@@ -45,12 +49,34 @@ class DischargeViewModel() : ViewModel() {
     val convertedColor: LiveData<String?>
         get() = _convertedColor
 
+    private val _navigateToDiary = MutableLiveData<Boolean?>()
+    val navigateToDiary: LiveData<Boolean?>
+        get() = _navigateToDiary
     init {
         Log.d("DischargeFragment", "DischargeViewModel Created")
         _dischargeType.value = 0
         _dischargeColorNumber.value = 0
         _dischargeDate.value = getCurrentDate()
         _dischargeTime.value = getCurrentTime()
+        _dischargeConsist.value = "N/A"
+    }
+
+    //NEW
+    fun onSubmitInfo() {
+        uiScope.launch {
+            withContext(Dispatchers.IO) {
+                val dischargeData = database.get(entryIdKey) ?: return@withContext
+                dischargeData.dischargeType = dischargeType.value!!
+                dischargeData.dischargeDate = dischargeDate.value!!
+                dischargeData.dischargeTime = dischargeTime.value!!
+                dischargeData.dischargeDuration = dischargeDurationTime.value!!
+                dischargeData.dischargeColor = convertedColor.value!!
+                dischargeData.dischargeConsistency = dischargeConsist.value!!
+                database.update(dischargeData)
+                Log.d("DischargeViewModel", "Submit ${database.get(entryIdKey)}")
+            }
+        }
+        _navigateToDiary.value = true
     }
 
     fun getCurrentDate(): String? {
@@ -101,6 +127,7 @@ class DischargeViewModel() : ViewModel() {
 
     fun onSetDischargeConsist(consist: String?) {
         _dischargeConsist.value = consist
+        Log.i("DischargeViewModel", "onSetDischargeConsist ${consist}")
     }
 
     fun onSetDischargeDuration(durationTime: String?) {
@@ -122,5 +149,8 @@ class DischargeViewModel() : ViewModel() {
             else -> { "Other" }
         }
         _convertedColor.value = colorName
+    }
+    fun doneNavigating() {
+        _navigateToDiary.value = null
     }
 }

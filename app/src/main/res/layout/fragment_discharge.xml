@@ -6,14 +6,15 @@
         <variable
             name="dischargeViewModel"
             type="com.example.dischargediary.discharge.DischargeViewModel" />
-        <variable
-            name="dischargeData"
-            type="com.example.dischargediary.data.DischargeData" />
+<!--        <variable-->
+<!--            name="dischargeData"-->
+<!--            type="com.example.dischargediary.data.DischargeData" />-->
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:context=".discharge.DischargeFragment">
 
         <LinearLayout
             android:id="@+id/dateTimeGroup"
@@ -37,29 +38,6 @@
                 android:text="@{@string/new_date_time(dischargeViewModel.dischargeDate, dischargeViewModel.dischargeTime)}"
                 android:textAlignment="center"
                 android:textSize="24sp" />
-
-            <!--            <com.google.android.material.button.MaterialButton-->
-            <!--                android:id="@+id/dischargeDate"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginTop="12dp"-->
-            <!--                android:text="@{dischargeViewModel.dischargeDateTime}"-->
-            <!--                android:textAlignment="center"-->
-            <!--                android:textSize="@dimen/title_text_size"-->
-            <!--                android:inputType="date"-->
-            <!--                style="?attr/materialButtonOutlinedStyle" />-->
-
-            <!--            <com.google.android.material.button.MaterialButton-->
-            <!--                android:id="@+id/dischargeTime"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginTop="12dp"-->
-            <!--                android:text="@{dischargeViewModel.dischargeDateTime}"-->
-            <!--                android:textAlignment="center"-->
-            <!--                android:textSize="@dimen/title_text_size"-->
-            <!--                android:inputType="time"-->
-            <!--                style="?attr/materialButtonOutlinedStyle" />-->
-
         </LinearLayout>
 
         <LinearLayout
@@ -146,13 +124,9 @@
                     android:inputType="time"
                     android:padding="10dp"
                     android:textSize="30sp" />
-
             </com.google.android.material.textfield.TextInputLayout>
 
-
         </LinearLayout>
-
-        //LEAKAGE
 
         <LinearLayout
             android:id="@+id/leakageGroup"
@@ -203,8 +177,6 @@
                     android:textSize="24sp" />
             </com.google.android.material.button.MaterialButtonToggleGroup>
         </LinearLayout>
-
-        //COLOR
 
         <LinearLayout
             android:id="@+id/colorGroup"
@@ -259,8 +231,6 @@
 
             </com.google.android.material.button.MaterialButtonToggleGroup>
         </LinearLayout>
-
-        //CONSISTENCY
 
         <LinearLayout
             android:id="@+id/consistGroup"
@@ -328,6 +298,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Submit"
+            android:onClick="@{() -> dischargeViewModel.onSubmitInfo()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

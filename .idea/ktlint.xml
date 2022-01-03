@@ -5,6 +5,7 @@
       <list>
         <option value="comment-spacing" />
         <option value="indent" />
+        <option value="no-wildcard-imports" />
       </list>
     </disabledRules>
   </component>

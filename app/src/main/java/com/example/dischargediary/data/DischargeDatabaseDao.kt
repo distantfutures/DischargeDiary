@@ -9,15 +9,15 @@ import androidx.room.Update
 @Dao
 interface DischargeDatabaseDao {
     @Insert
-        fun insert(dischargeId: DischargeData)
+        fun addNew(entryId: DischargeData)
     @Update
-        fun update(dischargeId: DischargeData)
-    @Query ("SELECT * from discharge_diary_table WHERE dischargeId = :key")
-        fun get(key: Long): DischargeData?
-    @Query ("DELETE FROM discharge_diary_table")
+        fun update(entryId: DischargeData)
+    @Query("SELECT * from discharge_diary_table WHERE entryId = :key")
+        fun get(key: Int): DischargeData?
+    @Query("DELETE FROM discharge_diary_table")
         fun clear()
-    @Query ("SELECT * FROM discharge_diary_table ORDER BY dischargeId DESC")
+    @Query("SELECT * FROM discharge_diary_table ORDER BY entryId DESC")
         fun getAllDischarges(): LiveData<List<DischargeData>>
-    @Query ("SELECT * FROM discharge_diary_table ORDER BY dischargeId DESC LIMIT 1")
+    @Query("SELECT * FROM discharge_diary_table ORDER BY entryId DESC LIMIT 1")
         fun getRecentDischarge(): DischargeData?
 }
