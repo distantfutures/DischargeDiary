@@ -58,6 +58,7 @@ class DischargeViewModel(
         _dischargeColorNumber.value = 0
         _dischargeDate.value = getCurrentDate()
         _dischargeTime.value = getCurrentTime()
+        _dischargeConsist.value = "N/A"
     }
 
     //NEW
@@ -126,6 +127,7 @@ class DischargeViewModel(
 
     fun onSetDischargeConsist(consist: String?) {
         _dischargeConsist.value = consist
+        Log.i("DischargeViewModel", "onSetDischargeConsist ${consist}")
     }
 
     fun onSetDischargeDuration(durationTime: String?) {

@@ -17,7 +17,11 @@ fun formatDischarges(discharges: List<DischargeData>, resources: Resources): Spa
             append("<br><b>Duration: </b>${it.dischargeDuration}")
             append("<br><b>Leakage: </b>${it.leakage}")
             append("<br><b>Color: </b>${it.dischargeColor}")
-            append("<br><b>Consistency: </b>${it.dischargeConsistency}")
+            if (it.dischargeConsistency == null) {
+                append("<br><b>Consistency: </b>N/A")
+            } else {
+                append("<br><b>Consistency: </b>${it.dischargeConsistency}")
+            }
             append("<br>")
         }
     }
