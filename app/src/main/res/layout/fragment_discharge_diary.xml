@@ -6,9 +6,6 @@
         <variable
             name="dischargeDiaryViewModel"
             type="com.example.dischargediary.dischargediary.DischargeDiaryViewModel" />
-        <variable
-            name="dischargeData"
-            type="com.example.dischargediary.data.DischargeData" />
 
     </data>
 
@@ -47,6 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="#2"
+            android:onClick="@{() -> dischargeDiaryViewModel.onNewEntry(2)}"
             style="?attr/materialButtonOutlinedStyle"
             app:layout_constraintBaseline_toBaselineOf="@+id/numberOneButton"
             app:layout_constraintEnd_toEndOf="parent"

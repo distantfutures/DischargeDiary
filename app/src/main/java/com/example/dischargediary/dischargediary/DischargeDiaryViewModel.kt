@@ -56,7 +56,7 @@ class DischargeDiaryViewModel(
     private suspend fun getEntryfromDatabase(): DischargeData? {
         return withContext(Dispatchers.IO) {
             var entry = database.getRecentDischarge()
-            if (entry?.dischargeType != 0) {
+            if (entry?.dischargeType == 0) {
                 entry = null
             }
             entry
@@ -66,25 +66,25 @@ class DischargeDiaryViewModel(
     fun onNewEntry(type: Int) {
         uiScope.launch {
             val newEntry = DischargeData()
-            insertEntry(newEntry)
+            insertEntry(newEntry, type)
             recentDischarge.value = getEntryfromDatabase()
-            newEntry.dischargeType = type
+            //recentDischarge.value?.dischargeType = type
+            //database.update(recentDischarge.value!!)
             _navigateToDischargeEntry.value = getEntryfromDatabase()
-            Log.d("NewEntry", "New Entry received ${recentDischarge.value}")
+            Log.d("NewEntry", "New Entry received ${recentDischarge.value?.dischargeType}")
+            //Log.d("NewEntry", "Type #${newEntry.dischargeType}")
+            //Log.d("NewEntry", "New Entry received $newEntry")
         }
     }
-    private suspend fun insertEntry(entryId: DischargeData) {
+    private suspend fun insertEntry(entryId: DischargeData, type: Int) {
         withContext(Dispatchers.IO) {
             database.addNew(entryId)
+            val insert = database.getRecentDischarge() ?: return@withContext
+            insert.dischargeType = type
+            database.update(insert)
+            Log.d("NewEntry", "Insert received ${database.getRecentDischarge()}")
         }
     }
-
-//    fun onDischargeType(typeValue: Int) {
-//        uiScope.launch {
-//            val typeEntry = recentDischarge.value ?: return@launch
-//            typeEntry.dischargeType = typeValue
-//        }
-//    }
 
     fun getCurrentDateTime(): String? {
         // Get the current time (in millis)
