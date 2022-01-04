@@ -110,10 +110,13 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Hours : Minutes"
-                app:helperText="Format: 00:00"
-                app:helperTextEnabled="true"
-                app:hintTextAppearance="@style/TextAppearance.AppCompat.Small">
+                android:focusable="auto"
+                android:hint="Minutes : Seconds"
+                app:counterMaxLength="4"
+                app:helperTextEnabled="false"
+                app:hintTextAppearance="@style/TextAppearance.AppCompat.Small"
+                app:placeholderText="00:00"
+                app:placeholderTextAppearance="@style/TextAppearance.AppCompat.Display1">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/durationInput"

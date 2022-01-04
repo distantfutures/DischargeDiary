@@ -175,6 +175,8 @@ class DischargeFragment : Fragment() {
                     .append(",")
                     .append(consistString)
                 showToastLong(dischargeAllInfo.toString())
+            } else {
+                showToast("Entry Incomplete")
             }
         })
         return binding.root

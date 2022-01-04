@@ -52,31 +52,43 @@ class DischargeViewModel(
     private val _navigateToDiary = MutableLiveData<Boolean?>()
     val navigateToDiary: LiveData<Boolean?>
         get() = _navigateToDiary
+
     init {
         Log.d("DischargeFragment", "DischargeViewModel Created")
         _dischargeType.value = 0
-        _dischargeColorNumber.value = 0
+        //_dischargeColorNumber.value = 0
         _dischargeDate.value = getCurrentDate()
         _dischargeTime.value = getCurrentTime()
         _dischargeConsist.value = "N/A"
     }
 
-    //NEW
+    private fun unfilled(): Boolean {
+        if (dischargeType.value == 1) {
+            return !(dischargeType.value == 0 || dischargeDurationTime.value == null || dischargeColorNumber.value == null || convertedColor.value == null)
+        } else {
+            return !(dischargeDurationTime.value == null || dischargeColorNumber.value == null || convertedColor.value == null || dischargeConsist.value == "N/A")
+        }
+    }
     fun onSubmitInfo() {
         uiScope.launch {
-            withContext(Dispatchers.IO) {
-                val dischargeData = database.get(entryIdKey) ?: return@withContext
-                dischargeData.dischargeType = dischargeType.value!!
-                dischargeData.dischargeDate = dischargeDate.value!!
-                dischargeData.dischargeTime = dischargeTime.value!!
-                dischargeData.dischargeDuration = dischargeDurationTime.value!!
-                dischargeData.dischargeColor = convertedColor.value!!
-                dischargeData.dischargeConsistency = dischargeConsist.value!!
-                database.update(dischargeData)
-                Log.d("DischargeViewModel", "Submit ${database.get(entryIdKey)}")
+            var entryFilled = unfilled()
+            if (entryFilled) {
+                withContext(Dispatchers.IO) {
+                    val dischargeData = database.get(entryIdKey) ?: return@withContext
+                    dischargeData.dischargeType = dischargeType.value!!
+                    dischargeData.dischargeDate = dischargeDate.value!!
+                    dischargeData.dischargeTime = dischargeTime.value!!
+                    dischargeData.dischargeDuration = dischargeDurationTime.value!!
+                    dischargeData.dischargeColor = convertedColor.value!!
+                    dischargeData.dischargeConsistency = dischargeConsist.value!!
+                    database.update(dischargeData)
+                    Log.d("DischargeViewModel", "Submit ${database.get(entryIdKey)}")
+                }
+                _navigateToDiary.value = true
+            } else {
+                _navigateToDiary.value = false
             }
         }
-        _navigateToDiary.value = true
     }
 
     fun getCurrentDate(): String? {
@@ -127,7 +139,7 @@ class DischargeViewModel(
 
     fun onSetDischargeConsist(consist: String?) {
         _dischargeConsist.value = consist
-        Log.i("DischargeViewModel", "onSetDischargeConsist ${consist}")
+        Log.i("DischargeViewModel", "onSetDischargeConsist $consist")
     }
 
     fun onSetDischargeDuration(durationTime: String?) {
