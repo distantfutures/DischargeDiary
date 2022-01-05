@@ -54,7 +54,7 @@
                 android:id="@+id/dischargeText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Discharge Type:"
+                android:text="@string/discharge_type"
                 android:textSize="@dimen/title_text_size" />
 
             <com.google.android.material.button.MaterialButtonToggleGroup
@@ -73,7 +73,7 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:padding="10dp"
-                    android:text="#1"
+                    android:text="@string/number_one"
                     android:textSize="24sp" />
 
                 <Button
@@ -83,7 +83,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:padding="10dp"
-                    android:text="#2"
+                    android:text="@string/number_two"
                     android:textSize="24sp" />
             </com.google.android.material.button.MaterialButtonToggleGroup>
         </LinearLayout>
@@ -103,7 +103,7 @@
                 android:id="@+id/durationText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Duration:"
+                android:text="@string/duration"
                 android:textSize="@dimen/title_text_size" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -147,7 +147,7 @@
                 android:id="@+id/leakageText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Leakage:"
+                android:text="@string/leakage"
                 android:textSize="@dimen/title_text_size" />
 
             <com.google.android.material.button.MaterialButtonToggleGroup
@@ -167,7 +167,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="No"
+                    android:text="@string/no"
                     android:textSize="24sp" />
 
                 <com.google.android.material.button.MaterialButton
@@ -177,7 +177,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="Yes"
+                    android:text="@string/yes"
                     android:textSize="24sp" />
             </com.google.android.material.button.MaterialButtonToggleGroup>
         </LinearLayout>
@@ -195,7 +195,7 @@
                 android:id="@+id/colorText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Color:"
+                android:text="@string/color"
                 android:textSize="@dimen/title_text_size" />
 
             <com.google.android.material.button.MaterialButtonToggleGroup xmlns:android="http://schemas.android.com/apk/res/android"
@@ -210,28 +210,28 @@
                     style="?attr/materialButtonOutlinedStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="color1" />
+                    android:text="@string/color_one" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/color2Button"
                     style="?attr/materialButtonOutlinedStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="color2" />
+                    android:text="@string/color_two" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/color3Button"
                     style="?attr/materialButtonOutlinedStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="color3" />
+                    android:text="@string/color_three" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/color4Button"
                     style="?attr/materialButtonOutlinedStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="color4" />
+                    android:text="@string/color_four" />
 
             </com.google.android.material.button.MaterialButtonToggleGroup>
         </LinearLayout>
@@ -252,7 +252,7 @@
                 android:id="@+id/consistText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Consistency:"
+                android:text="@string/consistency"
                 android:textSize="@dimen/title_text_size" />
 
             <com.google.android.material.button.MaterialButtonToggleGroup
@@ -301,7 +301,7 @@
             android:id="@+id/submitButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Submit"
+            android:text="@string/submit"
             android:onClick="@{() -> dischargeViewModel.onSubmitInfo()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

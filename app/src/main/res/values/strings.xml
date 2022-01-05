@@ -1,4 +1,20 @@
 <resources>
     <string name="app_name">Discharge Diary</string>
     <string name="new_date_time">"%1s - %2s"</string>
+    <string name="date">Date:</string>
+    <string name="time">Time:</string>
+    <string name="number_one">#1</string>
+    <string name="number_two">#2</string>
+    <string name="discharge_type">Discharge Type:</string>
+    <string name="duration">Duration:</string>
+    <string name="leakage">Leakage:</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="consistency">Consistency:</string>
+    <string name="color">Color:</string>
+    <string name="color_one">color1</string>
+    <string name="color_two">color2</string>
+    <string name="color_three">color3</string>
+    <string name="color_four">color4</string>
+    <string name="submit">Submit</string>
 </resources>

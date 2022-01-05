@@ -91,6 +91,7 @@ class DischargeViewModel(
                     dischargeData.dischargeDate = dischargeDate.value!!
                     dischargeData.dischargeTime = dischargeTime.value!!
                     dischargeData.dischargeDuration = dischargeDurationTime.value!!
+                    dischargeData.leakage = leakageYN.value!!
                     dischargeData.dischargeColor = convertedColor.value!!
                     dischargeData.dischargeConsistency = dischargeConsist.value!!
                     database.update(dischargeData)
