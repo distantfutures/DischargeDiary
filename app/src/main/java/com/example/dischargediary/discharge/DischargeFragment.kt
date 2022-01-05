@@ -57,8 +57,10 @@ class DischargeFragment : Fragment() {
             { number ->
                 if (number != 2) {
                     binding.consistGroup.visibility = View.INVISIBLE
+                    binding.dischargeButtonToggleGroup.check(R.id.numberOneButton)
                 } else {
                     binding.consistGroup.visibility = View.VISIBLE
+                    binding.dischargeButtonToggleGroup.check(R.id.numberTwoButton)
                 }
             }
         )

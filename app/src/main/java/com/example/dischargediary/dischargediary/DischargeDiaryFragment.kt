@@ -29,6 +29,8 @@ class DischargeDiaryFragment : Fragment() {
 
         val application = requireNotNull(this.activity).application
 
+        //val arguments = DischargeDiaryFragmentArgs.fromBundle(requireArguments())
+
         val datasource = DischargeDatabase.getInstance(application).dischargeDatabaseDao
 
         val viewModelFactory = DischargeDiaryViewModelFactory(datasource, application)

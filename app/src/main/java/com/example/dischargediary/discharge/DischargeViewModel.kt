@@ -54,8 +54,20 @@ class DischargeViewModel(
         get() = _navigateToDiary
 
     init {
-        Log.d("DischargeFragment", "DischargeViewModel Created")
-        _dischargeType.value = 0
+        Log.d("DischargeViewModel", "DischargeViewModel Created")
+        uiScope.launch {
+            var dType = 0
+            withContext(Dispatchers.IO) {
+                val type = database.get(entryIdKey) ?: return@withContext
+                //database.update(type)
+                //_dischargeType.value = type.dischargeType
+                dType = type.dischargeType
+                //onSetDischargeType(type.dischargeType)
+                Log.d("Init", "Test ${type.dischargeType} ")
+            }
+            _dischargeType.value = dType
+        }
+
         //_dischargeColorNumber.value = 0
         _dischargeDate.value = getCurrentDate()
         _dischargeTime.value = getCurrentTime()
@@ -110,10 +122,6 @@ class DischargeViewModel(
         val result = formatter.format(now)
         return result
     }
-
-//    fun getNewDateTime(dateTime: String?) {
-//        _dischargeDateTime.value = dateTime
-//    }
 
     fun getNewDate(date: String?) {
         _dischargeDate.value = date

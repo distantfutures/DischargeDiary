@@ -61,16 +61,17 @@
                 android:id="@+id/dischargeButtonToggleGroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:checkedButton="@id/numberOneButton"
                 app:selectionRequired="true"
                 app:singleSelection="true">
 
                 <Button
                     android:id="@+id/numberOneButton"
                     style="?attr/materialButtonOutlinedStyle"
-                    android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_weight="1"
                     android:padding="10dp"
                     android:text="#1"
                     android:textSize="24sp" />
@@ -78,9 +79,9 @@
                 <Button
                     android:id="@+id/numberTwoButton"
                     style="?attr/materialButtonOutlinedStyle"
-                    android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:padding="10dp"
                     android:text="#2"
                     android:textSize="24sp" />
