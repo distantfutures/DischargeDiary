@@ -8,4 +8,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="light_grey">#1F000000</color>
+    <color name="clear_discharge">#FFFFFFFF</color>
+    <color name="light_yellow_discharge">#FFF59D</color>
+    <color name="yellow_discharge">#FFEB3B</color>
+    <color name="dark_yellow_discharge">#FFA000</color>
+    <color name="red_discharge">#E65100</color>
 </resources>
