@@ -8,9 +8,20 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="light_grey">#1F000000</color>
-    <color name="clear_discharge">#FFFFFFFF</color>
-    <color name="light_yellow_discharge">#FFF59D</color>
-    <color name="yellow_discharge">#FFEB3B</color>
-    <color name="dark_yellow_discharge">#FFA000</color>
-    <color name="red_discharge">#E65100</color>
+
+    <!-- #1 discharge color -->
+    <color name="clear_urine">#FFFFFFFF</color>
+    <color name="light_yellow_urine">#FFF59D</color>
+    <color name="yellow_urine">#FFEB3B</color>
+    <color name="dark_yellow_urine">#FFA000</color>
+    <color name="red_urine">#E65100</color>
+
+    <!-- #2 discharge color -->
+    <color name="grey_stool">#CCCCCC</color>
+    <color name="light_brown_stool">#C19269</color>
+    <color name="brown_stool">#5A3E29</color>
+    <color name="dark_brown_black_stool">#32211A</color>
+    <color name="yellow_stool">#B38C28</color>
+    <color name="green_stool">#2B3E1E</color>
+    <color name="red_stool">#532020</color>
 </resources>
