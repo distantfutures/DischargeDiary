@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -51,16 +52,28 @@ class DischargeFragment : Fragment() {
         //Current Date & Time
         binding.dischargeDateTime.setOnClickListener { setNewDateTime() }
 
-        //Observes Discharge Type
+        //Observes Discharge Type & sets discharge colors accordingly
         dischargeViewModel.dischargeType.observe(
             viewLifecycleOwner,
             { number ->
                 if (number != 2) {
                     binding.consistGroup.visibility = View.INVISIBLE
                     binding.dischargeButtonToggleGroup.check(R.id.numberOneButton)
+
+                    binding.color1Button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.clear_urine))
+                    binding.color2Button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.light_yellow_urine))
+                    binding.color3Button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.yellow_urine))
+                    binding.color4Button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.dark_yellow_urine))
+                    binding.color5Button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.red_urine))
                 } else {
                     binding.consistGroup.visibility = View.VISIBLE
                     binding.dischargeButtonToggleGroup.check(R.id.numberTwoButton)
+
+                    binding.color1Button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.grey_stool))
+                    binding.color2Button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.brown_stool))
+                    binding.color3Button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.dark_brown_black_stool))
+                    binding.color4Button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.green_stool))
+                    binding.color5Button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.red_stool))
                 }
             }
         )
@@ -113,6 +126,7 @@ class DischargeFragment : Fragment() {
                         R.id.color2Button -> dischargeViewModel.onSetDischargeColor(2)
                         R.id.color3Button -> dischargeViewModel.onSetDischargeColor(3)
                         R.id.color4Button -> dischargeViewModel.onSetDischargeColor(4)
+                        R.id.color5Button -> dischargeViewModel.onSetDischargeColor(5)
                     }
                     val colorToast = dischargeViewModel.convertedColor.value
                     showToast(colorToast)
@@ -120,10 +134,11 @@ class DischargeFragment : Fragment() {
             } else if (dischargeViewModel.dischargeType.value == 2) {
                 if (isChecked) {
                     when (checkedId) {
-                        R.id.color1Button -> dischargeViewModel.onSetDischargeColor(5)
-                        R.id.color2Button -> dischargeViewModel.onSetDischargeColor(6)
-                        R.id.color3Button -> dischargeViewModel.onSetDischargeColor(7)
-                        R.id.color4Button -> dischargeViewModel.onSetDischargeColor(8)
+                        R.id.color1Button -> dischargeViewModel.onSetDischargeColor(6)
+                        R.id.color2Button -> dischargeViewModel.onSetDischargeColor(7)
+                        R.id.color3Button -> dischargeViewModel.onSetDischargeColor(8)
+                        R.id.color4Button -> dischargeViewModel.onSetDischargeColor(9)
+                        R.id.color5Button -> dischargeViewModel.onSetDischargeColor(10)
                     }
                     val colorToast = dischargeViewModel.convertedColor.value
                     showToast(colorToast)

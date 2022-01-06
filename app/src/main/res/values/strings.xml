@@ -16,5 +16,6 @@
     <string name="color_two">color2</string>
     <string name="color_three">color3</string>
     <string name="color_four">color4</string>
+    <string name="color_five">color5</string>
     <string name="submit">Submit</string>
 </resources>

@@ -16,7 +16,7 @@ fun formatDischarges(discharges: List<DischargeData>, resources: Resources): Spa
             append("<br><b>${resources.getString(R.string.time)}</b> ")
             append("${it.dischargeTime}")
             append("<br><b>${resources.getString(R.string.discharge_type)}</b> ")
-            append("${it.dischargeType}")
+            append("#${it.dischargeType}")
             append("<br><b>${resources.getString(R.string.duration)}</b> ")
             append("${it.dischargeDuration}")
             append("<br><b>${resources.getString(R.string.leakage)}</b> ")

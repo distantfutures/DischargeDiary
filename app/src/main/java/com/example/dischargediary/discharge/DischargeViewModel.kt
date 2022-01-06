@@ -163,10 +163,12 @@ class DischargeViewModel(
             2 -> "Light Yellow"
             3 -> "Yellow"
             4 -> "Dark Yellow"
-            5 -> "Light Brown"
-            6 -> "Brown"
-            7 -> "Green"
-            8 -> "Black"
+            5 -> "Red"
+            6 -> "Light Grey"
+            7 -> "Brown"
+            8 -> "Dark Brown/Black"
+            9 -> "Green"
+            10 -> "Red"
             else -> { "Other" }
         }
         _convertedColor.value = colorName
