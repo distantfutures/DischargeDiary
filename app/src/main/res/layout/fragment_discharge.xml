@@ -2,6 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
         <variable
             name="dischargeViewModel"
@@ -11,302 +12,332 @@
 <!--            type="com.example.dischargediary.data.DischargeData" />-->
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".discharge.DischargeFragment">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/submitButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <LinearLayout
-            android:id="@+id/dateTimeGroup"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/con"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="24dp"
-            android:gravity="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="match_parent"
+            tools:context=".discharge.DischargeFragment">
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/dischargeDateTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:clickable="true"
-                android:background="@drawable/rounded_box_outline"
-                android:hint="@{@string/new_date_time(dischargeViewModel.dischargeDate, dischargeViewModel.dischargeTime)}"
-                android:inputType="datetime"
-                android:text="@{@string/new_date_time(dischargeViewModel.dischargeDate, dischargeViewModel.dischargeTime)}"
-                android:textAlignment="center"
-                android:textSize="24sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/dischargeTypeGroup"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:layout_marginTop="24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/dateTimeGroup">
-            <TextView
-                android:id="@+id/dischargeText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Discharge Type:"
-                android:textSize="@dimen/title_text_size" />
-
-            <com.google.android.material.button.MaterialButtonToggleGroup
-                android:id="@+id/dischargeButtonToggleGroup"
+            <LinearLayout
+                android:id="@+id/dateTimeGroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:checkedButton="@id/numberOneButton"
-                app:selectionRequired="true"
-                app:singleSelection="true">
-
-                <Button
-                    android:id="@+id/numberOneButton"
-                    style="?attr/materialButtonOutlinedStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:padding="10dp"
-                    android:text="#1"
-                    android:textSize="24sp" />
-
-                <Button
-                    android:id="@+id/numberTwoButton"
-                    style="?attr/materialButtonOutlinedStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="10dp"
-                    android:text="#2"
-                    android:textSize="24sp" />
-            </com.google.android.material.button.MaterialButtonToggleGroup>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/durationGroup"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:gravity="center"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="@+id/dischargeTypeGroup"
-            app:layout_constraintStart_toStartOf="@+id/dischargeTypeGroup"
-            app:layout_constraintTop_toBottomOf="@+id/dischargeTypeGroup">
-
-            <TextView
-                android:id="@+id/durationText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Duration:"
-                android:textSize="@dimen/title_text_size" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/durationTextField"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusable="auto"
-                android:hint="Minutes : Seconds"
-                app:counterMaxLength="4"
-                app:helperTextEnabled="false"
-                app:hintTextAppearance="@style/TextAppearance.AppCompat.Small"
-                app:placeholderText="00:00"
-                app:placeholderTextAppearance="@style/TextAppearance.AppCompat.Display1">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/durationInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:imeOptions="actionDone"
-                    android:inputType="time"
-                    android:padding="10dp"
-                    android:textSize="30sp" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/leakageGroup"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:gravity="center"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="@+id/dischargeTypeGroup"
-            app:layout_constraintStart_toStartOf="@+id/dischargeTypeGroup"
-            app:layout_constraintTop_toBottomOf="@+id/durationGroup">
-
-            <TextView
-                android:id="@+id/leakageText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Leakage:"
-                android:textSize="@dimen/title_text_size" />
-
-            <com.google.android.material.button.MaterialButtonToggleGroup
-                android:id="@+id/leakageYesNoToggleGroup"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_margin="24dp"
+                android:gravity="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/leakageGroup"
-                app:selectionRequired="true"
-                app:singleSelection="true">
+                app:layout_constraintTop_toTopOf="parent">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/noButton"
-                    style="?attr/materialButtonOutlinedStyle"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/dischargeDateTime"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_box_outline"
+                    android:clickable="true"
+                    android:hint="@{@string/new_date_time(dischargeViewModel.dischargeDate, dischargeViewModel.dischargeTime)}"
+                    android:inputType="datetime"
                     android:padding="10dp"
-                    android:text="No"
+                    android:text="@{@string/new_date_time(dischargeViewModel.dischargeDate, dischargeViewModel.dischargeTime)}"
+                    android:textAlignment="center"
                     android:textSize="24sp" />
+            </LinearLayout>
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/yesButton"
-                    style="?attr/materialButtonOutlinedStyle"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="Yes"
-                    android:textSize="24sp" />
-            </com.google.android.material.button.MaterialButtonToggleGroup>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/colorGroup"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:gravity="center"
-            android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@id/leakageGroup">
-
-            <TextView
-                android:id="@+id/colorText"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/dischargeTypeGroup"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:text="Color:"
-                android:textSize="@dimen/title_text_size" />
+                android:layout_marginTop="@dimen/margin_top_data"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dateTimeGroup">
 
-            <com.google.android.material.button.MaterialButtonToggleGroup xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/colorButtonGroup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:selectionRequired="true"
-                app:singleSelection="true">
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/color1Button"
-                    style="?attr/materialButtonOutlinedStyle"
+                <TextView
+                    android:id="@+id/dischargeText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="color1" />
+                    android:text="@string/discharge_type"
+                    android:textSize="@dimen/title_text_size" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/color2Button"
-                    style="?attr/materialButtonOutlinedStyle"
-                    android:layout_width="wrap_content"
+                <com.google.android.material.button.MaterialButtonToggleGroup
+                    android:id="@+id/dischargeButtonToggleGroup"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="color2" />
+                    app:checkedButton="@id/numberOneButton"
+                    app:selectionRequired="true"
+                    app:singleSelection="true">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/color3Button"
-                    style="?attr/materialButtonOutlinedStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="color3" />
+                    <Button
+                        android:id="@+id/numberOneButton"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:padding="10dp"
+                        android:text="@string/number_one"
+                        android:textSize="24sp" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/color4Button"
-                    style="?attr/materialButtonOutlinedStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="color4" />
+                    <Button
+                        android:id="@+id/numberTwoButton"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="10dp"
+                        android:text="@string/number_two"
+                        android:textSize="24sp" />
+                </com.google.android.material.button.MaterialButtonToggleGroup>
+            </LinearLayout>
 
-            </com.google.android.material.button.MaterialButtonToggleGroup>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/consistGroup"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="@+id/dischargeTypeGroup"
-            app:layout_constraintStart_toStartOf="@+id/dischargeTypeGroup"
-            app:layout_constraintTop_toBottomOf="@id/colorGroup">
-
-            <TextView
-                android:id="@+id/consistText"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/durationGroup"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Consistency:"
-                android:textSize="@dimen/title_text_size" />
+                android:layout_marginTop="@dimen/margin_top_data"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="@+id/dischargeTypeGroup"
+                app:layout_constraintStart_toStartOf="@+id/dischargeTypeGroup"
+                app:layout_constraintTop_toBottomOf="@+id/dischargeTypeGroup">
 
-            <com.google.android.material.button.MaterialButtonToggleGroup
-                android:id="@+id/consistButtonGroup"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/durationText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/duration"
+                    android:textSize="@dimen/title_text_size" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/durationTextField"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="auto"
+                    android:hint="Minutes : Seconds"
+                    app:counterMaxLength="4"
+                    app:helperTextEnabled="false"
+                    app:hintTextAppearance="@style/TextAppearance.AppCompat.Small"
+                    app:placeholderText="00:00"
+                    app:placeholderTextAppearance="@style/TextAppearance.AppCompat.Display1">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/durationInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:imeOptions="actionDone"
+                        android:inputType="time"
+                        android:padding="10dp"
+                        android:textSize="30sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/leakageGroup"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:selectionRequired="true"
-                app:singleSelection="true">
+                android:layout_marginTop="@dimen/margin_top_data"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="@+id/dischargeTypeGroup"
+                app:layout_constraintStart_toStartOf="@+id/dischargeTypeGroup"
+                app:layout_constraintTop_toBottomOf="@+id/durationGroup">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/consist1Button"
-                    style="?attr/materialButtonOutlinedStyle"
-                    android:layout_width="@dimen/consist_button_size"
-                    android:layout_height="@dimen/consist_button_size"
-                    app:icon="@android:drawable/ic_menu_delete"
-                    app:iconGravity="textStart" />
+                <TextView
+                    android:id="@+id/leakageText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/leakage"
+                    android:textSize="@dimen/title_text_size" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/consist2Button"
-                    style="?attr/materialButtonOutlinedStyle"
-                    android:layout_width="@dimen/consist_button_size"
-                    android:layout_height="@dimen/consist_button_size"
-                    app:icon="@android:drawable/ic_menu_delete"
-                    app:iconGravity="textStart" />
+                <com.google.android.material.button.MaterialButtonToggleGroup
+                    android:id="@+id/leakageYesNoToggleGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/leakageGroup"
+                    app:selectionRequired="true"
+                    app:singleSelection="true">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/consist3Button"
-                    style="?attr/materialButtonOutlinedStyle"
-                    android:layout_width="@dimen/consist_button_size"
-                    android:layout_height="@dimen/consist_button_size"
-                    app:icon="@android:drawable/ic_menu_delete"
-                    app:iconGravity="textStart" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/noButton"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="10dp"
+                        android:text="@string/no"
+                        android:textSize="24sp" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/consist4Button"
-                    style="?attr/materialButtonOutlinedStyle"
-                    android:layout_width="@dimen/consist_button_size"
-                    android:layout_height="@dimen/consist_button_size"
-                    android:layout_gravity="center"
-                    app:icon="@android:drawable/ic_menu_delete"
-                    app:iconGravity="textStart" />
-            </com.google.android.material.button.MaterialButtonToggleGroup>
-        </LinearLayout>
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/yesButton"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="10dp"
+                        android:text="@string/yes"
+                        android:textSize="24sp" />
+                </com.google.android.material.button.MaterialButtonToggleGroup>
+            </LinearLayout>
 
-        <Button
-            android:id="@+id/submitButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Submit"
-            android:onClick="@{() -> dischargeViewModel.onSubmitInfo()}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/consistGroup" />
+            <LinearLayout
+                android:id="@+id/colorGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_top_data"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@id/leakageGroup">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/colorText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/color"
+                    android:textSize="@dimen/title_text_size" />
+
+                <com.google.android.material.button.MaterialButtonToggleGroup
+                    android:id="@+id/colorButtonGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:selectionRequired="true"
+                    app:singleSelection="true">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/color1Button"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="@dimen/color_dimension"
+                        android:layout_height="@dimen/color_dimension" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/color2Button"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="@dimen/color_dimension"
+                        android:layout_height="@dimen/color_dimension" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/color3Button"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="@dimen/color_dimension"
+                        android:layout_height="@dimen/color_dimension" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/color4Button"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="@dimen/color_dimension"
+                        android:layout_height="@dimen/color_dimension" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/color5Button"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="@dimen/color_dimension"
+                        android:layout_height="@dimen/color_dimension" />
+
+                </com.google.android.material.button.MaterialButtonToggleGroup>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/consistGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_top_data"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="visible"
+                app:layout_constraintTop_toBottomOf="@id/colorGroup">
+
+                <TextView
+                    android:id="@+id/consistText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/consistency"
+                    android:textSize="@dimen/title_text_size" />
+
+                <com.google.android.material.button.MaterialButtonToggleGroup
+                    android:id="@+id/consistButtonGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="false"
+                    app:selectionRequired="true"
+                    app:singleSelection="true">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/consist1Button"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="@dimen/consist_button_size"
+                        android:layout_height="@dimen/consist_button_size"
+                        app:icon="@drawable/ic_stool_consistency_01"
+                        app:iconGravity="textTop"
+                        app:iconSize="@dimen/consist_button_size"
+                        app:iconTint="@null" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/consist2Button"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="@dimen/consist_button_size"
+                        android:layout_height="@dimen/consist_button_size"
+                        app:icon="@drawable/ic_stool_consistency_02"
+                        app:iconGravity="textTop"
+                        app:iconSize="@dimen/consist_button_size"
+                        app:iconTint="@null" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/consist4Button"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="@dimen/consist_button_size"
+                        android:layout_height="@dimen/consist_button_size"
+                        app:icon="@drawable/ic_stool_consistency_04"
+                        app:iconGravity="textTop"
+                        app:iconSize="@dimen/consist_button_size"
+                        app:iconTint="@null" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/consist5Button"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="@dimen/consist_button_size"
+                        android:layout_height="@dimen/consist_button_size"
+                        app:icon="@drawable/ic_stool_consistency_05"
+                        app:iconGravity="textTop"
+                        app:iconSize="@dimen/consist_button_size"
+                        app:iconTint="@null" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/consist6Button"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="@dimen/consist_button_size"
+                        android:layout_height="@dimen/consist_button_size"
+                        app:icon="@drawable/ic_stool_consistency_06"
+                        app:iconGravity="textTop"
+                        app:iconSize="@dimen/consist_button_size"
+                        app:iconTint="@null" />
+
+                </com.google.android.material.button.MaterialButtonToggleGroup>
+            </LinearLayout>
+            <Button
+                android:id="@+id/submitButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:onClick="@{() -> dischargeViewModel.onSubmitInfo()}"
+                android:text="@string/submit"
+                app:layout_constraintBottom_toBottomOf="@+id/con"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/consistGroup"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>
