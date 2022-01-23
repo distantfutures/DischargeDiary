@@ -154,7 +154,7 @@ class DischargeFragment : Fragment() {
                     when (checkedId) {
                         R.id.consist1Button -> dischargeViewModel.onSetDischargeConsist("Severe Constipation")
                         R.id.consist2Button -> dischargeViewModel.onSetDischargeConsist("Mild Constipation")
-                        R.id.consist3Button -> dischargeViewModel.onSetDischargeConsist("Normal, Dehydrated")
+//                        R.id.consist3Button -> dischargeViewModel.onSetDischargeConsist("Normal, Dehydrated")
                         R.id.consist4Button -> dischargeViewModel.onSetDischargeConsist("Normal")
                         R.id.consist5Button -> dischargeViewModel.onSetDischargeConsist("Lacking Fiber")
                         R.id.consist6Button -> dischargeViewModel.onSetDischargeConsist("Diarrhea")
