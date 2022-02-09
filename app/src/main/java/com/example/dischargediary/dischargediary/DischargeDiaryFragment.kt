@@ -41,14 +41,6 @@ class DischargeDiaryFragment : Fragment() {
 
         binding.dischargeDiaryViewModel = diaryViewModel
 
-//        binding.numberOneButton.setOnClickListener() { view: View ->
-//            view.findNavController().navigate(R.id.action_discharge_diary_fragment_to_discharge_fragment)
-//            //viewModel.onNewEntry()
-//            //viewModel.onDischargeType(1)
-//        }
-//        binding.numberTwoButton.setOnClickListener() { view: View ->
-//            view.findNavController().navigate(R.id.action_discharge_diary_fragment_to_discharge_fragment)
-//        }
         //something about this breaks the viewmodelfactory
         diaryViewModel.navigateToDischargeEntry.observe(viewLifecycleOwner, Observer { entry ->
             entry?.let {

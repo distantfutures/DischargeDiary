@@ -11,7 +11,7 @@ import java.util.*
 
 class DischargeViewModel(
     private val entryIdKey: Int = 0,
-    val database: DischargeDatabaseDao
+    private val database: DischargeDatabaseDao
 ) : ViewModel() {
 
     private val viewModelJob = Job()

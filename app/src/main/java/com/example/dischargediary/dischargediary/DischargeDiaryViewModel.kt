@@ -23,6 +23,8 @@ class DischargeDiaryViewModel(
 
     private val getAllDischarges = database.getAllDischarges()
 
+
+
     val dischargeEntriesString = Transformations.map(getAllDischarges) { discharges ->
         formatDischarges(discharges, application.resources)
     }
@@ -83,6 +85,11 @@ class DischargeDiaryViewModel(
             insert.dischargeType = type
             database.update(insert)
             Log.d("NewEntry", "Insert received ${database.getRecentDischarge()}")
+        }
+    }
+    private suspend fun deleteEntryNumber(entryId: Int) {
+        withContext(Dispatchers.IO) {
+            database.deleteEntryNumber(entryId)
         }
     }
 

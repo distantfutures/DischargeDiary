@@ -16,6 +16,8 @@ interface DischargeDatabaseDao {
         fun get(key: Int): DischargeData?
     @Query("DELETE FROM discharge_diary_table")
         fun clear()
+    @Query("DELETE FROM discharge_diary_table WHERE entryId = :key")
+        fun deleteEntryNumber(key: Int)
     @Query("SELECT * FROM discharge_diary_table ORDER BY entryId DESC")
         fun getAllDischarges(): LiveData<List<DischargeData>>
     @Query("SELECT * FROM discharge_diary_table ORDER BY entryId DESC LIMIT 1")

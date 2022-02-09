@@ -4,13 +4,17 @@ import android.content.res.Resources
 import android.os.Build
 import android.text.Html
 import android.text.Spanned
+import androidx.annotation.RequiresApi
 import androidx.core.text.HtmlCompat
 import com.example.dischargediary.data.DischargeData
 
+@RequiresApi(Build.VERSION_CODES.N)
 fun formatDischarges(discharges: List<DischargeData>, resources: Resources): Spanned? {
     val sb = StringBuilder()
     sb.apply {
         discharges.forEach {
+            append("<br><b>${resources.getString(R.string.entry_id)}</b> ")
+            append("${it.entryId}")
             append("<br><b>${resources.getString(R.string.date)}</b> ")
             append("${it.dischargeDate}")
             append("<br><b>${resources.getString(R.string.time)}</b> ")
