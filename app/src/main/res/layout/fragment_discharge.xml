@@ -190,6 +190,7 @@
                         android:padding="10dp"
                         android:text="@string/no"
                         android:textSize="24sp"
+                        android:onClick="@{() -> dischargeViewModel.onSetLeakageYN(false)}"
                         app:cornerRadius="@dimen/input_corner_radius" />
 
                     <com.google.android.material.button.MaterialButton
@@ -201,6 +202,7 @@
                         android:padding="10dp"
                         android:text="@string/yes"
                         android:textSize="24sp"
+                        android:onClick="@{() -> dischargeViewModel.onSetLeakageYN(true)}"
                         app:cornerRadius="@dimen/input_corner_radius" />
                 </com.google.android.material.button.MaterialButtonToggleGroup>
             </LinearLayout>

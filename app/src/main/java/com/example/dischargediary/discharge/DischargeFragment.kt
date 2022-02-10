@@ -51,33 +51,16 @@ class DischargeFragment : Fragment() {
 
         //Current Date & Time
         binding.dischargeDateTime.setOnClickListener { setNewDateTime() }
-
         //Observes Discharge Type & sets discharge colors accordingly
         dischargeViewModel.dischargeType.observe(
-            viewLifecycleOwner,
-            { number ->
+            viewLifecycleOwner, { number ->
                 if (number != 2) {
-                    binding.consistGroup.visibility = View.INVISIBLE
-                    binding.dischargeButtonToggleGroup.check(R.id.numberOneButton)
-
-                    binding.color1Button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.clear_urine))
-                    binding.color2Button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.light_yellow_urine))
-                    binding.color3Button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.yellow_urine))
-                    binding.color4Button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.dark_yellow_urine))
-                    binding.color5Button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.red_urine))
+                    showNumberOneUi(binding)
                 } else {
-                    binding.consistGroup.visibility = View.VISIBLE
-                    binding.dischargeButtonToggleGroup.check(R.id.numberTwoButton)
-
-                    binding.color1Button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.grey_stool))
-                    binding.color2Button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.brown_stool))
-                    binding.color3Button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.dark_brown_black_stool))
-                    binding.color4Button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.green_stool))
-                    binding.color5Button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.red_stool))
+                    showNumberTwoUi(binding)
                 }
             }
         )
-
         //Duration/Timer Button
         binding.durationInput.setOnEditorActionListener { _, actionId, _ ->
             return@setOnEditorActionListener when (actionId) {
@@ -89,22 +72,8 @@ class DischargeFragment : Fragment() {
                 else -> { true }
             }
         }
-
-        //Leakage Button
-        binding.leakageYesNoToggleGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
-            if (isChecked) {
-                when (checkedId) {
-                    R.id.noButton -> dischargeViewModel.onSetLeakageYN(false)
-                    R.id.yesButton -> dischargeViewModel.onSetLeakageYN(true)
-                }
-                val leakToast = dischargeViewModel.leakageYN.value.toString()
-                showToast(leakToast)
-            }
-        }
-
         //Color Button, changes colorset depending on discharge type
         binding.colorButtonGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
-            //val dischargeType = viewModel.dischargeType.value
             if (dischargeViewModel.dischargeType.value == 1) {
                 if (isChecked) {
                     when (checkedId) {
@@ -185,6 +154,28 @@ class DischargeFragment : Fragment() {
             }
         })
         return binding.root
+    }
+    private fun showNumberOneUi(binding: FragmentDischargeBinding) {
+        binding.apply {
+            consistGroup.visibility = View.INVISIBLE
+            dischargeButtonToggleGroup.check(R.id.numberOneButton)
+            color1Button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.clear_urine))
+            color2Button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.light_yellow_urine))
+            color3Button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.yellow_urine))
+            color4Button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.dark_yellow_urine))
+            color5Button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.red_urine))
+        }
+    }
+    private fun showNumberTwoUi(binding: FragmentDischargeBinding) {
+        binding.apply {
+            consistGroup.visibility = View.VISIBLE
+            dischargeButtonToggleGroup.check(R.id.numberTwoButton)
+            color1Button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.grey_stool))
+            color2Button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.brown_stool))
+            color3Button.setBackgroundColor(ContextCompat.getColor(context!!,R.color.dark_brown_black_stool))
+            color4Button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.green_stool))
+            color5Button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.red_stool))
+        }
     }
     fun showToast(str: String?) {
         Toast.makeText(context, str, Toast.LENGTH_SHORT).show()
