@@ -42,8 +42,8 @@ class DischargeFragment : Fragment() {
         val arguments = DischargeFragmentArgs.fromBundle(requireArguments())
 
         val datasource = DischargeDatabase.getInstance(application).dischargeDatabaseDao
-        val viewModelFactory = DischargeViewModelFactory(arguments.entryIdKey, datasource)
-        Log.d("DischargeFrag", "${arguments.entryIdKey}")
+        val viewModelFactory = DischargeViewModelFactory(arguments.dischargeTypeArg, datasource)
+        Log.d("CheckDischargeFrag", "${arguments.dischargeTypeArg}")
         dischargeViewModel = ViewModelProvider(this, viewModelFactory).get(DischargeViewModel::class.java)
 
         binding.dischargeViewModel = dischargeViewModel

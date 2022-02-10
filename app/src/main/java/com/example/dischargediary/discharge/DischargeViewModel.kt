@@ -4,13 +4,14 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.dischargediary.data.DischargeData
 import com.example.dischargediary.data.DischargeDatabaseDao
 import kotlinx.coroutines.*
 import java.text.SimpleDateFormat
 import java.util.*
 
 class DischargeViewModel(
-    private val entryIdKey: Int = 0,
+    private val disType: Int = 0,
     private val database: DischargeDatabaseDao
 ) : ViewModel() {
 
@@ -54,21 +55,8 @@ class DischargeViewModel(
         get() = _navigateToDiary
 
     init {
-        Log.d("DischargeViewModel", "DischargeViewModel Created")
-        uiScope.launch {
-            var dType = 0
-            withContext(Dispatchers.IO) {
-                val type = database.get(entryIdKey) ?: return@withContext
-                //database.update(type)
-                //_dischargeType.value = type.dischargeType
-                dType = type.dischargeType
-                //onSetDischargeType(type.dischargeType)
-                Log.d("Init", "Test ${type.dischargeType} ")
-            }
-            _dischargeType.value = dType
-        }
-
-        //_dischargeColorNumber.value = 0
+        Log.d("CheckDischargeViewModel", "entryID Test $disType")
+        _dischargeType.value = disType
         _dischargeDate.value = getCurrentDate()
         _dischargeTime.value = getCurrentTime()
         _dischargeConsist.value = "N/A"
@@ -86,21 +74,32 @@ class DischargeViewModel(
             var entryFilled = unfilled()
             if (entryFilled) {
                 withContext(Dispatchers.IO) {
-                    val dischargeData = database.get(entryIdKey) ?: return@withContext
-                    dischargeData.dischargeType = dischargeType.value!!
-                    dischargeData.dischargeDate = dischargeDate.value!!
-                    dischargeData.dischargeTime = dischargeTime.value!!
-                    dischargeData.dischargeDuration = dischargeDurationTime.value!!
-                    dischargeData.leakage = leakageYN.value!!
-                    dischargeData.dischargeColor = convertedColor.value!!
-                    dischargeData.dischargeConsistency = dischargeConsist.value!!
-                    database.update(dischargeData)
-                    Log.d("DischargeViewModel", "Submit ${database.get(entryIdKey)}")
+                    // Initializes new entry, Assigns data, Insert into database
+                    val newEntry = DischargeData()
+
+                    newEntry.dischargeType = dischargeType.value!!
+                    newEntry.dischargeDate = dischargeDate.value!!
+                    newEntry.dischargeTime = dischargeTime.value!!
+                    newEntry.dischargeDuration = dischargeDurationTime.value!!
+                    newEntry.leakage = leakageYN.value!!
+                    newEntry.dischargeColor = convertedColor.value!!
+                    newEntry.dischargeConsistency = dischargeConsist.value!!
+
+                    insertNewEntry(newEntry)
+                    // Checks entry
+                    val checkEntry = database.getRecentDischarge()
+                    Log.d("CheckDischargeViewModel", "Submit $checkEntry")
                 }
                 _navigateToDiary.value = true
             } else {
                 _navigateToDiary.value = false
             }
+        }
+    }
+    // Takes new initialized entry
+    private suspend fun insertNewEntry(newEntry: DischargeData) {
+        withContext(Dispatchers.IO) {
+            database.addNew(newEntry)
         }
     }
 
@@ -134,7 +133,6 @@ class DischargeViewModel(
 
     fun onSetDischargeType(dischargeOneTwo: Int) {
         _dischargeType.value = dischargeOneTwo
-        //showToast(dischargeType.toString())
     }
 
     fun onSetLeakageYN(leakYN: Boolean) {
@@ -148,7 +146,7 @@ class DischargeViewModel(
 
     fun onSetDischargeConsist(consist: String?) {
         _dischargeConsist.value = consist
-        Log.i("DischargeViewModel", "onSetDischargeConsist $consist")
+        Log.i("CheckDischargeViewModel", "onSetDischargeConsist $consist")
     }
 
     fun onSetDischargeDuration(durationTime: String?) {
