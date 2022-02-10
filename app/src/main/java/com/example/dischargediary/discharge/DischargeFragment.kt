@@ -78,20 +78,6 @@ class DischargeFragment : Fragment() {
             }
         )
 
-        //Discharge Type Button - Sets Discharge
-        binding.dischargeButtonToggleGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
-            if (isChecked) {
-                //Changes value of dischargeType to 1 or 2
-                when (checkedId) {
-                    R.id.numberOneButton -> dischargeViewModel.onSetDischargeType(1)//set LiveData to 1
-                    R.id.numberTwoButton -> dischargeViewModel.onSetDischargeType(2) //_dischargeType.value = 2//set LiveData to 2
-                }
-                //checks value type
-                val dischargeToast = dischargeViewModel.dischargeType.value.toString()
-                showToast(dischargeToast)
-            }
-        }
-
         //Duration/Timer Button
         binding.durationInput.setOnEditorActionListener { _, actionId, _ ->
             return@setOnEditorActionListener when (actionId) {

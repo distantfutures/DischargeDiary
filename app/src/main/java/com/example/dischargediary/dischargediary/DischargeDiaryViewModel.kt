@@ -47,7 +47,7 @@ class DischargeDiaryViewModel(
         // Get the current time (in millis)
         val now = Date().time
         // Create a formatter along with the desired output pattern
-        val formatter = SimpleDateFormat("EEEE,  MMMM dd ''yy @ hh:mm a", Locale.getDefault())
+        val formatter = SimpleDateFormat("EEEE,  MMMM dd, yyyy @ hh:mm a", Locale.getDefault())
         // Put the time (in millis) in our formatter
         val result = formatter.format(now)
         return result

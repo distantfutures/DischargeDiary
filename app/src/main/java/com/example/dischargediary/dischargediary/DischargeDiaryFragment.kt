@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.dischargediary.R
@@ -44,12 +43,11 @@ class DischargeDiaryFragment : Fragment() {
         binding.dischargeList.adapter = adapter
 
         //Passes the entryId argument through actions to DischargeEntry
-        diaryViewModel.dischargeTypeArg.observe(viewLifecycleOwner, Observer { newEntry ->
+        diaryViewModel.dischargeTypeArg.observe(viewLifecycleOwner, { newEntry ->
             if (newEntry != 0) {
-                val dischargeTypeArg = diaryViewModel.dischargeTypeArg.value!!
                 this.findNavController().navigate(
-                    DischargeDiaryFragmentDirections.actionDischargeDiaryFragmentToDischargeFragment(dischargeTypeArg))
-                Log.d("CheckDiaryFrag", "Navigate, $dischargeTypeArg")
+                    DischargeDiaryFragmentDirections.actionDischargeDiaryFragmentToDischargeFragment(diaryViewModel.dischargeTypeArg.value!!))
+                Log.d("CheckDiaryFrag", "Navigate, ${diaryViewModel.dischargeTypeArg.value!!}")
                 diaryViewModel.doneNavigating()
             }
         })

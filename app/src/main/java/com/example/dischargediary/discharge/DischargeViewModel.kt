@@ -11,7 +11,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class DischargeViewModel(
-    private val disType: Int = 0,
+    disType: Int = 0,
     private val database: DischargeDatabaseDao
 ) : ViewModel() {
 
