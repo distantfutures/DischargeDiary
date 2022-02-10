@@ -48,7 +48,8 @@
                     android:padding="10dp"
                     android:text="@{@string/new_date_time(dischargeViewModel.dischargeDate, dischargeViewModel.dischargeTime)}"
                     android:textAlignment="center"
-                    android:textSize="24sp" />
+                    android:textSize="24sp"
+                    app:cornerRadius="@dimen/input_corner_radius" />
             </LinearLayout>
 
             <LinearLayout
@@ -86,7 +87,8 @@
                         android:layout_weight="1"
                         android:padding="10dp"
                         android:text="@string/number_one"
-                        android:textSize="24sp" />
+                        android:textSize="24sp"
+                        app:cornerRadius="@dimen/input_corner_radius" />
 
                     <Button
                         android:id="@+id/numberTwoButton"
@@ -96,7 +98,8 @@
                         android:layout_weight="1"
                         android:padding="10dp"
                         android:text="@string/number_two"
-                        android:textSize="24sp" />
+                        android:textSize="24sp"
+                        app:cornerRadius="@dimen/input_corner_radius"/>
                 </com.google.android.material.button.MaterialButtonToggleGroup>
             </LinearLayout>
 
@@ -125,6 +128,10 @@
                     android:layout_height="wrap_content"
                     android:focusable="auto"
                     android:hint="Minutes : Seconds"
+                    app:boxCornerRadiusBottomEnd="@dimen/input_corner_radius"
+                    app:boxCornerRadiusBottomStart="@dimen/input_corner_radius"
+                    app:boxCornerRadiusTopEnd="@dimen/input_corner_radius"
+                    app:boxCornerRadiusTopStart="@dimen/input_corner_radius"
                     app:counterMaxLength="4"
                     app:helperTextEnabled="false"
                     app:hintTextAppearance="@style/TextAppearance.AppCompat.Small"
@@ -170,7 +177,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/leakageGroup"
                     app:selectionRequired="true"
-                    app:singleSelection="true">
+                    app:singleSelection="true" >
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/noButton"
@@ -180,7 +187,8 @@
                         android:layout_weight="1"
                         android:padding="10dp"
                         android:text="@string/no"
-                        android:textSize="24sp" />
+                        android:textSize="24sp"
+                        app:cornerRadius="@dimen/input_corner_radius" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/yesButton"
@@ -190,7 +198,8 @@
                         android:layout_weight="1"
                         android:padding="10dp"
                         android:text="@string/yes"
-                        android:textSize="24sp" />
+                        android:textSize="24sp"
+                        app:cornerRadius="@dimen/input_corner_radius" />
                 </com.google.android.material.button.MaterialButtonToggleGroup>
             </LinearLayout>
 
@@ -221,7 +230,8 @@
                         android:id="@+id/color1Button"
                         style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="@dimen/color_dimension"
-                        android:layout_height="@dimen/color_dimension" />
+                        android:layout_height="@dimen/color_dimension"
+                        app:cornerRadius="@dimen/input_corner_radius" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/color2Button"
@@ -245,7 +255,8 @@
                         android:id="@+id/color5Button"
                         style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="@dimen/color_dimension"
-                        android:layout_height="@dimen/color_dimension" />
+                        android:layout_height="@dimen/color_dimension"
+                        app:cornerRadius="@dimen/input_corner_radius" />
 
                 </com.google.android.material.button.MaterialButtonToggleGroup>
             </LinearLayout>
@@ -283,7 +294,8 @@
                         app:icon="@drawable/ic_stool_consistency_01"
                         app:iconGravity="textTop"
                         app:iconSize="@dimen/consist_button_size"
-                        app:iconTint="@null" />
+                        app:iconTint="@null"
+                        app:cornerRadius="@dimen/input_corner_radius" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/consist2Button"
@@ -323,7 +335,8 @@
                         app:icon="@drawable/ic_stool_consistency_06"
                         app:iconGravity="textTop"
                         app:iconSize="@dimen/consist_button_size"
-                        app:iconTint="@null" />
+                        app:iconTint="@null"
+                        app:cornerRadius="@dimen/input_corner_radius" />
 
                 </com.google.android.material.button.MaterialButtonToggleGroup>
             </LinearLayout>
@@ -337,7 +350,8 @@
                 app:layout_constraintBottom_toBottomOf="@+id/con"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/consistGroup"/>
+                app:layout_constraintTop_toBottomOf="@+id/consistGroup"
+                app:cornerRadius="@dimen/input_corner_radius" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>

@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.dischargediary.R
 import com.example.dischargediary.data.DischargeDatabase
 import com.example.dischargediary.databinding.FragmentDischargeDiaryBinding
+import com.google.android.material.snackbar.Snackbar
 
 class DischargeDiaryFragment : Fragment() {
 
@@ -41,6 +42,10 @@ class DischargeDiaryFragment : Fragment() {
 
         binding.dischargeDiaryViewModel = diaryViewModel
 
+        val adapter = DischargeGridAdapter()
+
+        binding.dischargeList.adapter = adapter
+
         //something about this breaks the viewmodelfactory
         diaryViewModel.navigateToDischargeEntry.observe(viewLifecycleOwner, Observer { entry ->
             entry?.let {
@@ -51,5 +56,19 @@ class DischargeDiaryFragment : Fragment() {
             }
         })
         return binding.root
+    }
+
+//    fun openFormattedDataDialog(view: View, dischargeEntries: DischargeDiaryViewModel) {
+//        MaterialAlertDialogBuilder(requireActivity())
+//            .setTitle("Test")
+//            .setMessage("${dischargeEntries.dischargeEntriesString}")
+//            .setNegativeButton("Exit", object : DialogInterface.OnClickListener {
+//                override fun onClick(dialog: DialogInterface?, which: Int) {
+//                    showSnackBar(view, "Exited")
+//                }
+//            }).show()
+//    }
+    fun showSnackBar(view: View, msg: String) {
+        Snackbar.make(view, msg, Snackbar.LENGTH_LONG).show()
     }
 }

@@ -5,36 +5,45 @@
 
     <data>
         <variable
+            name="dischargeData"
+            type="com.example.dischargediary.data.DischargeData" />
+        <variable
             name="dischargeDiaryViewModel"
             type="com.example.dischargediary.dischargediary.DischargeDiaryViewModel" />
+        <variable
+            name="clickListener"
+            type="com.example.dischargediary.dischargediary.DischargeEntryListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="14dp">
+        android:paddingBottom="12dp"
+        android:onClick="@{() -> clickListener.onClick(dischargeData)}">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/discharge_image"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:background="@color/black"
+            android:layout_width="@dimen/grid_image_size"
+            android:layout_height="@dimen/grid_image_size"
+            app:dischargeGraphic="@{dischargeData}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/rounded_image_view"
             tools:src="@tools:sample/avatars" />
 
         <TextView
-            android:id="@+id/pokemon_name"
+            android:id="@+id/info_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{dischargeDiaryViewModel.dischargeEntriesString}"
-            android:hint="placeholder"
-            android:textAlignment="center"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/discharge_image" />
+            android:hint="placeholder testing to see"
+            android:padding="5dp"
+            android:textAlignment="textStart"
+            android:textSize="@dimen/grid_text_size"
+            app:layout_constraintEnd_toEndOf="@id/discharge_image"
+            app:layout_constraintStart_toStartOf="@id/discharge_image"
+            app:layout_constraintTop_toBottomOf="@+id/discharge_image"
+            app:listDataFormatted="@{dischargeData}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

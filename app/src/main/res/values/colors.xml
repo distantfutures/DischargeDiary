@@ -10,7 +10,7 @@
     <color name="light_grey">#1F000000</color>
 
     <!-- #1 discharge color -->
-    <color name="clear_urine">#FFFFFFFF</color>
+    <color name="clear_urine">#FBF9EB</color>
     <color name="light_yellow_urine">#FFF59D</color>
     <color name="yellow_urine">#FFEB3B</color>
     <color name="dark_yellow_urine">#FFA000</color>

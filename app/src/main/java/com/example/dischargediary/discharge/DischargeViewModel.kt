@@ -168,7 +168,7 @@ class DischargeViewModel(
             7 -> "Brown"
             8 -> "Dark Brown/Black"
             9 -> "Green"
-            10 -> "Red"
+            10 -> "Red Stool"
             else -> { "Other" }
         }
         _convertedColor.value = colorName
