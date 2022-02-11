@@ -7,9 +7,6 @@
         <variable
             name="dischargeViewModel"
             type="com.example.dischargediary.discharge.DischargeViewModel" />
-<!--        <variable-->
-<!--            name="dischargeData"-->
-<!--            type="com.example.dischargediary.data.DischargeData" />-->
     </data>
 
     <ScrollView
@@ -228,7 +225,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:selectionRequired="true"
-                    app:singleSelection="true">
+                    app:singleSelection="true" >
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/color1Button"

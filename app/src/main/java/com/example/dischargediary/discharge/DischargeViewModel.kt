@@ -34,9 +34,9 @@ class DischargeViewModel(
     val leakageYN: LiveData<Boolean?>
         get() = _leakageYN
 
-    private val _dischargeColorNumber = MutableLiveData<Int>()
-    val dischargeColorNumber: LiveData<Int>
-        get() = _dischargeColorNumber
+    private val _dischargeColor = MutableLiveData<String?>()
+    val dischargeColor: LiveData<String?>
+        get() = _dischargeColor
 
     private val _dischargeConsist = MutableLiveData<String?>()
     val dischargeConsist: LiveData<String?>
@@ -45,10 +45,6 @@ class DischargeViewModel(
     private val _dischargeDurationTime = MutableLiveData<String?>()
     val dischargeDurationTime: LiveData<String?>
         get() = _dischargeDurationTime
-
-    private val _convertedColor = MutableLiveData<String?>()
-    val convertedColor: LiveData<String?>
-        get() = _convertedColor
 
     private val _navigateToDiary = MutableLiveData<Boolean?>()
     val navigateToDiary: LiveData<Boolean?>
@@ -63,10 +59,10 @@ class DischargeViewModel(
     }
 
     private fun unfilled(): Boolean {
-        if (dischargeType.value == 1) {
-            return !(dischargeType.value == 0 || dischargeDurationTime.value == null || dischargeColorNumber.value == null || convertedColor.value == null)
+        return if (dischargeType.value == 1) {
+            !(dischargeType.value == 0 || dischargeDurationTime.value == null || leakageYN.value == null || dischargeColor.value == null)
         } else {
-            return !(dischargeDurationTime.value == null || dischargeColorNumber.value == null || convertedColor.value == null || dischargeConsist.value == "N/A")
+            !(dischargeDurationTime.value == null ||  leakageYN.value == null || dischargeColor.value == null || dischargeConsist.value == "N/A")
         }
     }
     fun onSubmitInfo() {
@@ -82,7 +78,7 @@ class DischargeViewModel(
                     newEntry.dischargeTime = dischargeTime.value!!
                     newEntry.dischargeDuration = dischargeDurationTime.value!!
                     newEntry.leakage = leakageYN.value!!
-                    newEntry.dischargeColor = convertedColor.value!!
+                    newEntry.dischargeColor = dischargeColor.value!!
                     newEntry.dischargeConsistency = dischargeConsist.value!!
 
                     insertNewEntry(newEntry)
@@ -140,23 +136,10 @@ class DischargeViewModel(
     }
 
     fun onSetDischargeColor(colorNumber: Int) {
-        _dischargeColorNumber.value = colorNumber
-        colorConverter(_dischargeColorNumber.value)
+        _dischargeColor.value = colorConverter(colorNumber)
     }
-
-    fun onSetDischargeConsist(consist: String?) {
-        _dischargeConsist.value = consist
-        Log.i("CheckDischargeViewModel", "onSetDischargeConsist $consist")
-    }
-
-    fun onSetDischargeDuration(durationTime: String?) {
-        _dischargeDurationTime.value = durationTime
-    }
-
-    fun colorConverter(colorNumber: Int?) {
-        _dischargeColorNumber.value = colorNumber!!
-        val colorName = when (colorNumber) {
-            0 -> "Need Value"
+    private fun colorConverter(colorNumber: Int?): String? {
+        val colorName: String? = when (colorNumber) {
             1 -> "Clear"
             2 -> "Light Yellow"
             3 -> "Yellow"
@@ -167,10 +150,19 @@ class DischargeViewModel(
             8 -> "Dark Brown/Black"
             9 -> "Green"
             10 -> "Red Stool"
-            else -> { "Other" }
+            else -> { null }
         }
-        _convertedColor.value = colorName
+        return colorName
     }
+    fun onSetDischargeConsist(consist: String?) {
+        _dischargeConsist.value = consist
+        Log.i("CheckDischargeViewModel", "onSetDischargeConsist $consist")
+    }
+
+    fun onSetDischargeDuration(durationTime: String?) {
+        _dischargeDurationTime.value = durationTime
+    }
+
     fun doneNavigating() {
         _navigateToDiary.value = null
     }
