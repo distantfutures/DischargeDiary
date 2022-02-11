@@ -34,6 +34,10 @@ class DischargeViewModel(
     val leakageYN: LiveData<Boolean?>
         get() = _leakageYN
 
+    private val _dischargeColorButton = MutableLiveData<Int?>()
+    val dischargeColorButton: LiveData<Int?>
+        get() = _dischargeColorButton
+
     private val _dischargeColor = MutableLiveData<String?>()
     val dischargeColor: LiveData<String?>
         get() = _dischargeColor
@@ -135,23 +139,32 @@ class DischargeViewModel(
         _leakageYN.value = leakYN
     }
 
-    fun onSetDischargeColor(colorNumber: Int) {
-        _dischargeColor.value = colorConverter(colorNumber)
+    fun onSetDischargeColor(colorNumber: Int?) {
+        _dischargeColorButton.value = colorNumber
+        _dischargeColor.value = colorConverter(dischargeType.value!!, colorNumber)
     }
-    private fun colorConverter(colorNumber: Int?): String? {
-        val colorName: String? = when (colorNumber) {
-            1 -> "Clear"
-            2 -> "Light Yellow"
-            3 -> "Yellow"
-            4 -> "Dark Yellow"
-            5 -> "Red"
-            6 -> "Light Grey"
-            7 -> "Brown"
-            8 -> "Dark Brown/Black"
-            9 -> "Green"
-            10 -> "Red Stool"
-            else -> { null }
+    private fun colorConverter(group: Int, colorNumber: Int?): String? {
+        val colorName : String?
+        if (group != 2) {
+            colorName = when (colorNumber) {
+                1 -> "Clear"
+                2 -> "Light Yellow"
+                3 -> "Yellow"
+                4 -> "Dark Yellow"
+                5 -> "Red"
+                else -> { null }
+            }
+        } else {
+            colorName = when (colorNumber) {
+                1 -> "Light Grey"
+                2 -> "Brown"
+                3 -> "Dark Brown/Black"
+                4 -> "Green"
+                5 -> "Red Stool"
+                else -> { null }
+            }
         }
+
         return colorName
     }
     fun onSetDischargeConsist(consist: String?) {

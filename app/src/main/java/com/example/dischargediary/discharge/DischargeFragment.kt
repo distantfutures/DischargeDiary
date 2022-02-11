@@ -56,8 +56,10 @@ class DischargeFragment : Fragment() {
             viewLifecycleOwner, { number ->
                 if (number != 2) {
                     showNumberOneUi(binding)
+                    dischargeViewModel.onSetDischargeColor(dischargeViewModel.dischargeColorButton.value)
                 } else {
                     showNumberTwoUi(binding)
+                    dischargeViewModel.onSetDischargeColor(dischargeViewModel.dischargeColorButton.value)
                 }
             }
         )
@@ -70,22 +72,6 @@ class DischargeFragment : Fragment() {
                     false
                 }
                 else -> { true }
-            }
-        }
-        //Color Button, changes colorset depending on discharge type
-        binding.colorButtonGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
-            if (dischargeViewModel.dischargeType.value == 1) {
-                if (isChecked) {
-                    setNumberOneColors(checkedId)
-                    val colorToast = dischargeViewModel.dischargeColor.value
-                    showToast(colorToast)
-                }
-            } else if (dischargeViewModel.dischargeType.value == 2) {
-                if (isChecked) {
-                    setNumberTwoColors(checkedId)
-                    val colorToast = dischargeViewModel.dischargeColor.value
-                    showToast(colorToast)
-                }
             }
         }
 
@@ -147,24 +133,6 @@ class DischargeFragment : Fragment() {
     }
     fun showToastLong(str: String?) {
         Toast.makeText(context, str, Toast.LENGTH_LONG).show()
-    }
-    private fun setNumberOneColors(checkedId: Int) {
-        when (checkedId) {
-            R.id.color1Button -> dischargeViewModel.onSetDischargeColor(1)
-            R.id.color2Button -> dischargeViewModel.onSetDischargeColor(2)
-            R.id.color3Button -> dischargeViewModel.onSetDischargeColor(3)
-            R.id.color4Button -> dischargeViewModel.onSetDischargeColor(4)
-            R.id.color5Button -> dischargeViewModel.onSetDischargeColor(5)
-        }
-    }
-    private fun setNumberTwoColors(checkedId: Int) {
-        when (checkedId) {
-            R.id.color1Button -> dischargeViewModel.onSetDischargeColor(6)
-            R.id.color2Button -> dischargeViewModel.onSetDischargeColor(7)
-            R.id.color3Button -> dischargeViewModel.onSetDischargeColor(8)
-            R.id.color4Button -> dischargeViewModel.onSetDischargeColor(9)
-            R.id.color5Button -> dischargeViewModel.onSetDischargeColor(10)
-        }
     }
     private fun showNumberOneUi(binding: FragmentDischargeBinding) {
         binding.apply {

@@ -232,32 +232,37 @@
                         style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="@dimen/color_dimension"
                         android:layout_height="@dimen/color_dimension"
+                        android:onClick="@{() -> dischargeViewModel.onSetDischargeColor(1)}"
                         app:cornerRadius="@dimen/input_corner_radius" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/color2Button"
                         style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="@dimen/color_dimension"
-                        android:layout_height="@dimen/color_dimension" />
+                        android:layout_height="@dimen/color_dimension"
+                        android:onClick="@{() -> dischargeViewModel.onSetDischargeColor(2)}"/>
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/color3Button"
                         style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="@dimen/color_dimension"
-                        android:layout_height="@dimen/color_dimension" />
+                        android:layout_height="@dimen/color_dimension"
+                        android:onClick="@{() -> dischargeViewModel.onSetDischargeColor(3)}"/>
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/color4Button"
                         style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="@dimen/color_dimension"
-                        android:layout_height="@dimen/color_dimension" />
+                        android:layout_height="@dimen/color_dimension"
+                        android:onClick="@{() -> dischargeViewModel.onSetDischargeColor(4)}"/>
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/color5Button"
                         style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="@dimen/color_dimension"
                         android:layout_height="@dimen/color_dimension"
-                        app:cornerRadius="@dimen/input_corner_radius" />
+                        app:cornerRadius="@dimen/input_corner_radius"
+                        android:onClick="@{() -> dischargeViewModel.onSetDischargeColor(5)}"/>
 
                 </com.google.android.material.button.MaterialButtonToggleGroup>
             </LinearLayout>
