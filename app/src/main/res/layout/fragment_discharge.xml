@@ -7,9 +7,6 @@
         <variable
             name="dischargeViewModel"
             type="com.example.dischargediary.discharge.DischargeViewModel" />
-<!--        <variable-->
-<!--            name="dischargeData"-->
-<!--            type="com.example.dischargediary.data.DischargeData" />-->
     </data>
 
     <ScrollView
@@ -24,7 +21,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/con"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             tools:context=".discharge.DischargeFragment">
 
             <LinearLayout
@@ -49,7 +46,8 @@
                     android:text="@{@string/new_date_time(dischargeViewModel.dischargeDate, dischargeViewModel.dischargeTime)}"
                     android:textAlignment="center"
                     android:textSize="24sp"
-                    app:cornerRadius="@dimen/input_corner_radius" />
+                    app:cornerRadius="@dimen/input_corner_radius"
+                    android:focusable="true" />
             </LinearLayout>
 
             <LinearLayout
@@ -88,6 +86,7 @@
                         android:padding="10dp"
                         android:text="@string/number_one"
                         android:textSize="24sp"
+                        android:onClick="@{() -> dischargeViewModel.onSetDischargeType(1)}"
                         app:cornerRadius="@dimen/input_corner_radius" />
 
                     <Button
@@ -99,6 +98,7 @@
                         android:padding="10dp"
                         android:text="@string/number_two"
                         android:textSize="24sp"
+                        android:onClick="@{() -> dischargeViewModel.onSetDischargeType(2)}"
                         app:cornerRadius="@dimen/input_corner_radius"/>
                 </com.google.android.material.button.MaterialButtonToggleGroup>
             </LinearLayout>
@@ -127,7 +127,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusable="auto"
-                    android:hint="Minutes : Seconds"
+                    android:hint="@string/minutes_seconds_hint_text"
                     app:boxCornerRadiusBottomEnd="@dimen/input_corner_radius"
                     app:boxCornerRadiusBottomStart="@dimen/input_corner_radius"
                     app:boxCornerRadiusTopEnd="@dimen/input_corner_radius"
@@ -188,6 +188,7 @@
                         android:padding="10dp"
                         android:text="@string/no"
                         android:textSize="24sp"
+                        android:onClick="@{() -> dischargeViewModel.onSetLeakageYN(false)}"
                         app:cornerRadius="@dimen/input_corner_radius" />
 
                     <com.google.android.material.button.MaterialButton
@@ -199,6 +200,7 @@
                         android:padding="10dp"
                         android:text="@string/yes"
                         android:textSize="24sp"
+                        android:onClick="@{() -> dischargeViewModel.onSetLeakageYN(true)}"
                         app:cornerRadius="@dimen/input_corner_radius" />
                 </com.google.android.material.button.MaterialButtonToggleGroup>
             </LinearLayout>
@@ -224,39 +226,44 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:selectionRequired="true"
-                    app:singleSelection="true">
+                    app:singleSelection="true" >
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/color1Button"
                         style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="@dimen/color_dimension"
                         android:layout_height="@dimen/color_dimension"
+                        android:onClick="@{() -> dischargeViewModel.onSetDischargeColor(1)}"
                         app:cornerRadius="@dimen/input_corner_radius" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/color2Button"
                         style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="@dimen/color_dimension"
-                        android:layout_height="@dimen/color_dimension" />
+                        android:layout_height="@dimen/color_dimension"
+                        android:onClick="@{() -> dischargeViewModel.onSetDischargeColor(2)}"/>
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/color3Button"
                         style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="@dimen/color_dimension"
-                        android:layout_height="@dimen/color_dimension" />
+                        android:layout_height="@dimen/color_dimension"
+                        android:onClick="@{() -> dischargeViewModel.onSetDischargeColor(3)}"/>
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/color4Button"
                         style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="@dimen/color_dimension"
-                        android:layout_height="@dimen/color_dimension" />
+                        android:layout_height="@dimen/color_dimension"
+                        android:onClick="@{() -> dischargeViewModel.onSetDischargeColor(4)}"/>
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/color5Button"
                         style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="@dimen/color_dimension"
                         android:layout_height="@dimen/color_dimension"
-                        app:cornerRadius="@dimen/input_corner_radius" />
+                        app:cornerRadius="@dimen/input_corner_radius"
+                        android:onClick="@{() -> dischargeViewModel.onSetDischargeColor(5)}"/>
 
                 </com.google.android.material.button.MaterialButtonToggleGroup>
             </LinearLayout>
@@ -291,6 +298,7 @@
                         style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="@dimen/consist_button_size"
                         android:layout_height="@dimen/consist_button_size"
+                        android:onClick="@{() -> dischargeViewModel.onSetDischargeConsist(1)}"
                         app:icon="@drawable/ic_stool_consistency_01"
                         app:iconGravity="textTop"
                         app:iconSize="@dimen/consist_button_size"
@@ -302,7 +310,19 @@
                         style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="@dimen/consist_button_size"
                         android:layout_height="@dimen/consist_button_size"
+                        android:onClick="@{() -> dischargeViewModel.onSetDischargeConsist(2)}"
                         app:icon="@drawable/ic_stool_consistency_02"
+                        app:iconGravity="textTop"
+                        app:iconSize="@dimen/consist_button_size"
+                        app:iconTint="@null" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/consist3Button"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="@dimen/consist_button_size"
+                        android:layout_height="@dimen/consist_button_size"
+                        android:onClick="@{() -> dischargeViewModel.onSetDischargeConsist(3)}"
+                        app:icon="@drawable/ic_stool_consistency_04"
                         app:iconGravity="textTop"
                         app:iconSize="@dimen/consist_button_size"
                         app:iconTint="@null" />
@@ -312,7 +332,8 @@
                         style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="@dimen/consist_button_size"
                         android:layout_height="@dimen/consist_button_size"
-                        app:icon="@drawable/ic_stool_consistency_04"
+                        android:onClick="@{() -> dischargeViewModel.onSetDischargeConsist(4)}"
+                        app:icon="@drawable/ic_stool_consistency_05"
                         app:iconGravity="textTop"
                         app:iconSize="@dimen/consist_button_size"
                         app:iconTint="@null" />
@@ -322,16 +343,7 @@
                         style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="@dimen/consist_button_size"
                         android:layout_height="@dimen/consist_button_size"
-                        app:icon="@drawable/ic_stool_consistency_05"
-                        app:iconGravity="textTop"
-                        app:iconSize="@dimen/consist_button_size"
-                        app:iconTint="@null" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/consist6Button"
-                        style="?attr/materialButtonOutlinedStyle"
-                        android:layout_width="@dimen/consist_button_size"
-                        android:layout_height="@dimen/consist_button_size"
+                        android:onClick="@{() -> dischargeViewModel.onSetDischargeConsist(5)}"
                         app:icon="@drawable/ic_stool_consistency_06"
                         app:iconGravity="textTop"
                         app:iconSize="@dimen/consist_button_size"

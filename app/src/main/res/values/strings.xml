@@ -1,22 +1,39 @@
 <resources>
     <string name="app_name">Discharge Diary</string>
-    <string name="entry_id">Entry #</string>
+    <!--    Time     -->
     <string name="new_date_time">"%1s - %2s"</string>
+    <string name="minutes_seconds_hint_text">Minutes : Seconds</string>
+    <!--    Headers     -->
+    <string name="entry_id">Entry #</string>
     <string name="date">Date:</string>
     <string name="time">Time:</string>
-    <string name="number_one">#1</string>
-    <string name="number_two">#2</string>
+    <string name="consistency">Consistency:</string>
+    <string name="color">Color:</string>
     <string name="discharge_type">Discharge Type:</string>
     <string name="duration">Duration:</string>
     <string name="leakage">Leakage:</string>
+    <!--    Buttons     -->
+    <string name="number_one">#1</string>
+    <string name="number_two">#2</string>
     <string name="no">No</string>
     <string name="yes">Yes</string>
-    <string name="consistency">Consistency:</string>
-    <string name="color">Color:</string>
-    <string name="color_one">color1</string>
-    <string name="color_two">color2</string>
-    <string name="color_three">color3</string>
-    <string name="color_four">color4</string>
-    <string name="color_five">color5</string>
     <string name="submit">Submit</string>
+    <!--    Urine Color     -->
+    <string name="urine_color_one">Clear</string>
+    <string name="urine_color_two">Light Yellow</string>
+    <string name="urine_color_three">Yellow</string>
+    <string name="urine_color_four">Dark Yellow</string>
+    <string name="urine_color_five">Red</string>
+    <!--    Stool Color     -->
+    <string name="stool_color_one">Light Grey</string>
+    <string name="stool_color_two">Brown</string>
+    <string name="stool_color_three">Dark Brown/Black</string>
+    <string name="stool_color_four">Green</string>
+    <string name="stool_color_five">Red Stool</string>
+    <!--    Stool Consistency     -->
+    <string name="consist_one">Severe Constipation</string>
+    <string name="consist_two">Mild Constipation</string>
+    <string name="consist_three">Normal</string>
+    <string name="consist_four">Lacking Fiber</string>
+    <string name="consist_five">Diarrhea</string>
 </resources>

@@ -7,13 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.dischargediary.R
 import com.example.dischargediary.data.DischargeDatabase
 import com.example.dischargediary.databinding.FragmentDischargeDiaryBinding
-import com.google.android.material.snackbar.Snackbar
 
 class DischargeDiaryFragment : Fragment() {
 
@@ -30,8 +28,6 @@ class DischargeDiaryFragment : Fragment() {
 
         val application = requireNotNull(this.activity).application
 
-        //val arguments = DischargeDiaryFragmentArgs.fromBundle(requireArguments())
-
         val datasource = DischargeDatabase.getInstance(application).dischargeDatabaseDao
 
         val viewModelFactory = DischargeDiaryViewModelFactory(datasource, application)
@@ -46,12 +42,12 @@ class DischargeDiaryFragment : Fragment() {
 
         binding.dischargeList.adapter = adapter
 
-        //something about this breaks the viewmodelfactory
-        diaryViewModel.navigateToDischargeEntry.observe(viewLifecycleOwner, Observer { entry ->
-            entry?.let {
+        //Passes the entryId argument through actions to DischargeEntry
+        diaryViewModel.dischargeTypeArg.observe(viewLifecycleOwner, { newEntry ->
+            if (newEntry != 0) {
                 this.findNavController().navigate(
-                    DischargeDiaryFragmentDirections.actionDischargeDiaryFragmentToDischargeFragment(entry.entryId))
-                    Log.d("DiaryFrag", "Navigate, ${entry.entryId}")
+                    DischargeDiaryFragmentDirections.actionDischargeDiaryFragmentToDischargeFragment(diaryViewModel.dischargeTypeArg.value!!))
+                Log.d("CheckDiaryFrag", "Navigate, ${diaryViewModel.dischargeTypeArg.value!!}")
                 diaryViewModel.doneNavigating()
             }
         })
@@ -68,7 +64,7 @@ class DischargeDiaryFragment : Fragment() {
 //                }
 //            }).show()
 //    }
-    fun showSnackBar(view: View, msg: String) {
-        Snackbar.make(view, msg, Snackbar.LENGTH_LONG).show()
-    }
+//    fun showSnackBar(view: View, msg: String) {
+//        Snackbar.make(view, msg, Snackbar.LENGTH_LONG).show()
+//    }
 }
