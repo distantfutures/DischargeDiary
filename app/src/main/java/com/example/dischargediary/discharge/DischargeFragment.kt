@@ -82,8 +82,9 @@ class DischargeFragment : Fragment() {
                 //Toast
                 val dischargeAllInfo = submitStringBuilder()
                 showToastLong(dischargeAllInfo.toString())
-            } else {
-                showToast("Entry Incomplete")
+            }
+            if (it == false){
+                showToastLong("Entry Incomplete")
             }
         })
         return binding.root

@@ -73,7 +73,7 @@ class DischargeViewModel(
         getCurrentTime()
         _dischargeConsist.value = "N/A"
     }
-    private fun unfilled(): Boolean {
+    fun unfilled(): Boolean {
         return if (dischargeType.value == 1) {
             !(dischargeType.value == 0 || dischargeDurationTime.value == null || leakageYN.value == null || dischargeColor.value == null)
         } else {
@@ -82,7 +82,7 @@ class DischargeViewModel(
     }
     fun onSubmitInfo() {
         uiScope.launch {
-            var entryFilled = unfilled()
+            val entryFilled = unfilled()
             if (entryFilled) {
                 withContext(Dispatchers.IO) {
                     val newEntry = setDischargeData()
