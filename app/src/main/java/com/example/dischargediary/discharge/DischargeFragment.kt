@@ -19,7 +19,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.dischargediary.R
 import com.example.dischargediary.data.DischargeDatabase
 import com.example.dischargediary.databinding.FragmentDischargeBinding
-import java.text.SimpleDateFormat
 import java.util.*
 
 class DischargeFragment : Fragment() {
@@ -141,33 +140,15 @@ class DischargeFragment : Fragment() {
         }
     }
     @RequiresApi(Build.VERSION_CODES.N)
-    fun setNewDateTime(): String? {
-        val currentDateTime = Calendar.getInstance()
-        val startYear = currentDateTime.get(Calendar.YEAR)
-        val startMonth = currentDateTime.get(Calendar.MONTH)
-        val startDay = currentDateTime.get(Calendar.DAY_OF_MONTH)
-        val startHour = currentDateTime.get(Calendar.HOUR_OF_DAY)
-        val startMinute = currentDateTime.get(Calendar.MINUTE)
-        var dateString = ""
-        var timeString = ""
-        DatePickerDialog(requireContext(), { _, year, month, day ->
-            TimePickerDialog(requireContext(), { _, hour, minute ->
-                val pickedDateTime = Calendar.getInstance()
-                pickedDateTime.set(year, month, day, hour, minute)
-                //format Date
-                val formatterDate = SimpleDateFormat("MM.dd.yyyy, EEE", Locale.getDefault())
-                dateString = formatterDate.format(pickedDateTime.time)
-                //format Time
-                val formatterTime = SimpleDateFormat("h:mm a", Locale.getDefault())
-                timeString = formatterTime.format(pickedDateTime.time)
-                //set Date & Time to ViewModel
-                dischargeViewModel.getNewDate(dateString)
-                dischargeViewModel.getNewTime(timeString)
-                //Toast Info
+    fun setNewDateTime() {
+        DatePickerDialog(requireActivity(), { _, year, month, day ->
+            TimePickerDialog(requireActivity(), { _, hour, minute ->
+                dischargeViewModel.pickADateTime(year, month, day, hour, minute)
+//                dischargeViewModel.pickADate(year, month, day)
+//                dischargeViewModel.pickATime(hour, minute)
                 showToast(dischargeViewModel.dischargeDate.value)
                 showToast(dischargeViewModel.dischargeTime.value)
-            }, startHour, startMinute, false).show()
-        }, startYear, startMonth, startDay).show()
-        return dateString
+            }, dischargeViewModel.startHour, dischargeViewModel.startMinute, false).show()
+        }, dischargeViewModel.startYear, dischargeViewModel.startMonth, dischargeViewModel.startDay).show()
     }
 }

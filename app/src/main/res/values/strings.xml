@@ -24,5 +24,6 @@
     <string name="consist_three">Normal</string>
     <string name="consist_four">Lacking Fiber</string>
     <string name="consist_five">Diarrhea</string>
+    <string name="minutes_seconds_hint_text">Minutes : Seconds</string>
 
 </resources>

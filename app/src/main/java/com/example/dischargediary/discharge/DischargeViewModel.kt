@@ -18,6 +18,18 @@ class DischargeViewModel(
     private val viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
+    var startYear = 0
+    var startMonth = 0
+    var startDay = 0
+    var startHour = 0
+    var startMinute = 0
+
+    var pickYear = 0
+    var pickMonth = 0
+    var pickDay = 0
+    var pickHour = 0
+    var pickMinute = 0
+
     private val _dischargeDate = MutableLiveData<String?>()
     val dischargeDate: LiveData<String?>
         get() = _dischargeDate
@@ -57,11 +69,10 @@ class DischargeViewModel(
     init {
         Log.d("CheckDischargeViewModel", "entryID Test $disType")
         _dischargeType.value = disType
-        _dischargeDate.value = getCurrentDate()
-        _dischargeTime.value = getCurrentTime()
+        getCurrentDate()
+        getCurrentTime()
         _dischargeConsist.value = "N/A"
     }
-
     private fun unfilled(): Boolean {
         return if (dischargeType.value == 1) {
             !(dischargeType.value == 0 || dischargeDurationTime.value == null || leakageYN.value == null || dischargeColor.value == null)
@@ -74,17 +85,7 @@ class DischargeViewModel(
             var entryFilled = unfilled()
             if (entryFilled) {
                 withContext(Dispatchers.IO) {
-                    // Initializes new entry, Assigns data, Insert into database
-                    val newEntry = DischargeData()
-
-                    newEntry.dischargeType = dischargeType.value!!
-                    newEntry.dischargeDate = dischargeDate.value!!
-                    newEntry.dischargeTime = dischargeTime.value!!
-                    newEntry.dischargeDuration = dischargeDurationTime.value!!
-                    newEntry.leakage = leakageYN.value!!
-                    newEntry.dischargeColor = dischargeColor.value!!
-                    newEntry.dischargeConsistency = dischargeConsist.value!!
-
+                    val newEntry = setDischargeData()
                     insertNewEntry(newEntry)
                     // Checks entry
                     val checkEntry = database.getRecentDischarge()
@@ -96,49 +97,29 @@ class DischargeViewModel(
             }
         }
     }
-    // Takes new initialized entry
+    private fun setDischargeData(): DischargeData {
+        val newEntry = DischargeData()
+        newEntry.dischargeType = dischargeType.value!!
+        newEntry.dischargeDate = dischargeDate.value!!
+        newEntry.dischargeTime = dischargeTime.value!!
+        newEntry.dischargeDuration = dischargeDurationTime.value!!
+        newEntry.leakage = leakageYN.value!!
+        newEntry.dischargeColor = dischargeColor.value!!
+        newEntry.dischargeConsistency = dischargeConsist.value!!
+        return newEntry
+    }
+    // Takes new initialized entry & adds to database
     private suspend fun insertNewEntry(newEntry: DischargeData) {
         withContext(Dispatchers.IO) {
             database.addNew(newEntry)
         }
     }
-
-    fun getCurrentDate(): String? {
-        // Get the current time (in millis)
-        val now = Date().time
-        // Create a formatter along with the desired output pattern
-        val formatter = SimpleDateFormat("MM.dd.yyyy, EEE", Locale.getDefault())
-        // Put the time (in millis) in our formatter
-        val result = formatter.format(now)
-        return result
-    }
-
-    fun getCurrentTime(): String? {
-        // Get the current time (in millis)
-        val now = Date().time
-        // Create a formatter along with the desired output pattern
-        val formatter = SimpleDateFormat("h:mm a", Locale.getDefault())
-        // Put the time (in millis) in our formatter
-        val result = formatter.format(now)
-        return result
-    }
-
-    fun getNewDate(date: String?) {
-        _dischargeDate.value = date
-    }
-
-    fun getNewTime(time: String?) {
-        _dischargeTime.value = time
-    }
-
     fun onSetDischargeType(dischargeOneTwo: Int) {
         _dischargeType.value = dischargeOneTwo
     }
-
     fun onSetLeakageYN(leakYN: Boolean) {
         _leakageYN.value = leakYN
     }
-
     fun onSetDischargeColor(colorNumber: Int?) {
         _dischargeColorButton.value = colorNumber
         _dischargeColor.value = colorConverter(dischargeType.value!!, colorNumber)
@@ -164,7 +145,6 @@ class DischargeViewModel(
                 else -> { null }
             }
         }
-
         return colorName
     }
     fun onSetDischargeConsist(consist: String?) {
@@ -179,4 +159,53 @@ class DischargeViewModel(
     fun doneNavigating() {
         _navigateToDiary.value = null
     }
+    private fun getCurrentDate() {
+        val currentDate = Calendar.getInstance()
+        startYear = currentDate.get(Calendar.YEAR)
+        startMonth = currentDate.get(Calendar.MONTH)
+        startDay = currentDate.get(Calendar.DAY_OF_MONTH)
+        currentDate.set(startYear, startMonth, startDay)
+        val formatterDate = SimpleDateFormat("MM.dd.yyyy, EEE", Locale.getDefault())
+        _dischargeDate.value = formatterDate.format(currentDate.time)
+        Log.i("CheckViewModel", "$startYear $startMonth $startDay")
+    }
+    private fun getCurrentTime() {
+        val currentTime = Calendar.getInstance()
+        startHour = currentTime.get(Calendar.HOUR_OF_DAY)
+        startMinute = currentTime.get(Calendar.MINUTE)
+        currentTime.set(startHour, startMinute)
+        val formatterTime = SimpleDateFormat("h:mm a", Locale.getDefault())
+        _dischargeTime.value = formatterTime.format(currentTime.time)
+        Log.i("CheckViewModel", "$startHour $startMinute")
+    }
+    fun pickADateTime(year: Int, month: Int, day: Int, hour: Int, minute: Int) {
+        val pickDateTime = Calendar.getInstance()
+        pickYear = year
+        pickMonth = month
+        pickDay = day
+        pickHour = hour
+        pickMinute = minute
+        pickDateTime.set(pickYear, pickMonth, pickDay, pickHour, pickMinute)
+        val formatterDate = SimpleDateFormat("MM.dd.yyyy, EEE", Locale.getDefault())
+        val formatterTime = SimpleDateFormat("h:mm a", Locale.getDefault())
+        _dischargeDate.value = formatterDate.format(pickDateTime.time).toString()
+        _dischargeTime.value = formatterTime.format(pickDateTime.time).toString()
+    }
+//    fun pickADate(year: Int, month: Int, day: Int) {
+//        val pickDate = Calendar.getInstance()
+//        pickYear = year
+//        pickMonth = month
+//        pickDay = day
+//        pickDate.set(pickYear, pickMonth, pickDay)
+//        val formatterDate = SimpleDateFormat("MM.dd.yyyy, EEE", Locale.getDefault())
+//        _dischargeDate.value = formatterDate.format(pickDate.time).toString()
+//    }
+//    fun pickATime(hour: Int, minute: Int) {
+//        val pickTime = Calendar.getInstance()
+//        pickHour = hour
+//        pickMinute = minute
+//        pickTime.set(0, 0, 0, pickHour, pickMinute)
+//        val formatterTime = SimpleDateFormat("h:mm a", Locale.getDefault())
+//        _dischargeTime.value = formatterTime.format(pickTime.time).toString()
+//    }
 }

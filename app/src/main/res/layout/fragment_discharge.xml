@@ -21,7 +21,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/con"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             tools:context=".discharge.DischargeFragment">
 
             <LinearLayout
@@ -46,7 +46,8 @@
                     android:text="@{@string/new_date_time(dischargeViewModel.dischargeDate, dischargeViewModel.dischargeTime)}"
                     android:textAlignment="center"
                     android:textSize="24sp"
-                    app:cornerRadius="@dimen/input_corner_radius" />
+                    app:cornerRadius="@dimen/input_corner_radius"
+                    android:focusable="true" />
             </LinearLayout>
 
             <LinearLayout
@@ -126,7 +127,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusable="auto"
-                    android:hint="Minutes : Seconds"
+                    android:hint="@string/minutes_seconds_hint_text"
                     app:boxCornerRadiusBottomEnd="@dimen/input_corner_radius"
                     app:boxCornerRadiusBottomStart="@dimen/input_corner_radius"
                     app:boxCornerRadiusTopEnd="@dimen/input_corner_radius"
