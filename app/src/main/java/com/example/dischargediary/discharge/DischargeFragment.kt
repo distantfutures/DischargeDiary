@@ -56,7 +56,7 @@ class DischargeFragment : Fragment() {
                 if (number != 2) {
                     showNumberOneUi(binding)
                     dischargeViewModel.onSetDischargeColor(dischargeViewModel.dischargeColorButton.value)
-                    dischargeViewModel.onSetDischargeConsist("N/A")
+                    dischargeViewModel.onSetDischargeConsist(0)
                 } else {
                     showNumberTwoUi(binding)
                     dischargeViewModel.onSetDischargeColor(dischargeViewModel.dischargeColorButton.value)
@@ -80,7 +80,7 @@ class DischargeFragment : Fragment() {
                 this.findNavController().navigate(DischargeFragmentDirections.actionDischargeFragmentToDischargeDiaryFragment())
                 dischargeViewModel.doneNavigating()
                 //Toast
-                val dischargeAllInfo = submitStringBuilder()
+                val dischargeAllInfo = toastSubmitStringBuilder()
                 showToastLong(dischargeAllInfo.toString())
             }
             if (it == false){
@@ -96,7 +96,7 @@ class DischargeFragment : Fragment() {
     private fun showToastLong(str: String?) {
         Toast.makeText(context, str, Toast.LENGTH_LONG).show()
     }
-    private fun submitStringBuilder(): StringBuilder? {
+    private fun toastSubmitStringBuilder(): StringBuilder? {
         val dateString = dischargeViewModel.dischargeDate.value
         val timeString = dischargeViewModel.dischargeTime.value
         val typeString = dischargeViewModel.dischargeType.value
@@ -122,22 +122,22 @@ class DischargeFragment : Fragment() {
         binding.apply {
             consistGroup.visibility = View.INVISIBLE
             dischargeButtonToggleGroup.check(R.id.numberOneButton)
-            color1Button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.clear_urine))
-            color2Button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.light_yellow_urine))
-            color3Button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.yellow_urine))
-            color4Button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.dark_yellow_urine))
-            color5Button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.red_urine))
+            color1Button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.urine_color_one))
+            color2Button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.urine_color_two))
+            color3Button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.urine_color_three))
+            color4Button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.urine_color_four))
+            color5Button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.urine_color_five))
         }
     }
     private fun showNumberTwoUi(binding: FragmentDischargeBinding) {
         binding.apply {
             consistGroup.visibility = View.VISIBLE
             dischargeButtonToggleGroup.check(R.id.numberTwoButton)
-            color1Button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.grey_stool))
-            color2Button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.brown_stool))
-            color3Button.setBackgroundColor(ContextCompat.getColor(context!!,R.color.dark_brown_black_stool))
-            color4Button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.green_stool))
-            color5Button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.red_stool))
+            color1Button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.stool_color_one))
+            color2Button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.stool_color_two))
+            color3Button.setBackgroundColor(ContextCompat.getColor(context!!,R.color.stool_color_three))
+            color4Button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.stool_color_four))
+            color5Button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.stool_color_five))
         }
     }
     @RequiresApi(Build.VERSION_CODES.N)

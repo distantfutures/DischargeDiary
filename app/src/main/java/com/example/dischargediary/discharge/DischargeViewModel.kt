@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.dischargediary.R
 import com.example.dischargediary.data.DischargeData
 import com.example.dischargediary.data.DischargeDatabaseDao
 import kotlinx.coroutines.*
@@ -128,27 +129,35 @@ class DischargeViewModel(
         val colorName : String?
         if (group != 2) {
             colorName = when (colorNumber) {
-                1 -> "Clear"
-                2 -> "Light Yellow"
-                3 -> "Yellow"
-                4 -> "Dark Yellow"
-                5 -> "Red"
+                1 -> R.string.urine_color_one.toString()
+                2 -> R.string.urine_color_two.toString()
+                3 -> R.string.urine_color_three.toString()
+                4 -> R.string.urine_color_four.toString()
+                5 -> R.string.urine_color_five.toString()
                 else -> { null }
             }
         } else {
             colorName = when (colorNumber) {
-                1 -> "Light Grey"
-                2 -> "Brown"
-                3 -> "Dark Brown/Black"
-                4 -> "Green"
-                5 -> "Red Stool"
+                1 -> R.string.stool_color_one.toString()
+                2 -> R.string.stool_color_two.toString()
+                3 -> R.string.stool_color_three.toString()
+                4 -> R.string.stool_color_four.toString()
+                5 -> R.string.stool_color_five.toString()
                 else -> { null }
             }
         }
         return colorName
     }
-    fun onSetDischargeConsist(consist: String?) {
-        _dischargeConsist.value = consist
+    fun onSetDischargeConsist(consist: Int?) {
+        val consistString = when (consist) {
+            1 -> R.string.consist_one.toString()
+            2 -> R.string.consist_two.toString()
+            3 -> R.string.consist_three.toString()
+            4 -> R.string.consist_four.toString()
+            5 -> R.string.consist_five.toString()
+            else -> { "N/A" }
+        }
+        _dischargeConsist.value = consistString
         Log.i("CheckDischargeViewModel", "onSetDischargeConsist $consist")
     }
 
