@@ -47,7 +47,7 @@ class DischargeFragment : Fragment() {
         dischargeViewModel = ViewModelProvider(this, viewModelFactory).get(DischargeViewModel::class.java)
 
         binding.dischargeViewModel = dischargeViewModel
-        //binding.lifecycleOwner = this
+        binding.lifecycleOwner = this
 
         //Current Date & Time
         binding.dischargeDateTime.setOnClickListener { setNewDateTime() }
@@ -76,32 +76,12 @@ class DischargeFragment : Fragment() {
             }
         }
         //Submit Button
-        dischargeViewModel.navigateToDiary.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+        dischargeViewModel.navigateToDiary.observe(viewLifecycleOwner, {
             if (it == true) {
                 this.findNavController().navigate(DischargeFragmentDirections.actionDischargeFragmentToDischargeDiaryFragment())
                 dischargeViewModel.doneNavigating()
-
                 //Toast
-                val dateString = dischargeViewModel.dischargeDate.value
-                val timeString = dischargeViewModel.dischargeTime.value
-                val typeString = dischargeViewModel.dischargeType.value
-                val durationString = dischargeViewModel.dischargeDurationTime.value
-                val leakageString = dischargeViewModel.leakageYN.value
-                val colorString = dischargeViewModel.dischargeColor.value
-                val consistString = dischargeViewModel.dischargeConsist.value
-
-                val dischargeAllInfo = StringBuilder()
-                    .append("$dateString - $timeString")
-                    .append(",")
-                    .append(typeString)
-                    .append(",")
-                    .append(durationString)
-                    .append(",")
-                    .append(leakageString)
-                    .append(",")
-                    .append(colorString)
-                    .append(",")
-                    .append(consistString)
+                val dischargeAllInfo = submitStringBuilder()
                 showToastLong(dischargeAllInfo.toString())
             } else {
                 showToast("Entry Incomplete")
@@ -109,11 +89,34 @@ class DischargeFragment : Fragment() {
         })
         return binding.root
     }
-    fun showToast(str: String?) {
+
+    private fun showToast(str: String?) {
         Toast.makeText(context, str, Toast.LENGTH_SHORT).show()
     }
-    fun showToastLong(str: String?) {
+    private fun showToastLong(str: String?) {
         Toast.makeText(context, str, Toast.LENGTH_LONG).show()
+    }
+    private fun submitStringBuilder(): StringBuilder? {
+        val dateString = dischargeViewModel.dischargeDate.value
+        val timeString = dischargeViewModel.dischargeTime.value
+        val typeString = dischargeViewModel.dischargeType.value
+        val durationString = dischargeViewModel.dischargeDurationTime.value
+        val leakageString = dischargeViewModel.leakageYN.value
+        val colorString = dischargeViewModel.dischargeColor.value
+        val consistString = dischargeViewModel.dischargeConsist.value
+
+        return StringBuilder()
+            .append("$dateString - $timeString")
+            .append(",")
+            .append(typeString)
+            .append(",")
+            .append(durationString)
+            .append(",")
+            .append(leakageString)
+            .append(",")
+            .append(colorString)
+            .append(",")
+            .append(consistString)
     }
     private fun showNumberOneUi(binding: FragmentDischargeBinding) {
         binding.apply {
