@@ -57,6 +57,7 @@ class DischargeFragment : Fragment() {
                 if (number != 2) {
                     showNumberOneUi(binding)
                     dischargeViewModel.onSetDischargeColor(dischargeViewModel.dischargeColorButton.value)
+                    dischargeViewModel.onSetDischargeConsist("N/A")
                 } else {
                     showNumberTwoUi(binding)
                     dischargeViewModel.onSetDischargeColor(dischargeViewModel.dischargeColorButton.value)
@@ -74,26 +75,6 @@ class DischargeFragment : Fragment() {
                 else -> { true }
             }
         }
-
-        //Consistency Button, set to N/A if dischargeType != 2
-        binding.consistButtonGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
-            if (dischargeViewModel.dischargeType.value == 2) {
-                if (isChecked) {
-                    when (checkedId) {
-                        R.id.consist1Button -> dischargeViewModel.onSetDischargeConsist("Severe Constipation")
-                        R.id.consist2Button -> dischargeViewModel.onSetDischargeConsist("Mild Constipation")
-//                        R.id.consist3Button -> dischargeViewModel.onSetDischargeConsist("Normal, Dehydrated")
-                        R.id.consist4Button -> dischargeViewModel.onSetDischargeConsist("Normal")
-                        R.id.consist5Button -> dischargeViewModel.onSetDischargeConsist("Lacking Fiber")
-                        R.id.consist6Button -> dischargeViewModel.onSetDischargeConsist("Diarrhea")
-                    }
-                    showToast(dischargeViewModel.dischargeConsist.value)
-                }
-            } else {
-                dischargeViewModel.onSetDischargeConsist("N/A")
-            }
-        }
-
         //Submit Button
         dischargeViewModel.navigateToDiary.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             if (it == true) {

@@ -297,6 +297,7 @@
                         style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="@dimen/consist_button_size"
                         android:layout_height="@dimen/consist_button_size"
+                        android:onClick="@{() -> dischargeViewModel.onSetDischargeConsist(@string/consist_one)}"
                         app:icon="@drawable/ic_stool_consistency_01"
                         app:iconGravity="textTop"
                         app:iconSize="@dimen/consist_button_size"
@@ -308,7 +309,19 @@
                         style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="@dimen/consist_button_size"
                         android:layout_height="@dimen/consist_button_size"
+                        android:onClick="@{() -> dischargeViewModel.onSetDischargeConsist(@string/consist_two)}"
                         app:icon="@drawable/ic_stool_consistency_02"
+                        app:iconGravity="textTop"
+                        app:iconSize="@dimen/consist_button_size"
+                        app:iconTint="@null" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/consist3Button"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="@dimen/consist_button_size"
+                        android:layout_height="@dimen/consist_button_size"
+                        android:onClick="@{() -> dischargeViewModel.onSetDischargeConsist(@string/consist_three)}"
+                        app:icon="@drawable/ic_stool_consistency_04"
                         app:iconGravity="textTop"
                         app:iconSize="@dimen/consist_button_size"
                         app:iconTint="@null" />
@@ -318,7 +331,8 @@
                         style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="@dimen/consist_button_size"
                         android:layout_height="@dimen/consist_button_size"
-                        app:icon="@drawable/ic_stool_consistency_04"
+                        android:onClick="@{() -> dischargeViewModel.onSetDischargeConsist(@string/consist_four)}"
+                        app:icon="@drawable/ic_stool_consistency_05"
                         app:iconGravity="textTop"
                         app:iconSize="@dimen/consist_button_size"
                         app:iconTint="@null" />
@@ -328,16 +342,7 @@
                         style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="@dimen/consist_button_size"
                         android:layout_height="@dimen/consist_button_size"
-                        app:icon="@drawable/ic_stool_consistency_05"
-                        app:iconGravity="textTop"
-                        app:iconSize="@dimen/consist_button_size"
-                        app:iconTint="@null" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/consist6Button"
-                        style="?attr/materialButtonOutlinedStyle"
-                        android:layout_width="@dimen/consist_button_size"
-                        android:layout_height="@dimen/consist_button_size"
+                        android:onClick="@{() -> dischargeViewModel.onSetDischargeConsist(@string/consist_five)}"
                         app:icon="@drawable/ic_stool_consistency_06"
                         app:iconGravity="textTop"
                         app:iconSize="@dimen/consist_button_size"

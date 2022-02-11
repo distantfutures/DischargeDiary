@@ -19,4 +19,10 @@
     <string name="color_four">color4</string>
     <string name="color_five">color5</string>
     <string name="submit">Submit</string>
+    <string name="consist_one">Severe Constipation</string>
+    <string name="consist_two">Mild Constipation</string>
+    <string name="consist_three">Normal</string>
+    <string name="consist_four">Lacking Fiber</string>
+    <string name="consist_five">Diarrhea</string>
+
 </resources>
