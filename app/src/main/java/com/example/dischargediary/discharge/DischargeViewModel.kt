@@ -124,8 +124,9 @@ class DischargeViewModel(
     fun onSetDischargeColor(colorNumber: Int?) {
         _dischargeColorButton.value = colorNumber
         _dischargeColor.value = colorConverter(dischargeType.value!!, colorNumber)
+        Log.i("CheckDischargeViewModel", "checkDischargeColor ${_dischargeColor.value}")
     }
-    private fun colorConverter(group: Int, colorNumber: Int?): String? {
+    fun colorConverter(group: Int, colorNumber: Int?): String? {
         val colorName : String?
         if (group != 2) {
             colorName = when (colorNumber) {
@@ -182,7 +183,7 @@ class DischargeViewModel(
         val currentTime = Calendar.getInstance()
         startHour = currentTime.get(Calendar.HOUR_OF_DAY)
         startMinute = currentTime.get(Calendar.MINUTE)
-        currentTime.set(startHour, startMinute)
+        currentTime.set(0, 0, 0, startHour, startMinute)
         val formatterTime = SimpleDateFormat("h:mm a", Locale.getDefault())
         _dischargeTime.value = formatterTime.format(currentTime.time)
         Log.i("CheckViewModel", "$startHour $startMinute")
