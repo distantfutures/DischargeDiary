@@ -19,6 +19,9 @@ data class DischargeData(
     @ColumnInfo(name = "discharge_time")
     var dischargeTime: String = "",
 
+    @ColumnInfo(name = "discharge_milli")
+    var dischargeMilli: Long = 0L,
+
     @ColumnInfo(name = "discharge_duration")
     var dischargeDuration: String = "",
 
