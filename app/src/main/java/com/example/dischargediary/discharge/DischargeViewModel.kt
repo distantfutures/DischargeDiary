@@ -98,8 +98,8 @@ class DischargeViewModel(
                     val newEntry = setDischargeData()
                     insertNewEntry(newEntry)
                     // Checks entry
-                    val checkEntry = database.getRecentDischarge()
-                    Log.d("CheckDischargeViewModel", "Submit $checkEntry")
+//                    val checkEntry = database.getRecentDischarge()
+//                    Log.d("CheckDischargeViewModel", "Submit $checkEntry")
                 }
                 _navigateToDiary.value = true
             } else {
