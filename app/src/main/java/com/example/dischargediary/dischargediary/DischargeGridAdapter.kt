@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.dischargediary.data.DischargeData
 import com.example.dischargediary.databinding.DischargeGridViewBinding
 
-class DischargeGridAdapter() : ListAdapter<DischargeData, DischargeGridAdapter.DischargeViewHolder>(DiffCallback) {
+class DischargeGridAdapter : ListAdapter<DischargeData, DischargeGridAdapter.DischargeViewHolder>(DiffCallback) {
     class DischargeViewHolder(private var binding: DischargeGridViewBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind (data: DischargeData) {
             binding.dischargeData = data
@@ -18,7 +18,7 @@ class DischargeGridAdapter() : ListAdapter<DischargeData, DischargeGridAdapter.D
 
     companion object DiffCallback : DiffUtil.ItemCallback<DischargeData>() {
         override fun areItemsTheSame(oldItem: DischargeData, newItem: DischargeData): Boolean {
-            return oldItem.entryId == newItem.entryId
+            return oldItem.dischargeMilli == newItem.dischargeMilli
         }
 
         override fun areContentsTheSame(oldItem: DischargeData, newItem: DischargeData): Boolean {
@@ -36,6 +36,6 @@ class DischargeGridAdapter() : ListAdapter<DischargeData, DischargeGridAdapter.D
     }
 }
 
-class DischargeEntryListener(val clickListener: (entryId: Int) -> Unit){
-    fun onClick(entry: DischargeData) = clickListener(entry.entryId)
+class DischargeEntryListener(val clickListener: (disMilli: Long) -> Unit){
+    fun onClick(entry: DischargeData) = clickListener(entry.dischargeMilli)
 }

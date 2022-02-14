@@ -37,9 +37,9 @@ class DischargeDiaryViewModel(
         _dischargeTypeArg.value = disType
     }
 
-    private suspend fun deleteEntryNumber(entryId: Int) {
+    private suspend fun deleteEntryNumber(disMilliId: Long) {
         withContext(Dispatchers.IO) {
-            database.deleteEntryNumber(entryId)
+            database.deleteEntryNumber(disMilliId)
         }
     }
 
@@ -49,8 +49,7 @@ class DischargeDiaryViewModel(
         // Create a formatter along with the desired output pattern
         val formatter = SimpleDateFormat("EEEE,  MMMM dd, yyyy @ hh:mm a", Locale.getDefault())
         // Put the time (in millis) in our formatter
-        val result = formatter.format(now)
-        return result
+        return formatter.format(now)
     }
 
     fun doneNavigating() {
