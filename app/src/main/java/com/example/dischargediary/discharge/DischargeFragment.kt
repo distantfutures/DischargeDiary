@@ -86,7 +86,6 @@ class DischargeFragment : Fragment() {
         })
         return binding.root
     }
-
     private fun showToast(str: String?) {
         Toast.makeText(context, str, Toast.LENGTH_SHORT).show()
     }
