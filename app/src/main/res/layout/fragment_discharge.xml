@@ -43,10 +43,11 @@
                     android:hint="@{@string/new_date_time(dischargeViewModel.dischargeDate, dischargeViewModel.dischargeTime)}"
                     android:inputType="datetime"
                     android:padding="10dp"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
                     android:text="@{@string/new_date_time(dischargeViewModel.dischargeDate, dischargeViewModel.dischargeTime)}"
                     android:textAlignment="center"
                     android:textSize="24sp"
-                    app:cornerRadius="@dimen/input_corner_radius"
                     android:focusable="true" />
             </LinearLayout>
 
@@ -146,7 +147,8 @@
                         android:imeOptions="actionDone"
                         android:inputType="time"
                         android:padding="10dp"
-                        android:textSize="30sp" />
+                        android:textSize="30sp"
+                        android:maxLength="4"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>

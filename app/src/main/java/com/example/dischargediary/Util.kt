@@ -12,8 +12,6 @@ fun formatDischarges(discharges: DischargeData, resources: Resources): Spanned? 
     val sb = StringBuilder()
     sb.apply {
         discharges.let {
-//            append("<br><b>${resources.getString(R.string.entry_id)}</b> ")
-//            append("${it.entryId}")
             append("<br><b>${resources.getString(R.string.date)}</b> ")
             append(it.dischargeDate)
             append("<br><b>${resources.getString(R.string.time)}</b> ")

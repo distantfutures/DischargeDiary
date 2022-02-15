@@ -6,23 +6,33 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dischargediary.data.DischargeData
 import com.example.dischargediary.dischargediary.DischargeGridAdapter
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+
+private val adapterScope = CoroutineScope(Dispatchers.Default)
 
 @BindingAdapter("listData")
 fun bindRecyclerView(recycler: RecyclerView, data: List<DischargeData>?) {
-    val adapter = recycler.adapter as DischargeGridAdapter
-    adapter.submitList(data)
+    adapterScope.launch {
+        val adapter = recycler.adapter as DischargeGridAdapter
+        withContext(Dispatchers.Main) {
+            adapter.submitList(data)
+        }
+    }
 }
 @BindingAdapter("listDataFormatted")
-fun TextView.setDataText(entry: DischargeData?) {
-    entry?.let {
-        text = formatDischarges(entry, context.resources)
+fun TextView.setDataText(disMilliId: DischargeData?) {
+    disMilliId?.let {
+        text = formatDischarges(disMilliId, context.resources)
     }
 }
 
 @BindingAdapter("dischargeGraphic")
-fun ImageView.setDischargeGraphic(entry: DischargeData?) {
-    entry?.let {
-        setBackgroundResource(when (entry.dischargeColor) {
+fun ImageView.setDischargeGraphic(disMilliId: DischargeData?) {
+    disMilliId?.let {
+        setBackgroundResource(when (disMilliId.dischargeColor) {
             // urine
             R.string.urine_color_one.toString() -> R.color.urine_color_one
             R.string.urine_color_two.toString() -> R.color.urine_color_two
@@ -37,7 +47,7 @@ fun ImageView.setDischargeGraphic(entry: DischargeData?) {
             R.string.stool_color_five.toString() -> R.color.stool_color_five
             else -> R.color.white
         })
-        setImageResource(when (entry.dischargeConsistency) {
+        setImageResource(when (disMilliId.dischargeConsistency) {
             R.string.consist_one.toString() -> R.drawable.ic_stool_consistency_01
             R.string.consist_two.toString() -> R.drawable.ic_stool_consistency_02
             R.string.consist_three.toString() -> R.drawable.ic_stool_consistency_04
@@ -47,26 +57,3 @@ fun ImageView.setDischargeGraphic(entry: DischargeData?) {
         })
     }
 }
-//entry?.let {
-//    setBackgroundResource(when (entry.dischargeColor) {
-//        "Clear" -> R.color.clear_urine
-//        "Light Yellow" -> R.color.light_yellow_urine
-//        "Yellow" -> R.color.yellow_urine
-//        "Dark Yellow" -> R.color.dark_yellow_urine
-//        "Red" -> R.color.red_urine
-//        "Light Grey" -> R.color.light_grey
-//        "Brown" -> R.color.brown_stool
-//        "Dark Brown/Black" -> R.color.dark_brown_black_stool
-//        "Green" -> R.color.green_stool
-//        "Red Stool" -> R.color.red_stool
-//        else -> R.color.clear_urine
-//    })
-//    setImageResource(when (entry.dischargeConsistency) {
-//        "Severe Constipation" -> R.drawable.ic_stool_consistency_01
-//        "Mild Constipation" -> R.drawable.ic_stool_consistency_02
-//        "Normal" -> R.drawable.ic_stool_consistency_04
-//        "Lacking Fiber" -> R.drawable.ic_stool_consistency_05
-//        "Diarrhea" -> R.drawable.ic_stool_consistency_06
-//        else -> R.drawable.ic_urinate_icon
-//    })
-//}

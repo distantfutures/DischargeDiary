@@ -1,6 +1,8 @@
 package com.example.dischargediary.discharge
 
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,8 +11,12 @@ import com.example.dischargediary.data.DischargeData
 import com.example.dischargediary.data.DischargeDatabaseDao
 import kotlinx.coroutines.*
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
 import java.util.*
 
+@RequiresApi(Build.VERSION_CODES.O)
 class DischargeViewModel(
     disType: Int = 0,
     private val database: DischargeDatabaseDao
@@ -38,6 +44,10 @@ class DischargeViewModel(
     private val _dischargeTime = MutableLiveData<String?>()
     val dischargeTime: LiveData<String?>
         get() = _dischargeTime
+
+    private val _dischargeMilli = MutableLiveData<Long?>()
+    val dischargeMilli: LiveData<Long?>
+        get() = _dischargeMilli
 
     private val _dischargeType = MutableLiveData<Int?>()
     val dischargeType: LiveData<Int?>
@@ -70,8 +80,7 @@ class DischargeViewModel(
     init {
         Log.d("CheckDischargeViewModel", "entryID Test $disType")
         _dischargeType.value = disType
-        getCurrentDate()
-        getCurrentTime()
+        getCurrentDateTime()
         _dischargeConsist.value = "N/A"
     }
     fun unfilled(): Boolean {
@@ -88,9 +97,6 @@ class DischargeViewModel(
                 withContext(Dispatchers.IO) {
                     val newEntry = setDischargeData()
                     insertNewEntry(newEntry)
-                    // Checks entry
-                    val checkEntry = database.getRecentDischarge()
-                    Log.d("CheckDischargeViewModel", "Submit $checkEntry")
                 }
                 _navigateToDiary.value = true
             } else {
@@ -103,6 +109,7 @@ class DischargeViewModel(
         newEntry.dischargeType = dischargeType.value!!
         newEntry.dischargeDate = dischargeDate.value!!
         newEntry.dischargeTime = dischargeTime.value!!
+        newEntry.dischargeMilli = dischargeMilli.value!!
         newEntry.dischargeDuration = dischargeDurationTime.value!!
         newEntry.leakage = leakageYN.value!!
         newEntry.dischargeColor = dischargeColor.value!!
@@ -124,8 +131,9 @@ class DischargeViewModel(
     fun onSetDischargeColor(colorNumber: Int?) {
         _dischargeColorButton.value = colorNumber
         _dischargeColor.value = colorConverter(dischargeType.value!!, colorNumber)
+        Log.i("CheckDischargeViewModel", "checkDischargeColor ${_dischargeColor.value}")
     }
-    private fun colorConverter(group: Int, colorNumber: Int?): String? {
+    fun colorConverter(group: Int, colorNumber: Int?): String? {
         val colorName : String?
         if (group != 2) {
             colorName = when (colorNumber) {
@@ -168,25 +176,23 @@ class DischargeViewModel(
     fun doneNavigating() {
         _navigateToDiary.value = null
     }
-    private fun getCurrentDate() {
-        val currentDate = Calendar.getInstance()
-        startYear = currentDate.get(Calendar.YEAR)
-        startMonth = currentDate.get(Calendar.MONTH)
-        startDay = currentDate.get(Calendar.DAY_OF_MONTH)
-        currentDate.set(startYear, startMonth, startDay)
+    private fun getCurrentDateTime() {
+        val currentDateTime = Calendar.getInstance()
+        startYear = currentDateTime.get(Calendar.YEAR)
+        startMonth = currentDateTime.get(Calendar.MONTH)
+        startDay = currentDateTime.get(Calendar.DAY_OF_MONTH)
+        startHour = currentDateTime.get(Calendar.HOUR_OF_DAY)
+        startMinute = currentDateTime.get(Calendar.MINUTE)
+        currentDateTime.set(startYear, startMonth, startDay, startHour, startMinute)
         val formatterDate = SimpleDateFormat("MM.dd.yyyy, EEE", Locale.getDefault())
-        _dischargeDate.value = formatterDate.format(currentDate.time)
+        val formatterTime = SimpleDateFormat("h:mm a", Locale.getDefault())
+        _dischargeDate.value = formatterDate.format(currentDateTime.time)
+        _dischargeTime.value = formatterTime.format(currentDateTime.time)
+        milliDateTimeFormatter(currentDateTime)
         Log.i("CheckViewModel", "$startYear $startMonth $startDay")
     }
-    private fun getCurrentTime() {
-        val currentTime = Calendar.getInstance()
-        startHour = currentTime.get(Calendar.HOUR_OF_DAY)
-        startMinute = currentTime.get(Calendar.MINUTE)
-        currentTime.set(startHour, startMinute)
-        val formatterTime = SimpleDateFormat("h:mm a", Locale.getDefault())
-        _dischargeTime.value = formatterTime.format(currentTime.time)
-        Log.i("CheckViewModel", "$startHour $startMinute")
-    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
     fun pickADateTime(year: Int, month: Int, day: Int, hour: Int, minute: Int) {
         val pickDateTime = Calendar.getInstance()
         pickYear = year
@@ -199,22 +205,19 @@ class DischargeViewModel(
         val formatterTime = SimpleDateFormat("h:mm a", Locale.getDefault())
         _dischargeDate.value = formatterDate.format(pickDateTime.time).toString()
         _dischargeTime.value = formatterTime.format(pickDateTime.time).toString()
+        milliDateTimeFormatter(pickDateTime)
+        Log.i("CheckViewModel", "calendarTime $pickDateTime Milli ${_dischargeMilli.value.toString()}")
     }
-//    fun pickADate(year: Int, month: Int, day: Int) {
-//        val pickDate = Calendar.getInstance()
-//        pickYear = year
-//        pickMonth = month
-//        pickDay = day
-//        pickDate.set(pickYear, pickMonth, pickDay)
-//        val formatterDate = SimpleDateFormat("MM.dd.yyyy, EEE", Locale.getDefault())
-//        _dischargeDate.value = formatterDate.format(pickDate.time).toString()
-//    }
-//    fun pickATime(hour: Int, minute: Int) {
-//        val pickTime = Calendar.getInstance()
-//        pickHour = hour
-//        pickMinute = minute
-//        pickTime.set(0, 0, 0, pickHour, pickMinute)
-//        val formatterTime = SimpleDateFormat("h:mm a", Locale.getDefault())
-//        _dischargeTime.value = formatterTime.format(pickTime.time).toString()
-//    }
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun milliDateTimeFormatter(dateTime:Calendar){
+        val simpleFormatter = SimpleDateFormat(
+            "EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH)
+        val formatter = DateTimeFormatter.ofPattern(
+            "EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH)
+        val simpleFormat = simpleFormatter.format(dateTime.time).toString()
+        Log.i("CheckViewModel", "simpleFormat $simpleFormat")
+        val localDate: LocalDateTime = LocalDateTime.parse(simpleFormat, formatter)
+        val timeMilli: Long = localDate.atOffset(ZoneOffset.UTC).toInstant().toEpochMilli()
+        _dischargeMilli.value = timeMilli
+    }
 }

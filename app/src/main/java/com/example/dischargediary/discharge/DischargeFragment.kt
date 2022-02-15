@@ -24,7 +24,6 @@ import java.util.*
 class DischargeFragment : Fragment() {
 
     private lateinit var dischargeViewModel: DischargeViewModel
-    //private lateinit var viewModelFactory: DischargeViewModelFactory
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
@@ -79,9 +78,7 @@ class DischargeFragment : Fragment() {
             if (it == true) {
                 this.findNavController().navigate(DischargeFragmentDirections.actionDischargeFragmentToDischargeDiaryFragment())
                 dischargeViewModel.doneNavigating()
-                //Toast
-                val dischargeAllInfo = toastSubmitStringBuilder()
-                showToastLong(dischargeAllInfo.toString())
+                showToastLong("Entry Recorded")
             }
             if (it == false){
                 showToastLong("Entry Incomplete")
@@ -89,34 +86,11 @@ class DischargeFragment : Fragment() {
         })
         return binding.root
     }
-
     private fun showToast(str: String?) {
         Toast.makeText(context, str, Toast.LENGTH_SHORT).show()
     }
     private fun showToastLong(str: String?) {
         Toast.makeText(context, str, Toast.LENGTH_LONG).show()
-    }
-    private fun toastSubmitStringBuilder(): StringBuilder? {
-        val dateString = dischargeViewModel.dischargeDate.value
-        val timeString = dischargeViewModel.dischargeTime.value
-        val typeString = dischargeViewModel.dischargeType.value
-        val durationString = dischargeViewModel.dischargeDurationTime.value
-        val leakageString = dischargeViewModel.leakageYN.value
-        val colorString = dischargeViewModel.dischargeColor.value
-        val consistString = dischargeViewModel.dischargeConsist.value
-
-        return StringBuilder()
-            .append("$dateString - $timeString")
-            .append(",")
-            .append(typeString)
-            .append(",")
-            .append(durationString)
-            .append(",")
-            .append(leakageString)
-            .append(",")
-            .append(colorString)
-            .append(",")
-            .append(consistString)
     }
     private fun showNumberOneUi(binding: FragmentDischargeBinding) {
         binding.apply {
@@ -145,8 +119,6 @@ class DischargeFragment : Fragment() {
         DatePickerDialog(requireActivity(), { _, year, month, day ->
             TimePickerDialog(requireActivity(), { _, hour, minute ->
                 dischargeViewModel.pickADateTime(year, month, day, hour, minute)
-//                dischargeViewModel.pickADate(year, month, day)
-//                dischargeViewModel.pickATime(hour, minute)
                 showToast(dischargeViewModel.dischargeDate.value)
                 showToast(dischargeViewModel.dischargeTime.value)
             }, dischargeViewModel.startHour, dischargeViewModel.startMinute, false).show()
