@@ -191,17 +191,7 @@ class DischargeViewModel(
         milliDateTimeFormatter(currentDateTime)
         Log.i("CheckViewModel", "$startYear $startMonth $startDay")
     }
-//    @RequiresApi(Build.VERSION_CODES.O)
-//    private fun getCurrentTime() {
-//        val currentTime = Calendar.getInstance()
-//        startHour = currentTime.get(Calendar.HOUR_OF_DAY)
-//        startMinute = currentTime.get(Calendar.MINUTE)
-//        currentTime.set(0, 0, 0, startHour, startMinute)
-//        val formatterTime = SimpleDateFormat("h:mm a", Locale.getDefault())
-//        _dischargeTime.value = formatterTime.format(currentTime.time)
-//        milliDateTimeFormatter(currentTime)
-//        Log.i("CheckViewModel", "$startHour $startMinute ${_dischargeMilli.value.toString()}")
-//    }
+
     @RequiresApi(Build.VERSION_CODES.O)
     fun pickADateTime(year: Int, month: Int, day: Int, hour: Int, minute: Int) {
         val pickDateTime = Calendar.getInstance()

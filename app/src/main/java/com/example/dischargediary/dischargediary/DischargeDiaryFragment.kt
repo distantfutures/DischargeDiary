@@ -38,7 +38,9 @@ class DischargeDiaryFragment : Fragment() {
 
         binding.dischargeDiaryViewModel = diaryViewModel
 
-        val adapter = DischargeGridAdapter()
+        val adapter = DischargeGridAdapter(DischargeEntryListener { disMilli ->
+            diaryViewModel.deleteEntryNumber(disMilli)
+        })
 
         binding.dischargeList.adapter = adapter
 
@@ -53,18 +55,4 @@ class DischargeDiaryFragment : Fragment() {
         })
         return binding.root
     }
-
-//    fun openFormattedDataDialog(view: View, dischargeEntries: DischargeDiaryViewModel) {
-//        MaterialAlertDialogBuilder(requireActivity())
-//            .setTitle("Test")
-//            .setMessage("${dischargeEntries.dischargeEntriesString}")
-//            .setNegativeButton("Exit", object : DialogInterface.OnClickListener {
-//                override fun onClick(dialog: DialogInterface?, which: Int) {
-//                    showSnackBar(view, "Exited")
-//                }
-//            }).show()
-//    }
-//    fun showSnackBar(view: View, msg: String) {
-//        Snackbar.make(view, msg, Snackbar.LENGTH_LONG).show()
-//    }
 }

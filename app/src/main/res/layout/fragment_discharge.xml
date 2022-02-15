@@ -46,7 +46,6 @@
                     android:text="@{@string/new_date_time(dischargeViewModel.dischargeDate, dischargeViewModel.dischargeTime)}"
                     android:textAlignment="center"
                     android:textSize="24sp"
-                    app:cornerRadius="@dimen/input_corner_radius"
                     android:focusable="true" />
             </LinearLayout>
 

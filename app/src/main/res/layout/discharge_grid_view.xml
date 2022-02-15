@@ -18,8 +18,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingBottom="12dp"
-        android:onClick="@{() -> clickListener.onClick(dischargeData)}">
+        android:paddingBottom="12dp">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/discharge_image"
@@ -32,11 +31,25 @@
             app:shapeAppearanceOverlay="@style/rounded_image_view"
             tools:src="@tools:sample/avatars" />
 
+        <ImageButton
+            android:id="@+id/delete_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_small"
+            android:background="@drawable/rounded_box_no_outline"
+            android:contentDescription="@string/delete_button"
+            android:onClick="@{() -> clickListener.onClick(dischargeData)}"
+            app:layout_constraintBottom_toBottomOf="@id/discharge_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_delete" />
+
         <TextView
             android:id="@+id/info_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="placeholder testing to see"
+            android:hint="Text Placeholder"
             android:padding="5dp"
             android:textAlignment="textStart"
             android:textSize="@dimen/grid_text_size"

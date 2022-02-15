@@ -1,6 +1,7 @@
 package com.example.dischargediary.dischargediary
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.*
 import com.example.dischargediary.data.DischargeDatabaseDao
 import kotlinx.coroutines.Dispatchers
@@ -37,9 +38,17 @@ class DischargeDiaryViewModel(
         _dischargeTypeArg.value = disType
     }
 
-    private suspend fun deleteEntryNumber(disMilliId: Long) {
+    fun deleteEntryNumber(disMilliId: Long) {
+        viewModelScope.launch {
+            deleteEntry(disMilliId)
+            Log.d("CheckDiaryVM", "Delete Entry! $disMilliId")
+        }
+    }
+
+    private suspend fun deleteEntry(disMilliId: Long) {
         withContext(Dispatchers.IO) {
             database.deleteEntryNumber(disMilliId)
+            Log.d("CheckDiaryVM", "Delete Entry Number! $disMilliId")
         }
     }
 
