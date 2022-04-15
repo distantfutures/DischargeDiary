@@ -45,14 +45,17 @@ class DischargeDiaryFragment : Fragment() {
         binding.dischargeList.adapter = adapter
 
         //Passes the entryId argument through actions to DischargeEntry
-        diaryViewModel.dischargeTypeArg.observe(viewLifecycleOwner, { newEntry ->
+        diaryViewModel.dischargeTypeArg.observe(viewLifecycleOwner) { newEntry ->
             if (newEntry != 0) {
                 this.findNavController().navigate(
-                    DischargeDiaryFragmentDirections.actionDischargeDiaryFragmentToDischargeFragment(diaryViewModel.dischargeTypeArg.value!!))
+                    DischargeDiaryFragmentDirections.actionDischargeDiaryFragmentToDischargeFragment(
+                        diaryViewModel.dischargeTypeArg.value!!
+                    )
+                )
                 Log.d("CheckDiaryFrag", "Navigate, ${diaryViewModel.dischargeTypeArg.value!!}")
                 diaryViewModel.doneNavigating()
             }
-        })
+        }
         return binding.root
     }
 }

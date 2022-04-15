@@ -3,6 +3,7 @@ package com.example.dischargediary.dischargediary
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
+import com.example.dischargediary.data.DischargeData
 import com.example.dischargediary.data.DischargeDatabaseDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -15,7 +16,7 @@ class DischargeDiaryViewModel(
     application: Application
 ) : AndroidViewModel(application) {
 
-    val getAllDischarges = database.getAllDischarges()
+    val getAllDischarges: LiveData<List<DischargeData>> = database.getAllDischarges().asLiveData()
 
     private val _dischargeDateTime = MutableLiveData<String?>()
     val dischargeDateTime: LiveData<String?>

@@ -120,6 +120,8 @@ class DischargeViewModel(
     private suspend fun insertNewEntry(newEntry: DischargeData) {
         withContext(Dispatchers.IO) {
             database.addNew(newEntry)
+            val check = newEntry
+            Log.i("CheckDischargeViewModel", "Room: $check")
         }
     }
     fun onSetDischargeType(dischargeOneTwo: Int) {

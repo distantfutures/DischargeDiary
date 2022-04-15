@@ -39,6 +39,7 @@
             android:background="@drawable/rounded_box_no_outline"
             android:contentDescription="@string/delete_button"
             android:onClick="@{() -> clickListener.onClick(dischargeData)}"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/discharge_image"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
