@@ -55,7 +55,7 @@ class DischargeGridAdapter(private val clickListener: DischargeEntryListener) : 
         holder.bind(item, clickListener)
         holder.itemView.setOnClickListener(View.OnClickListener {
             currentSelectedPosition = position
-            notifyItemChanged(currentSelectedPosition)
+            notifyDataSetChanged()
             Log.i("CheckAdapter", "${item.dischargeTime} clicked! Position: $position")
         })
         if (currentSelectedPosition == position) {
