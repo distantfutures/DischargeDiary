@@ -10,6 +10,15 @@ import kotlinx.coroutines.withContext
 class DischargesRepository(private val database: DischargeDatabase) {
     val allDischarges: LiveData<List<DischargeData>> = database.dischargeDatabaseDao.getAllDischarges()
 
+    // Takes new initialized entry & adds to database
+    suspend fun insertNewEntry(newEntry: DischargeData) {
+        withContext(Dispatchers.IO) {
+            database.dischargeDatabaseDao.addNew(newEntry)
+            val check = newEntry
+            Log.i("CheckDischargeViewModel", "Room: $check")
+        }
+    }
+
     suspend fun deleteEntryNumber(disMilliId:Long) {
         withContext(Dispatchers.IO) {
             database.dischargeDatabaseDao.deleteEntryNumber(disMilliId)

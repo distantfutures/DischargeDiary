@@ -13,7 +13,7 @@ class DischargeDiaryViewModel(
     application: Application
 ) : AndroidViewModel(application) {
 
-    val dischargesRepository = DischargesRepository(DischargeDatabase.getInstance(application))
+    private val dischargesRepository = DischargesRepository(DischargeDatabase.getInstance(application))
     val dischargeDiary = dischargesRepository.allDischarges
 
     private val _dischargeDateTime = MutableLiveData<String?>()

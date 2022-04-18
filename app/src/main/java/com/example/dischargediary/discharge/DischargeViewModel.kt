@@ -1,14 +1,16 @@
 package com.example.dischargediary.discharge
 
+import android.app.Application
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.example.dischargediary.R
 import com.example.dischargediary.data.DischargeData
-import com.example.dischargediary.data.DischargeDatabaseDao
+import com.example.dischargediary.data.DischargeDatabase
+import com.example.dischargediary.repository.DischargesRepository
 import kotlinx.coroutines.*
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
@@ -19,9 +21,10 @@ import java.util.*
 @RequiresApi(Build.VERSION_CODES.O)
 class DischargeViewModel(
     disType: Int = 0,
-    private val database: DischargeDatabaseDao
-) : ViewModel() {
+    application: Application
+) : AndroidViewModel(application) {
 
+    private val dischargesRepository = DischargesRepository(DischargeDatabase.getInstance(application))
     private val viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
@@ -96,7 +99,7 @@ class DischargeViewModel(
             if (entryFilled) {
                 withContext(Dispatchers.IO) {
                     val newEntry = setDischargeData()
-                    insertNewEntry(newEntry)
+                    dischargesRepository.insertNewEntry(newEntry)
                 }
                 _navigateToDiary.value = true
             } else {
@@ -115,14 +118,6 @@ class DischargeViewModel(
         newEntry.dischargeColor = dischargeColor.value!!
         newEntry.dischargeConsistency = dischargeConsist.value!!
         return newEntry
-    }
-    // Takes new initialized entry & adds to database
-    private suspend fun insertNewEntry(newEntry: DischargeData) {
-        withContext(Dispatchers.IO) {
-            database.addNew(newEntry)
-            val check = newEntry
-            Log.i("CheckDischargeViewModel", "Room: $check")
-        }
     }
     fun onSetDischargeType(dischargeOneTwo: Int) {
         _dischargeType.value = dischargeOneTwo
