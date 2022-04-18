@@ -36,25 +36,3 @@ abstract class DischargeDatabase : RoomDatabase() {
         }
     }
 }
-//    abstract fun dischargeDatabaseDao(): DischargeDatabaseDao
-//
-//    companion object {
-//
-//        @Volatile
-//        private var INSTANCE: DischargeDatabase? = null
-//
-//        fun getInstance(context: Context): DischargeDatabase {
-//            val tempInstance = INSTANCE
-//            if (tempInstance != null) {
-//                return tempInstance
-//            }
-//            synchronized(this) {
-//                val instance = Room.databaseBuilder(
-//                    context.applicationContext,
-//                    DischargeDatabase::class.java,
-//                    "discharge_history_database"
-//                ).build()
-//                INSTANCE = instance
-//                return instance
-//            }
-//        }

@@ -15,7 +15,7 @@ interface DischargeDatabaseDao {
     @Query("SELECT * from discharge_diary_table WHERE dischargeMilli = :key")
         fun get(key: Long): DischargeData?
     @Query("DELETE FROM discharge_diary_table")
-        fun clear()
+        fun clearAll()
     @Query("DELETE FROM discharge_diary_table WHERE dischargeMilli = :key")
         fun deleteEntryNumber(key: Long)
     @Query("SELECT * FROM discharge_diary_table ORDER BY dischargeMilli DESC")

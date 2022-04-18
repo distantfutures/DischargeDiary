@@ -27,7 +27,7 @@ class DischargesRepository(private val database: DischargeDatabase) {
     }
     suspend fun clearDiary() {
         withContext(Dispatchers.IO) {
-            database.dischargeDatabaseDao.clear()
+            database.dischargeDatabaseDao.clearAll()
         }
     }
 }

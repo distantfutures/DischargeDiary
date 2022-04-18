@@ -26,11 +26,6 @@ fun formatDischarges(discharges: DischargeData, resources: Resources): Spanned? 
             } else {
                 append(resources.getString(R.string.no))
             }
-//            append("<br><b>${resources.getString(R.string.color)}</b> ")
-//            append(it.dischargeColor)
-//            append("<br><b>${resources.getString(R.string.consistency)}</b> ")
-//            append(it.dischargeConsistency)
-//            append("<br>")
         }
     }
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

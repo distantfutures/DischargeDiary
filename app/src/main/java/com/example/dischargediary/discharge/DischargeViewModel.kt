@@ -7,11 +7,12 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.dischargediary.R
 import com.example.dischargediary.data.DischargeData
 import com.example.dischargediary.data.DischargeDatabase
 import com.example.dischargediary.repository.DischargesRepository
-import kotlinx.coroutines.*
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.ZoneOffset
@@ -24,9 +25,8 @@ class DischargeViewModel(
     application: Application
 ) : AndroidViewModel(application) {
 
-    private val dischargesRepository = DischargesRepository(DischargeDatabase.getInstance(application))
-    private val viewModelJob = Job()
-    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+    private val dischargesRepository =
+        DischargesRepository(DischargeDatabase.getInstance(application))
 
     var startYear = 0
     var startMonth = 0
@@ -86,27 +86,15 @@ class DischargeViewModel(
         getCurrentDateTime()
         _dischargeConsist.value = "N/A"
     }
-    fun unfilled(): Boolean {
+
+    private fun unfilled(): Boolean {
         return if (dischargeType.value == 1) {
             !(dischargeType.value == 0 || dischargeDurationTime.value == null || leakageYN.value == null || dischargeColor.value == null)
         } else {
-            !(dischargeDurationTime.value == null ||  leakageYN.value == null || dischargeColor.value == null || dischargeConsist.value == "N/A")
+            !(dischargeDurationTime.value == null || leakageYN.value == null || dischargeColor.value == null || dischargeConsist.value == "N/A")
         }
     }
-    fun onSubmitInfo() {
-        uiScope.launch {
-            val entryFilled = unfilled()
-            if (entryFilled) {
-                withContext(Dispatchers.IO) {
-                    val newEntry = setDischargeData()
-                    dischargesRepository.insertNewEntry(newEntry)
-                }
-                _navigateToDiary.value = true
-            } else {
-                _navigateToDiary.value = false
-            }
-        }
-    }
+
     private fun setDischargeData(): DischargeData {
         val newEntry = DischargeData()
         newEntry.dischargeType = dischargeType.value!!
@@ -119,40 +107,34 @@ class DischargeViewModel(
         newEntry.dischargeConsistency = dischargeConsist.value!!
         return newEntry
     }
+
+    fun onSubmitInfo() {
+        viewModelScope.launch {
+            val entryFilled = unfilled()
+            if (entryFilled) {
+                val newEntry = setDischargeData()
+                dischargesRepository.insertNewEntry(newEntry)
+                _navigateToDiary.value = true
+            } else {
+                _navigateToDiary.value = false
+            }
+        }
+    }
+
     fun onSetDischargeType(dischargeOneTwo: Int) {
         _dischargeType.value = dischargeOneTwo
     }
+
     fun onSetLeakageYN(leakYN: Boolean) {
         _leakageYN.value = leakYN
     }
+
     fun onSetDischargeColor(colorNumber: Int?) {
         _dischargeColorButton.value = colorNumber
         _dischargeColor.value = colorConverter(dischargeType.value!!, colorNumber)
         Log.i("CheckDischargeViewModel", "checkDischargeColor ${_dischargeColor.value}")
     }
-    fun colorConverter(group: Int, colorNumber: Int?): String? {
-        val colorName : String?
-        if (group != 2) {
-            colorName = when (colorNumber) {
-                1 -> R.string.urine_color_one.toString()
-                2 -> R.string.urine_color_two.toString()
-                3 -> R.string.urine_color_three.toString()
-                4 -> R.string.urine_color_four.toString()
-                5 -> R.string.urine_color_five.toString()
-                else -> { null }
-            }
-        } else {
-            colorName = when (colorNumber) {
-                1 -> R.string.stool_color_one.toString()
-                2 -> R.string.stool_color_two.toString()
-                3 -> R.string.stool_color_three.toString()
-                4 -> R.string.stool_color_four.toString()
-                5 -> R.string.stool_color_five.toString()
-                else -> { null }
-            }
-        }
-        return colorName
-    }
+
     fun onSetDischargeConsist(consist: Int?) {
         val consistString = when (consist) {
             1 -> R.string.consist_one.toString()
@@ -160,7 +142,9 @@ class DischargeViewModel(
             3 -> R.string.consist_three.toString()
             4 -> R.string.consist_four.toString()
             5 -> R.string.consist_five.toString()
-            else -> { "N/A" }
+            else -> {
+                "N/A"
+            }
         }
         _dischargeConsist.value = consistString
         Log.i("CheckDischargeViewModel", "onSetDischargeConsist $consist")
@@ -170,9 +154,38 @@ class DischargeViewModel(
         _dischargeDurationTime.value = durationTime
     }
 
+    fun colorConverter(group: Int, colorNumber: Int?): String? {
+        val colorName: String?
+        if (group != 2) {
+            colorName = when (colorNumber) {
+                1 -> R.string.urine_color_one.toString()
+                2 -> R.string.urine_color_two.toString()
+                3 -> R.string.urine_color_three.toString()
+                4 -> R.string.urine_color_four.toString()
+                5 -> R.string.urine_color_five.toString()
+                else -> {
+                    null
+                }
+            }
+        } else {
+            colorName = when (colorNumber) {
+                1 -> R.string.stool_color_one.toString()
+                2 -> R.string.stool_color_two.toString()
+                3 -> R.string.stool_color_three.toString()
+                4 -> R.string.stool_color_four.toString()
+                5 -> R.string.stool_color_five.toString()
+                else -> {
+                    null
+                }
+            }
+        }
+        return colorName
+    }
+
     fun doneNavigating() {
         _navigateToDiary.value = null
     }
+
     private fun getCurrentDateTime() {
         val currentDateTime = Calendar.getInstance()
         startYear = currentDateTime.get(Calendar.YEAR)
@@ -203,14 +216,20 @@ class DischargeViewModel(
         _dischargeDate.value = formatterDate.format(pickDateTime.time).toString()
         _dischargeTime.value = formatterTime.format(pickDateTime.time).toString()
         milliDateTimeFormatter(pickDateTime)
-        Log.i("CheckViewModel", "calendarTime $pickDateTime Milli ${_dischargeMilli.value.toString()}")
+        Log.i(
+            "CheckViewModel",
+            "calendarTime $pickDateTime Milli ${_dischargeMilli.value.toString()}"
+        )
     }
+
     @RequiresApi(Build.VERSION_CODES.O)
-    fun milliDateTimeFormatter(dateTime:Calendar){
+    fun milliDateTimeFormatter(dateTime: Calendar) {
         val simpleFormatter = SimpleDateFormat(
-            "EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH)
+            "EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH
+        )
         val formatter = DateTimeFormatter.ofPattern(
-            "EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH)
+            "EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH
+        )
         val simpleFormat = simpleFormatter.format(dateTime.time).toString()
         Log.i("CheckViewModel", "simpleFormat $simpleFormat")
         val localDate: LocalDateTime = LocalDateTime.parse(simpleFormat, formatter)
