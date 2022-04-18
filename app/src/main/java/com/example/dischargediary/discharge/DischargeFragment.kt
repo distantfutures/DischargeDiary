@@ -92,7 +92,7 @@ class DischargeFragment : Fragment() {
     }
     private fun showNumberOneUi(binding: FragmentDischargeBinding) {
         binding.apply {
-            consistGroup.visibility = View.INVISIBLE
+            consistGroup.visibility = View.GONE
             dischargeButtonToggleGroup.check(R.id.numberOneButton)
             color1Button.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.urine_color_one))
             color2Button.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.urine_color_two))
