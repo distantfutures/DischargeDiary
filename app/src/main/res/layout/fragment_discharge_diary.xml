@@ -72,7 +72,7 @@
                 android:layout_height="match_parent"
                 android:layout_margin="@dimen/margin_small"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:listData="@{dischargeDiaryViewModel.getAllDischarges}"
+                app:listData="@{dischargeDiaryViewModel.dischargeDiary}"
                 app:spanCount="3"
                 tools:itemCount="16"
                 tools:listitem="@layout/discharge_grid_view"/>
@@ -84,7 +84,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="14dp"
             android:enabled="@{dischargeDiaryViewModel.clearButtonVisible}"
-            android:onClick="@{() -> dischargeDiaryViewModel.onClear()}"
+            android:onClick="@{() -> dischargeDiaryViewModel.onClearFromRepository()}"
             android:text="clear"
             app:cornerRadius="@dimen/input_corner_radius"
             app:layout_constraintBottom_toBottomOf="parent"

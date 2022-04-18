@@ -3,20 +3,18 @@ package com.example.dischargediary.dischargediary
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
-import com.example.dischargediary.data.DischargeData
-import com.example.dischargediary.data.DischargeDatabaseDao
-import kotlinx.coroutines.Dispatchers
+import com.example.dischargediary.data.DischargeDatabase
+import com.example.dischargediary.repository.DischargesRepository
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.*
 
 class DischargeDiaryViewModel(
-    private val database: DischargeDatabaseDao,
     application: Application
 ) : AndroidViewModel(application) {
 
-    val getAllDischarges: LiveData<List<DischargeData>> = database.getAllDischarges().asLiveData()
+    val dischargesRepository = DischargesRepository(DischargeDatabase.getInstance(application))
+    val dischargeDiary = dischargesRepository.allDischarges
 
     private val _dischargeDateTime = MutableLiveData<String?>()
     val dischargeDateTime: LiveData<String?>
@@ -26,7 +24,7 @@ class DischargeDiaryViewModel(
     val dischargeTypeArg: LiveData<Int>
         get() = _dischargeTypeArg
 
-    val clearButtonVisible = Transformations.map(getAllDischarges) {
+    val clearButtonVisible = Transformations.map(dischargeDiary) {
         it?.isNotEmpty()
     }
 
@@ -39,17 +37,11 @@ class DischargeDiaryViewModel(
         _dischargeTypeArg.value = disType
     }
 
-    fun deleteEntryNumber(disMilliId: Long) {
+    fun deleteEntryFromRepository(disMilliId: Long) {
+        //Add catch exception for null
         viewModelScope.launch {
-            deleteEntry(disMilliId)
+            dischargesRepository.deleteEntryNumber(disMilliId)
             Log.d("CheckDiaryVM", "Delete Entry! $disMilliId")
-        }
-    }
-
-    private suspend fun deleteEntry(disMilliId: Long) {
-        withContext(Dispatchers.IO) {
-            database.deleteEntryNumber(disMilliId)
-            Log.d("CheckDiaryVM", "Delete Entry Number! $disMilliId")
         }
     }
 
@@ -66,15 +58,9 @@ class DischargeDiaryViewModel(
         _dischargeTypeArg.value = 0
     }
 
-    private suspend fun clear() {
-        withContext(Dispatchers.IO) {
-            database.clear()
-        }
-    }
-
-    fun onClear() {
+    fun onClearFromRepository() {
         viewModelScope.launch {
-            clear()
+            dischargesRepository.clearDiary()
         }
     }
 }
