@@ -25,9 +25,16 @@ class DischargesRepository(private val database: DischargeDatabase) {
             Log.d("CheckDiaryVM", "Delete Entry Number! $disMilliId")
         }
     }
+
     suspend fun clearDiary() {
         withContext(Dispatchers.IO) {
             database.dischargeDatabaseDao.clearAll()
+        }
+    }
+
+    suspend fun getEntry(entry: Long) {
+        withContext(Dispatchers.IO) {
+            database.dischargeDatabaseDao.get(entry)
         }
     }
 }
