@@ -20,4 +20,6 @@ interface DischargeDatabaseDao {
         fun deleteEntryNumber(key: Long)
     @Query("SELECT * FROM discharge_diary_table ORDER BY dischargeMilli DESC")
         fun getAllDischarges(): LiveData<List<DischargeData>>
+    @Query("SELECT * FROM discharge_diary_table ORDER BY dischargeMilli")
+        fun getDischargesList(): List<DischargeData>?
 }

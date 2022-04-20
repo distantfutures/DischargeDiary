@@ -1,24 +1,24 @@
 package com.example.dischargediary.dischargediary
 
 import android.app.Application
-import android.content.Context.MODE_PRIVATE
 import android.util.Log
 import androidx.lifecycle.*
+import androidx.work.ExistingWorkPolicy
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
 import com.example.dischargediary.data.DischargeDatabase
 import com.example.dischargediary.repository.DischargesRepository
-import kotlinx.coroutines.Dispatchers
+import com.example.dischargediary.workers.ExportDbWorker
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.io.FileOutputStream
-import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
+const val TAG = "CheckDDVM"
+const val EXPORT_WORK_NAME = "export_work"
 class DischargeDiaryViewModel(
     application: Application
 ) : AndroidViewModel(application) {
-
-    private val FILE_NAME = "test.txt"
+    private val workManager = WorkManager.getInstance(application)
 
     private val dischargesRepository = DischargesRepository(DischargeDatabase.getInstance(application))
     val dischargeDiary = dischargesRepository.allDischarges
@@ -48,7 +48,7 @@ class DischargeDiaryViewModel(
         //Add catch exception for null
         viewModelScope.launch {
             dischargesRepository.deleteEntryNumber(disMilliId)
-            Log.d("CheckDiaryVM", "Delete Entry! $disMilliId")
+            Log.d(TAG, "Delete Entry! $disMilliId")
         }
     }
 
@@ -72,33 +72,13 @@ class DischargeDiaryViewModel(
     }
 
     fun exportFile() {
-        val dataSize = dischargeDiary.value?.size!!
-        viewModelScope.launch {
-            var file: FileOutputStream? = null
-            try {
-                file = getApplication<Application?>().openFileOutput(FILE_NAME, MODE_PRIVATE)
-                for (i in 0 until dataSize) {
-                    val entry = dischargeDiary.value!![i].toString() + '\n'
-                    withContext(Dispatchers.IO) {
-                        file.write(entry.toByteArray())
-                    }
-                    Log.i("CheckDDVM", "Entry $i: $entry")
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-            } catch (e: IOException) {
-                e.printStackTrace()
-            } finally {
-                if (file != null) {
-                    try {
-                        file.close()
-                    } catch (e: IOException) {
-                        e.printStackTrace()
-                    }
-                }
-            }
-
-        }
-        Log.i("CheckDDVM", "Size: ${dischargeDiary.value?.size}")
+        val exportWork = workManager
+            .beginUniqueWork(
+                EXPORT_WORK_NAME,
+                ExistingWorkPolicy.REPLACE,
+                OneTimeWorkRequest.from(ExportDbWorker::class.java)
+            )
+        exportWork.enqueue()
+        Log.i(TAG, "Export Clicked!")
     }
 }

@@ -9,7 +9,6 @@ import kotlinx.coroutines.withContext
 
 class DischargesRepository(private val database: DischargeDatabase) {
     val allDischarges: LiveData<List<DischargeData>> = database.dischargeDatabaseDao.getAllDischarges()
-
     // Takes new initialized entry & adds to database
     suspend fun insertNewEntry(newEntry: DischargeData) {
         withContext(Dispatchers.IO) {
