@@ -3,15 +3,22 @@ package com.example.dischargediary.dischargediary
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
+import androidx.work.ExistingWorkPolicy
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
 import com.example.dischargediary.data.DischargeDatabase
 import com.example.dischargediary.repository.DischargesRepository
+import com.example.dischargediary.workers.ExportDbWorker
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
+const val TAG = "CheckDDVM"
+const val EXPORT_WORK_NAME = "export_work"
 class DischargeDiaryViewModel(
     application: Application
 ) : AndroidViewModel(application) {
+    private val workManager = WorkManager.getInstance(application)
 
     private val dischargesRepository = DischargesRepository(DischargeDatabase.getInstance(application))
     val dischargeDiary = dischargesRepository.allDischarges
@@ -41,7 +48,7 @@ class DischargeDiaryViewModel(
         //Add catch exception for null
         viewModelScope.launch {
             dischargesRepository.deleteEntryNumber(disMilliId)
-            Log.d("CheckDiaryVM", "Delete Entry! $disMilliId")
+            Log.d(TAG, "Delete Entry! $disMilliId")
         }
     }
 
@@ -62,5 +69,16 @@ class DischargeDiaryViewModel(
         viewModelScope.launch {
             dischargesRepository.clearDiary()
         }
+    }
+
+    fun exportFile() {
+        val exportWork = workManager
+            .beginUniqueWork(
+                EXPORT_WORK_NAME,
+                ExistingWorkPolicy.REPLACE,
+                OneTimeWorkRequest.from(ExportDbWorker::class.java)
+            )
+        exportWork.enqueue()
+        Log.i(TAG, "Export Clicked!")
     }
 }
