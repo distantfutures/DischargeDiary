@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.dischargediary.R
 import com.example.dischargediary.databinding.FragmentDischargeBinding
+import com.google.android.material.snackbar.Snackbar
 
 class DischargeFragment : Fragment() {
 
@@ -76,10 +77,10 @@ class DischargeFragment : Fragment() {
                 this.findNavController()
                     .navigate(DischargeFragmentDirections.actionDischargeFragmentToDischargeDiaryFragment())
                 dischargeViewModel.doneNavigating()
-                showToastLong("Entry Recorded")
+                snackBarEvent("Entry Recorded")
             }
             if (it == false) {
-                showToastLong("Entry Incomplete")
+                snackBarEvent("Entry Incomplete")
             }
         }
         return binding.root
@@ -87,8 +88,8 @@ class DischargeFragment : Fragment() {
     private fun showToast(str: String?) {
         Toast.makeText(context, str, Toast.LENGTH_SHORT).show()
     }
-    private fun showToastLong(str: String?) {
-        Toast.makeText(context, str, Toast.LENGTH_LONG).show()
+    private fun snackBarEvent(str: CharSequence) {
+        activity?.let { Snackbar.make(it.findViewById(android.R.id.content), str, Snackbar.LENGTH_SHORT).show() }
     }
     private fun showNumberOneUi(binding: FragmentDischargeBinding) {
         binding.apply {
