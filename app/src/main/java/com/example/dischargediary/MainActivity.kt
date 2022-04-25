@@ -1,8 +1,6 @@
 package com.example.dischargediary
 
 import android.app.AlarmManager
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
@@ -18,10 +16,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        createNotificationChannel()
         scheduleNotification()
     }
-    @RequiresApi(Build.VERSION_CODES.M)
+
+    @RequiresApi(Build.VERSION_CODES.O)
     fun scheduleNotification() {
         val intent = Intent(applicationContext, Notification::class.java)
         val title = "Discharge Diary Reminder!"
@@ -47,16 +45,17 @@ class MainActivity : AppCompatActivity() {
             intervalTime,
             pendingIntent
         )
+        createNotificationChannel(this, message)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun createNotificationChannel() {
-        val name = "Notification Channel"
-        val description = "A Description of the Channel in the Settings"
-        val importance = NotificationManager.IMPORTANCE_DEFAULT
-        val channel = NotificationChannel(channelId, name, importance)
-        channel.description = description
-        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.createNotificationChannel(channel)
-    }
+//    @RequiresApi(Build.VERSION_CODES.O)
+//    fun createNotificationChannel() {
+//        val name = "Notification Channel"
+//        val description = "A Description of the Channel in the Settings"
+//        val importance = NotificationManager.IMPORTANCE_DEFAULT
+//        val channel = NotificationChannel(channelId, name, importance)
+//        channel.description = description
+//        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+//        notificationManager.createNotificationChannel(channel)
+//    }
 }

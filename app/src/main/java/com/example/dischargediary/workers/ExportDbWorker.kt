@@ -2,9 +2,12 @@ package com.example.dischargediary.workers
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.work.Worker
 import androidx.work.WorkerParameters
+import com.example.dischargediary.createNotificationChannel
 import com.example.dischargediary.data.DischargeDatabase
 import java.io.FileOutputStream
 
@@ -13,6 +16,7 @@ class ExportDbWorker(context: Context, params: WorkerParameters) : Worker(contex
     private val FILE_NAME = "test.txt"
     val dischargeDB = DischargeDatabase.getInstance(context)
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun doWork(): Result {
 
         val appContext = applicationContext
@@ -29,6 +33,7 @@ class ExportDbWorker(context: Context, params: WorkerParameters) : Worker(contex
                 Log.i(TAG, "Entry $i: $entry")
             }
             Log.i(TAG, "Size: ${dischargeDiary.size}")
+            createNotificationChannel(appContext, "Diary Exported!")
             Result.success()
         } catch (e: Throwable) {
             e.printStackTrace()

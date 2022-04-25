@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.*
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import com.example.dischargediary.data.DischargeDatabase
 import com.example.dischargediary.repository.DischargesRepository
@@ -14,11 +15,13 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 const val TAG = "CheckDDVM"
+const val TAG_OUTPUT = "OUTPUT"
 const val EXPORT_WORK_NAME = "export_work"
 class DischargeDiaryViewModel(
     application: Application
 ) : AndroidViewModel(application) {
     private val workManager = WorkManager.getInstance(application)
+    internal val outputWorkInfos: LiveData<List<WorkInfo>> = workManager.getWorkInfosByTagLiveData(TAG_OUTPUT)
 
     private val dischargesRepository = DischargesRepository(DischargeDatabase.getInstance(application))
     val dischargeDiary = dischargesRepository.allDischarges
@@ -30,6 +33,10 @@ class DischargeDiaryViewModel(
     private val _dischargeTypeArg = MutableLiveData<Int>()
     val dischargeTypeArg: LiveData<Int>
         get() = _dischargeTypeArg
+
+    private val _diaryExported = MutableLiveData<Boolean>()
+    val diaryExported: LiveData<Boolean>
+        get() = _diaryExported
 
     val clearButtonVisible = Transformations.map(dischargeDiary) {
         it?.isNotEmpty()
@@ -79,6 +86,7 @@ class DischargeDiaryViewModel(
                 OneTimeWorkRequest.from(ExportDbWorker::class.java)
             )
         exportWork.enqueue()
+
         Log.i(TAG, "Export Clicked!")
     }
 }
