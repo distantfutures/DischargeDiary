@@ -20,41 +20,41 @@
             android:id="@+id/dischargeDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="8dp"
             android:text="@{dischargeDiaryViewModel.dischargeDateTime}"
             android:textAlignment="center"
             android:textSize="@dimen/title_text_size"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/numberOneButton"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_margin="12dp"
             android:padding="10dp"
             android:onClick="@{() -> dischargeDiaryViewModel.onNewEntry(1)}"
             android:text="@string/number_one"
             android:textSize="@dimen/diary_button_text_size"
-            app:cornerRadius="@dimen/input_corner_radius"
+            app:cornerRadius="@dimen/corner_radius"
             app:layout_constraintEnd_toStartOf="@+id/numberTwoButton"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/dischargeDate" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/numberTwoButton"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="12dp"
             android:padding="10dp"
             android:text="@string/number_two"
             android:textSize="@dimen/diary_button_text_size"
             android:onClick="@{() -> dischargeDiaryViewModel.onNewEntry(2)}"
-            app:cornerRadius="@dimen/input_corner_radius"
+            app:cornerRadius="@dimen/corner_radius"
             app:layout_constraintBaseline_toBaselineOf="@+id/numberOneButton"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/numberOneButton" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -83,12 +83,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="14dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             android:enabled="@{dischargeDiaryViewModel.clearButtonVisible}"
             android:onClick="@{() -> dischargeDiaryViewModel.onClearFromRepository()}"
-            android:text="clear"
-            app:cornerRadius="@dimen/input_corner_radius"
+            android:text="@string/clear_text"
+            app:cornerRadius="@dimen/corner_radius"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/export_button"
             app:layout_constraintStart_toStartOf="parent" />
 
         <com.google.android.material.button.MaterialButton
@@ -96,9 +98,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="14dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             android:onClick="@{() -> dischargeDiaryViewModel.exportFile()}"
-            android:text="export"
-            app:cornerRadius="@dimen/input_corner_radius"
+            android:text="@string/export_text"
+            app:cornerRadius="@dimen/corner_radius"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/clear_button" />

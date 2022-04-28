@@ -9,5 +9,5 @@
     <dimen name="grid_image_size">110dp</dimen>
     <dimen name="grid_text_size">10sp</dimen>
     <dimen name="diary_button_text_size">20sp</dimen>
-    <dimen name="input_corner_radius">10dp</dimen>
+    <dimen name="corner_radius">10dp</dimen>
 </resources>

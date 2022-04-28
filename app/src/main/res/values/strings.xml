@@ -37,4 +37,6 @@
     <string name="consist_four">Lacking Fiber</string>
     <string name="consist_five">Diarrhea</string>
     <string name="delete_button">Delete Button</string>
+    <string name="export_text">export</string>
+    <string name="clear_text">clear</string>
 </resources>

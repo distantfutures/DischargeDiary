@@ -18,13 +18,14 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingBottom="12dp">
+        android:paddingBottom="10dp">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/discharge_image"
             android:layout_width="@dimen/grid_image_size"
             android:layout_height="@dimen/grid_image_size"
             app:dischargeGraphic="@{dischargeData}"
+            app:layout_constraintBottom_toTopOf="@id/info_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -41,22 +42,23 @@
             android:onClick="@{() -> clickListener.onClick(dischargeData)}"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/discharge_image"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/discharge_image"
+            app:layout_constraintStart_toStartOf="@id/discharge_image"
+            app:layout_constraintTop_toTopOf="@id/discharge_image"
             app:srcCompat="@drawable/ic_delete" />
 
         <TextView
             android:id="@+id/info_text"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="Text Placeholder"
-            android:padding="5dp"
             android:textAlignment="textStart"
             android:textSize="@dimen/grid_text_size"
+            android:gravity="center"
             app:layout_constraintEnd_toEndOf="@id/discharge_image"
             app:layout_constraintStart_toStartOf="@id/discharge_image"
             app:layout_constraintTop_toBottomOf="@+id/discharge_image"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:listDataFormatted="@{dischargeData}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
