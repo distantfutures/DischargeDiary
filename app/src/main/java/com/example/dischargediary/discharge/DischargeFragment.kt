@@ -33,11 +33,10 @@ class DischargeFragment : Fragment() {
 
         val binding: FragmentDischargeBinding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_discharge, container, false)
-
         val application = requireNotNull(this.activity).application
 
+        // Gets arguments from Diary Screen, passes into Factory and sets to ViewModel
         val arguments = DischargeFragmentArgs.fromBundle(requireArguments())
-
         val viewModelFactory = DischargeViewModelFactory(arguments.dischargeTypeArg, application)
         Log.d("CheckDischargeFrag", "${arguments.dischargeTypeArg}")
         dischargeViewModel = ViewModelProvider(this, viewModelFactory).get(DischargeViewModel::class.java)
@@ -47,7 +46,7 @@ class DischargeFragment : Fragment() {
 
         //Current Date & Time
         binding.dischargeDateTime.setOnClickListener { setNewDateTime() }
-        //Observes Discharge Type & sets discharge colors accordingly
+        //Observes Discharge Type & sets UI accordingly
         dischargeViewModel.dischargeType.observe(
             viewLifecycleOwner
         ) { number ->
@@ -60,7 +59,8 @@ class DischargeFragment : Fragment() {
                 dischargeViewModel.onSetDischargeColor(dischargeViewModel.dischargeColorButton.value)
             }
         }
-        //Duration/Timer Button
+
+        // Duration input - sets info after keyboard closes
         binding.durationInput.setOnEditorActionListener { _, actionId, _ ->
             return@setOnEditorActionListener when (actionId) {
                 EditorInfo.IME_ACTION_DONE -> {
@@ -71,7 +71,8 @@ class DischargeFragment : Fragment() {
                 else -> { true }
             }
         }
-        //Submit Button
+
+        // Submit Button
         dischargeViewModel.navigateToDiary.observe(viewLifecycleOwner) {
             if (it == true) {
                 this.findNavController()
@@ -85,12 +86,15 @@ class DischargeFragment : Fragment() {
         }
         return binding.root
     }
+
     private fun showToast(str: String?) {
         Toast.makeText(context, str, Toast.LENGTH_SHORT).show()
     }
     private fun snackBarEvent(str: CharSequence) {
         activity?.let { Snackbar.make(it.findViewById(android.R.id.content), str, Snackbar.LENGTH_SHORT).show() }
     }
+
+    // Sets appropriate colors for Discharge Color pending DischargeType selection
     private fun showNumberOneUi(binding: FragmentDischargeBinding) {
         binding.apply {
             consistGroup.visibility = View.GONE
@@ -114,6 +118,7 @@ class DischargeFragment : Fragment() {
         }
     }
 
+    // Opens Date and Time picker dialog
     @RequiresApi(Build.VERSION_CODES.O)
     fun setNewDateTime() {
         DatePickerDialog(requireActivity(), { _, year, month, day ->

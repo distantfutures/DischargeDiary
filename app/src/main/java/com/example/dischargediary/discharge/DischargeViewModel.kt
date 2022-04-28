@@ -34,12 +34,7 @@ class DischargeViewModel(
     var startHour = 0
     var startMinute = 0
 
-    var pickYear = 0
-    var pickMonth = 0
-    var pickDay = 0
-    var pickHour = 0
-    var pickMinute = 0
-
+    // Review all LiveData and remove uneccessary
     private val _dischargeDate = MutableLiveData<String?>()
     val dischargeDate: LiveData<String?>
         get() = _dischargeDate
@@ -87,6 +82,7 @@ class DischargeViewModel(
         _dischargeConsist.value = "N/A"
     }
 
+    // Checks if any inputs are unfilled
     private fun unfilled(): Boolean {
         return if (dischargeType.value == 1) {
             !(dischargeType.value == 0 || dischargeDurationTime.value == null || leakageYN.value == null || dischargeColor.value == null)
@@ -95,6 +91,7 @@ class DischargeViewModel(
         }
     }
 
+    // Sets all values to new discharge entry object
     private fun setDischargeData(): DischargeData {
         val newEntry = DischargeData()
         newEntry.dischargeType = dischargeType.value!!
@@ -108,6 +105,7 @@ class DischargeViewModel(
         return newEntry
     }
 
+    // Inserts entry into Room Database & navigates back to Diary if entry is filled
     fun onSubmitInfo() {
         viewModelScope.launch {
             val entryFilled = unfilled()
@@ -129,12 +127,14 @@ class DischargeViewModel(
         _leakageYN.value = leakYN
     }
 
+    // Converts and sets from dischargeColor button
     fun onSetDischargeColor(colorNumber: Int?) {
         _dischargeColorButton.value = colorNumber
         _dischargeColor.value = colorConverter(dischargeType.value!!, colorNumber)
         Log.i("CheckDischargeViewModel", "checkDischargeColor ${_dischargeColor.value}")
     }
 
+    // Sets dischargeConsist
     fun onSetDischargeConsist(consist: Int?) {
         val consistString = when (consist) {
             1 -> R.string.consist_one.toString()
@@ -154,6 +154,7 @@ class DischargeViewModel(
         _dischargeDurationTime.value = durationTime
     }
 
+    // Converts button selection to appropriate color pending dischargeType
     fun colorConverter(group: Int, colorNumber: Int?): String? {
         val colorName: String?
         if (group != 2) {
@@ -186,6 +187,7 @@ class DischargeViewModel(
         _navigateToDiary.value = null
     }
 
+    // Gets initial DateTime from Fragment DateTimePickerDialog
     private fun getCurrentDateTime() {
         val currentDateTime = Calendar.getInstance()
         startYear = currentDateTime.get(Calendar.YEAR)
@@ -202,15 +204,11 @@ class DischargeViewModel(
         Log.i("CheckViewModel", "$startYear $startMonth $startDay")
     }
 
+    // Gets New DateTime from Fragment DateTimePickerDialog
     @RequiresApi(Build.VERSION_CODES.O)
     fun pickADateTime(year: Int, month: Int, day: Int, hour: Int, minute: Int) {
         val pickDateTime = Calendar.getInstance()
-        pickYear = year
-        pickMonth = month
-        pickDay = day
-        pickHour = hour
-        pickMinute = minute
-        pickDateTime.set(pickYear, pickMonth, pickDay, pickHour, pickMinute)
+        pickDateTime.set(year, month, day, hour, minute)
         val formatterDate = SimpleDateFormat("MM.dd.yyyy, EEE", Locale.getDefault())
         val formatterTime = SimpleDateFormat("h:mm a", Locale.getDefault())
         _dischargeDate.value = formatterDate.format(pickDateTime.time).toString()
@@ -222,6 +220,7 @@ class DischargeViewModel(
         )
     }
 
+    // Sets newly formatted date to LiveData
     @RequiresApi(Build.VERSION_CODES.O)
     fun milliDateTimeFormatter(dateTime: Calendar) {
         val simpleFormatter = SimpleDateFormat(

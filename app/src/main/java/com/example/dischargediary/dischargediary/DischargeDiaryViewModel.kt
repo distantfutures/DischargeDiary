@@ -34,10 +34,6 @@ class DischargeDiaryViewModel(
     val dischargeTypeArg: LiveData<Int>
         get() = _dischargeTypeArg
 
-    private val _diaryExported = MutableLiveData<Boolean>()
-    val diaryExported: LiveData<Boolean>
-        get() = _diaryExported
-
     val clearButtonVisible = Transformations.map(dischargeDiary) {
         it?.isNotEmpty()
     }
@@ -86,7 +82,6 @@ class DischargeDiaryViewModel(
                 OneTimeWorkRequest.from(ExportDbWorker::class.java)
             )
         exportWork.enqueue()
-
         Log.i(TAG, "Export Clicked!")
     }
 }

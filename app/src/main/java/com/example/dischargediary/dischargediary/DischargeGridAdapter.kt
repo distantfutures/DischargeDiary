@@ -20,6 +20,7 @@ import com.example.dischargediary.databinding.DischargeGridViewBinding
 const val ADAPTER_TAG = "CheckAdapter"
 class DischargeGridAdapter(private val context: Context, private val fragment: FragmentManager, private val clickListener: DischargeEntryListener) : ListAdapter<DischargeData, DischargeViewHolder>(DiffCallback) {
 
+    // Starts RV positions at 0
     private var currentSelectedPosition: Int = RecyclerView.NO_POSITION
     private var longSelectedPosition: Int = RecyclerView.NO_POSITION
 
@@ -33,7 +34,7 @@ class DischargeGridAdapter(private val context: Context, private val fragment: F
         }
     }
 
-    // Updates after Item is deleted from Room
+    // Updates after Item is deleted from Room by reseting selected position
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCurrentListChanged(
         previousList: MutableList<DischargeData>,
@@ -54,31 +55,35 @@ class DischargeGridAdapter(private val context: Context, private val fragment: F
         val item = getItem(position)
         // Calls bind function from ViewHolder
         holder.bind(item, clickListener)
+        // Sets clickListener for item
         holder.itemView.setOnClickListener(View.OnClickListener {
             currentSelectedPosition = position
             notifyDataSetChanged()
-//            Log.i(ADAPTER_TAG, "${item.dischargeTime} clicked! Position: $position")
+            Log.i(ADAPTER_TAG, "${item.dischargeTime} clicked! Position: $position")
         })
+        // Sets LongClickListener for item
         holder.itemView.setOnLongClickListener(View.OnLongClickListener {
             longSelectedPosition = position
             notifyDataSetChanged()
             Log.i(ADAPTER_TAG, "${item.dischargeTime} Long clicked! Position: $position")
             return@OnLongClickListener true
         })
+        // Shows and hides delete button per item
         if (currentSelectedPosition == position) {
             holder.binding.deleteButton.visibility = View.VISIBLE
         } else {
             holder.binding.deleteButton.visibility = View.GONE
         }
+        // Opens basic AlertDialog box. To implement more Entry information later
         if (longSelectedPosition == position) {
             val icon = ResourcesCompat.getDrawable(context.resources,R.drawable.ic_urinate_icon, null)
-            Log.i(ADAPTER_TAG, "${item.dischargeTime} Long clicked! Icon: $icon!!")
+            Log.i(ADAPTER_TAG, "Long clicked! Icon: $icon!!")
             val dialog = AlertDialog("title1", "This is my Message",icon!!)
             dialog.show(fragment, "Entry Dialog")
         }
     }
 }
-//1 - get data from clicklistener
+
 class DischargeEntryListener(val clickListener: (disMilli: Long) -> Unit){
     fun onClick(entry: DischargeData) {
         clickListener(entry.dischargeMilli)

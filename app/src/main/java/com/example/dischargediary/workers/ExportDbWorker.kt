@@ -11,6 +11,7 @@ import com.example.dischargediary.application.createNotificationChannel
 import com.example.dischargediary.data.DischargeDatabase
 import java.io.FileOutputStream
 
+// Creates basic worker that writes entries into .txt file
 private const val TAG = "CheckWorker"
 class ExportDbWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
     private val FILE_NAME = "test.txt"
@@ -33,6 +34,7 @@ class ExportDbWorker(context: Context, params: WorkerParameters) : Worker(contex
                 Log.i(TAG, "Entry $i: $entry")
             }
             Log.i(TAG, "Size: ${dischargeDiary.size}")
+            // Notifies that export is completed
             createNotificationChannel(appContext, "Diary Exported!")
             Result.success()
         } catch (e: Throwable) {

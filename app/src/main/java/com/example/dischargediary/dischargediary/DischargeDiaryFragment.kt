@@ -7,13 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
-import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.dischargediary.R
-import com.example.dischargediary.application.AlertDialog
 import com.example.dischargediary.databinding.FragmentDischargeDiaryBinding
 
 class DischargeDiaryFragment : Fragment() {
@@ -24,29 +22,18 @@ class DischargeDiaryFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         val binding: FragmentDischargeDiaryBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_discharge_diary, container, false)
-
         val application = requireNotNull(this.activity).application
-
         val viewModelFactory = DischargeDiaryViewModelFactory(application)
-
         val diaryViewModel = ViewModelProvider(this, viewModelFactory).get(DischargeDiaryViewModel::class.java)
 
         binding.lifecycleOwner = this
-
         binding.dischargeDiaryViewModel = diaryViewModel
 
-        val icon = ResourcesCompat.getDrawable(requireActivity().resources,R.drawable.ic_urinate_icon, null)
-        binding.exportButton.setOnClickListener {
-            val dialog = AlertDialog("title1", "This is my Message",icon!!)
-            dialog.show(parentFragmentManager, "Entry Dialog")
-        }
-
+        // Sets clicklistener with entry reference, then binds to RecyclerView
         val adapter = DischargeGridAdapter(activity?.application!!,parentFragmentManager, DischargeEntryListener { disMilli ->
             diaryViewModel.deleteEntryFromRepository(disMilli)
         })
-
         binding.dischargeList.adapter = adapter
 
         //Passes the entryId argument through actions to DischargeEntry
