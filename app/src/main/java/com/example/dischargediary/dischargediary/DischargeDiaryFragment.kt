@@ -42,7 +42,8 @@ class DischargeDiaryFragment : Fragment() {
             val dialog = AlertDialog("title1", "This is my Message",icon!!)
             dialog.show(parentFragmentManager, "Entry Dialog")
         }
-        val adapter = DischargeGridAdapter(DischargeEntryListener { disMilli ->
+
+        val adapter = DischargeGridAdapter(activity?.application!!,parentFragmentManager, DischargeEntryListener { disMilli ->
             diaryViewModel.deleteEntryFromRepository(disMilli)
         })
 
