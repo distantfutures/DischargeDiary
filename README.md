@@ -7,8 +7,18 @@ On the main page, displays a list of discharges, if any, and the user specifies 
 ## Tech Stack & Libraries
 - MVVM Architecture
 - Room Database
-- Live Data
+- LiveData
 - RecyclerView
 - Coroutines
 - ViewModel
-- Navigation
+- Navigation Components
+- Worker
+- Broadcast
+- View & DataBinding
+- Repository Pattern
+
+## Images
+Main Screen (https://i.imgur.com/ccHC7LU.png)
+Discharge Screen Type 1 (https://i.imgur.com/bolsErb.png)
+Discharge Screen Type 2 (https://i.imgur.com/vR2yooH.png)
+DateTimePicker (https://i.imgur.com/xlGBpHX.png)
