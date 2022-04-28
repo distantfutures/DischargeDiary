@@ -49,7 +49,7 @@ class DischargeViewModel(
         get() = _dischargeTime
 
     private val _dischargeMilli = MutableLiveData<Long?>()
-    val dischargeMilli: LiveData<Long?>
+    private val dischargeMilli: LiveData<Long?>
         get() = _dischargeMilli
 
     private val _dischargeType = MutableLiveData<Int?>()

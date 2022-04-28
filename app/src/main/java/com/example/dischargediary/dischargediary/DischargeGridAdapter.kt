@@ -12,17 +12,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.dischargediary.data.DischargeData
 import com.example.dischargediary.databinding.DischargeGridViewBinding
 
-class DischargeGridAdapter(private val clickListener: DischargeEntryListener) : ListAdapter<DischargeData, DischargeGridAdapter.DischargeViewHolder>(DiffCallback) {
+class DischargeGridAdapter(private val clickListener: DischargeEntryListener) : ListAdapter<DischargeData, DischargeViewHolder>(DiffCallback) {
 
     private var currentSelectedPosition: Int = RecyclerView.NO_POSITION
-    // Holds views from GridView layout
-    class DischargeViewHolder(var binding: DischargeGridViewBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind (data: DischargeData, clickListener: DischargeEntryListener) {
-            binding.dischargeData = data
-            binding.clickListener = clickListener
-            binding.executePendingBindings()
-        }
-    }
 
     companion object DiffCallback : DiffUtil.ItemCallback<DischargeData>() {
         override fun areItemsTheSame(oldItem: DischargeData, newItem: DischargeData): Boolean {
@@ -48,6 +40,7 @@ class DischargeGridAdapter(private val clickListener: DischargeEntryListener) : 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DischargeViewHolder {
         return DischargeViewHolder(DischargeGridViewBinding.inflate(LayoutInflater.from(parent.context)))
     }
+
     // Binds ViewHolder & Position/Data in View
     override fun onBindViewHolder(holder: DischargeViewHolder, position: Int) {
         val item = getItem(position)

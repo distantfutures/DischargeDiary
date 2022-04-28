@@ -7,11 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.dischargediary.R
+import com.example.dischargediary.application.AlertDialog
 import com.example.dischargediary.databinding.FragmentDischargeDiaryBinding
 
 class DischargeDiaryFragment : Fragment() {
@@ -35,6 +37,11 @@ class DischargeDiaryFragment : Fragment() {
 
         binding.dischargeDiaryViewModel = diaryViewModel
 
+        val icon = ResourcesCompat.getDrawable(requireActivity().resources,R.drawable.ic_urinate_icon, null)
+        binding.exportButton.setOnClickListener {
+            val dialog = AlertDialog("title1", "This is my Message",icon!!)
+            dialog.show(parentFragmentManager, "Entry Dialog")
+        }
         val adapter = DischargeGridAdapter(DischargeEntryListener { disMilli ->
             diaryViewModel.deleteEntryFromRepository(disMilli)
         })
