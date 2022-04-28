@@ -1,9 +1,10 @@
-package com.example.dischargediary
+package com.example.dischargediary.application
 
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.dischargediary.R
 import com.example.dischargediary.data.DischargeData
 import com.example.dischargediary.dischargediary.DischargeGridAdapter
 import kotlinx.coroutines.CoroutineScope

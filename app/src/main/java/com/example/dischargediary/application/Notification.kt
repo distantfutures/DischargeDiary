@@ -1,10 +1,11 @@
-package com.example.dischargediary
+package com.example.dischargediary.application
 
 import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
+import com.example.dischargediary.R
 
 const val notificationId = 1
 const val channelId = "channel1"

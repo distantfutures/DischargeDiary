@@ -8,13 +8,14 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="light_grey">#1F9A9A9A</color>
-
+    <color name="lt_grey_tint">#77D3D3D3</color>
+    <color name="mid_grey_tint">#77818181</color>
     <!-- Urine color -->
     <color name="urine_color_one">#FBF9EB</color>
     <color name="urine_color_two">#FFF59D</color>
     <color name="urine_color_three">#FFEB3B</color>
     <color name="urine_color_four">#FFA000</color>
-    <color name="urine_color_five">#E65100</color>
+    <color name="urine_color_five">#EF732F</color>
 
     <!-- Stool color -->
     <color name="stool_color_one">#CCCCCC</color>

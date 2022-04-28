@@ -7,7 +7,7 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-import com.example.dischargediary.createNotificationChannel
+import com.example.dischargediary.application.createNotificationChannel
 import com.example.dischargediary.data.DischargeDatabase
 import java.io.FileOutputStream
 

@@ -1,4 +1,4 @@
-package com.example.dischargediary
+package com.example.dischargediary.application
 
 import android.app.AlarmManager
 import android.app.PendingIntent
@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.os.SystemClock
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.example.dischargediary.R
 
 class MainActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)

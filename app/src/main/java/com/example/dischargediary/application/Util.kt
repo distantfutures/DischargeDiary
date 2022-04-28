@@ -1,4 +1,4 @@
-package com.example.dischargediary
+package com.example.dischargediary.application
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.text.HtmlCompat
+import com.example.dischargediary.R
 import com.example.dischargediary.data.DischargeData
 
 const val TAG = "Util"
