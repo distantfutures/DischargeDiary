@@ -18,7 +18,11 @@ On the main page, displays a list of discharges, if any, and the user specifies 
 - Repository Pattern
 
 ## Images
-Main Screen (https://i.imgur.com/ccHC7LU.png)
-Discharge Screen Type 1 (https://i.imgur.com/bolsErb.png)
-Discharge Screen Type 2 (https://i.imgur.com/vR2yooH.png)
-DateTimePicker (https://i.imgur.com/xlGBpHX.png)
+Main Screen
+![Test Image 4](https://i.imgur.com/ccHC7LU.png)
+Discharge Screen Type 1
+![Test Image 4](https://i.imgur.com/bolsErb.png)
+Discharge Screen Type 2
+![Test Image 4](https://i.imgur.com/vR2yooH.png)
+DateTimePicker
+![Test Image 4](https://i.imgur.com/xlGBpHX.png)
