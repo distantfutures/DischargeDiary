@@ -76,11 +76,14 @@ class DischargeGridAdapter(private val context: Context, private val fragment: F
         }
         // Opens basic AlertDialog box. To implement more Entry information later
         if (longSelectedPosition == position) {
-            val icon = ResourcesCompat.getDrawable(context.resources,R.drawable.ic_urinate_icon, null)
-            Log.i(ADAPTER_TAG, "Long clicked! Icon: $icon!!")
-            val dialog = AlertDialog("title1", "This is my Message",icon!!)
-            dialog.show(fragment, "Entry Dialog")
+            showDialog()
         }
+    }
+    fun showDialog() {
+        val icon = ResourcesCompat.getDrawable(context.resources!!,R.drawable.ic_urinate_icon, null)
+        val dialog = AlertDialog("title1", "This is my Message",icon!!)
+        dialog.show(fragment, "Entry Dialog")
+        Log.i(ADAPTER_TAG, "Long clicked! Icon: $icon!!")
     }
 }
 
