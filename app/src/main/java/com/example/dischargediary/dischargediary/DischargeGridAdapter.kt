@@ -14,6 +14,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dischargediary.R
 import com.example.dischargediary.application.AlertDialog
+import com.example.dischargediary.application.formatDischarges
+import com.example.dischargediary.application.formatDischargesDialog
+import com.example.dischargediary.application.stringToImageRef2
 import com.example.dischargediary.data.DischargeData
 import com.example.dischargediary.databinding.DischargeGridViewBinding
 
@@ -41,7 +44,7 @@ class DischargeGridAdapter(private val context: Context, private val fragment: F
         currentList: MutableList<DischargeData>
     ) {
         notifyDataSetChanged()
-        currentSelectedPosition = RecyclerView.NO_POSITION
+        longSelectedPosition = RecyclerView.NO_POSITION
         super.onCurrentListChanged(previousList, currentList)
     }
 
@@ -58,6 +61,7 @@ class DischargeGridAdapter(private val context: Context, private val fragment: F
         // Sets clickListener for item
         holder.itemView.setOnClickListener(View.OnClickListener {
             currentSelectedPosition = position
+            longSelectedPosition = RecyclerView.NO_POSITION
             notifyDataSetChanged()
             Log.i(ADAPTER_TAG, "${item.dischargeTime} clicked! Position: $position")
         })
@@ -68,20 +72,24 @@ class DischargeGridAdapter(private val context: Context, private val fragment: F
             Log.i(ADAPTER_TAG, "${item.dischargeTime} Long clicked! Position: $position")
             return@OnLongClickListener true
         })
-        // Shows and hides delete button per item
+        // Opens basic AlertDialog box. To implement more Entry information later
         if (currentSelectedPosition == position) {
+            showDialog(holder.binding.dischargeData)
+            currentSelectedPosition = RecyclerView.NO_POSITION
+        }
+        // Shows and hides delete button per item
+        if (longSelectedPosition == position) {
             holder.binding.deleteButton.visibility = View.VISIBLE
         } else {
             holder.binding.deleteButton.visibility = View.GONE
         }
-        // Opens basic AlertDialog box. To implement more Entry information later
-        if (longSelectedPosition == position) {
-            showDialog()
-        }
     }
-    fun showDialog() {
-        val icon = ResourcesCompat.getDrawable(context.resources!!,R.drawable.ic_urinate_icon, null)
-        val dialog = AlertDialog("title1", "This is my Message",icon!!)
+
+    fun showDialog(disMilliId: DischargeData?) {
+        val setIcon = stringToImageRef2(disMilliId?.dischargeConsistency!!)
+        val icon = ResourcesCompat.getDrawable(context.resources!!,setIcon, null)
+        val entryInfo = formatDischargesDialog(disMilliId, context.resources).toString()
+        val dialog = AlertDialog("Discharge Entry", entryInfo, icon!!)
         dialog.show(fragment, "Entry Dialog")
         Log.i(ADAPTER_TAG, "Long clicked! Icon: $icon!!")
     }

@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.dischargediary.R
 import com.example.dischargediary.databinding.FragmentDischargeBinding
+import com.example.dischargediary.dischargediary.DischargeViewModelFactory
 import com.google.android.material.snackbar.Snackbar
 
 class DischargeFragment : Fragment() {

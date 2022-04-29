@@ -36,6 +36,39 @@ fun formatDischarges(discharges: DischargeData, resources: Resources): Spanned? 
     }
 }
 
+fun formatDischargesDialog(discharges: DischargeData, resources: Resources): Spanned? {
+    val sb = StringBuilder()
+    sb.apply {
+        discharges.let {
+            append("<br><b>${resources.getString(R.string.date)}</b> ")
+            append(it.dischargeDate)
+            append("<br><b>${resources.getString(R.string.time)}</b> ")
+            append(it.dischargeTime)
+            append("<br><b>${resources.getString(R.string.discharge_type)}</b> ")
+            append("#${it.dischargeType}")
+            append("<br><b>${resources.getString(R.string.duration)}</b> ")
+            append(it.dischargeDuration)
+            append("<br><b>${resources.getString(R.string.leakage)}</b> ")
+            if (it.leakage) {
+                append(resources.getString(R.string.yes))
+            } else {
+                append(resources.getString(R.string.no))
+            }
+            append("<br><b>${resources.getString(R.string.color)}</b> ")
+            append(resources.getString(it.dischargeColor.toInt()))
+            if (it.dischargeType == 2) {
+                append("<br><b>${resources.getString(R.string.consistency)}</b> ")
+                append(resources.getString(it.dischargeConsistency.toInt()))
+            }
+        }
+    }
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        Html.fromHtml(sb.toString(), Html.FROM_HTML_MODE_LEGACY)
+    } else {
+        HtmlCompat.fromHtml(sb.toString(), HtmlCompat.FROM_HTML_MODE_LEGACY)
+    }
+}
+
 fun stringToImageRef1(dischargeColor: String) : Int {
     return when (dischargeColor) {
         // urine

@@ -19,10 +19,10 @@ On the main page, displays a list of discharges, if any, and the user specifies 
 
 ## Images
 Main Screen
-![Test Image 4](https://i.imgur.com/lhNDiTA.png)
+![Test Image 4](https://imgur.com/1LwEeK1.png)
 Discharge Screen Type 1
-![Test Image 4](https://i.imgur.com/EQmkDfy.png)
+![Test Image 4](https://imgur.com/kb5Apjt.png)
 Discharge Screen Type 2
-![Test Image 4](https://i.imgur.com/CCXrgtX.png)
+![Test Image 4](https://imgur.com/CZl5HQb.png)
 DateTimePicker
-![Test Image 4](https://i.imgur.com/Uu0k3NS.png)
+![Test Image 4](https://imgur.com/5bQmL9W.png)
