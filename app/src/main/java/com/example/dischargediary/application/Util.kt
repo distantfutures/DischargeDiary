@@ -40,12 +40,12 @@ fun formatDischargesDialog(discharges: DischargeData, resources: Resources): Spa
     val sb = StringBuilder()
     sb.apply {
         discharges.let {
+            append("<br><b>${resources.getString(R.string.discharge_type)}</b> ")
+            append("#${it.dischargeType}")
             append("<br><b>${resources.getString(R.string.date)}</b> ")
             append(it.dischargeDate)
             append("<br><b>${resources.getString(R.string.time)}</b> ")
             append(it.dischargeTime)
-            append("<br><b>${resources.getString(R.string.discharge_type)}</b> ")
-            append("#${it.dischargeType}")
             append("<br><b>${resources.getString(R.string.duration)}</b> ")
             append(it.dischargeDuration)
             append("<br><b>${resources.getString(R.string.leakage)}</b> ")

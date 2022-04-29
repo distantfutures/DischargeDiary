@@ -97,7 +97,7 @@ class DischargeFragment : Fragment() {
 
     // Sets appropriate colors for Discharge Color pending DischargeType selection
     private fun showNumberOneUi(binding: FragmentDischargeBinding) {
-        binding.apply {
+        with(binding) {
             consistGroup.visibility = View.GONE
             dischargeButtonToggleGroup.check(R.id.numberOneButton)
             color1Button.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.urine_color_one))
@@ -108,7 +108,7 @@ class DischargeFragment : Fragment() {
         }
     }
     private fun showNumberTwoUi(binding: FragmentDischargeBinding) {
-        binding.apply {
+        with(binding) {
             consistGroup.visibility = View.VISIBLE
             dischargeButtonToggleGroup.check(R.id.numberTwoButton)
             color1Button.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.stool_color_one))
