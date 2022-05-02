@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "133450609183",
+    "project_id": "discharge-diary",
+    "storage_bucket": "discharge-diary.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:133450609183:android:06d08f4efedae2976e5b2a",
+        "android_client_info": {
+          "package_name": "com.example.dischargediary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "133450609183-ti3a4gpi19frpcs5jj4gqgmir7kro2co.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLRQniiCykA-w99PjcUtMswaQ0Pvk2Rgo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "133450609183-ti3a4gpi19frpcs5jj4gqgmir7kro2co.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
