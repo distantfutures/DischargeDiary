@@ -3,7 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/discharge_diary_fragment">
+    app:startDestination="@id/login_fragment">
+
+    <fragment
+        android:id="@+id/login_fragment"
+        android:name="com.example.dischargediary.LoginFragment"
+        android:label="LoginFragment"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_discharge_diary_fragment"
+            app:destination="@id/discharge_diary_fragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/discharge_diary_fragment"
@@ -31,10 +41,5 @@
             app:popUpTo="@id/discharge_diary_fragment"
             app:popUpToInclusive="true" />
     </fragment>
-    <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.example.dischargediary.LoginFragment"
-        android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
 
 </navigation>

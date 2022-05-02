@@ -1,59 +1,129 @@
 package com.example.dischargediary
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.example.dischargediary.databinding.FragmentLoginBinding
+import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.*
+import kotlinx.coroutines.tasks.await
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [LoginFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+private const val LOG_TAG = "LoginCheck"
+
 class LoginFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    /**
+     * [Part1] Get ref to Firebase Authentication Object
+     **/
+    lateinit var auth: FirebaseAuth
+    private val loginViewModel: LoginViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        // [Part2] Get instance of auth
+        auth = FirebaseAuth.getInstance()
+
+        val binding: FragmentLoginBinding = DataBindingUtil
+            .inflate(inflater, R.layout.fragment_login, container, false)
+
+        binding.loginViewModel = loginViewModel
+        binding.lifecycleOwner = this
+
+        binding.buttonRegister.setOnClickListener {
+            registerUser(binding)
+            Log.i(LOG_TAG, "Register Clicked")
+        }
+        binding.buttonLogin.setOnClickListener {
+            loginUser(binding)
+            Log.i(LOG_TAG, "Login Clicked")
+        }
+
+        loginViewModel.navigateToDiary.observe(viewLifecycleOwner) {
+            if(it) {
+                this.findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToDischargeDiaryFragment())
+                loginViewModel.doneNavigating()
+            } else {
+
+            }
+        }
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment LoginFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            LoginFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onStart() {
+        super.onStart()
+        Log.i(LOG_TAG, "Login Started!")
+        checkLoggedInStateStart()
+    }
+
+    private fun registerUser(binding: FragmentLoginBinding) {
+        val email = binding.newUserEmailInput.text.toString()
+        val password = binding.newPasswordInput.text.toString()
+        Log.i(LOG_TAG, "$email $password")
+        val confirmPassword = binding.confirmNewPasswordInput.text.toString()
+        if(email.isNotEmpty() && password.isNotEmpty() && password == confirmPassword) {
+            CoroutineScope(Dispatchers.IO).launch {
+                try {
+                    auth.createUserWithEmailAndPassword(email, password).await()
+                    withContext(Dispatchers.Main) {
+                        checkLoggedInState(binding)
+                    }
+                } catch (e:Exception) {
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
+                        Log.i(LOG_TAG, "$e")
+                    }
                 }
             }
+        } else {
+            Toast.makeText(context, "Invalid Input, Check and Try Again!", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun loginUser(binding: FragmentLoginBinding) {
+        val email = binding.usernameInput.text.toString()
+        val password = binding.passwordInput.text.toString()
+        Log.i(LOG_TAG, "$email $password")
+        if(email.isNotEmpty() && password.isNotEmpty()) {
+            CoroutineScope(Dispatchers.IO).launch {
+                try {
+                    auth.signInWithEmailAndPassword(email, password).await()
+                    withContext(Dispatchers.Main) {
+                        checkLoggedInState(binding)
+                    }
+                } catch (e:Exception) {
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
+                        Log.i(LOG_TAG, "$e")
+                    }
+                }
+            }
+        } else {
+            Toast.makeText(context, "Invalid Input, Check and Try Again!", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun checkLoggedInState(binding: FragmentLoginBinding) {
+        if(auth.currentUser == null) {
+            binding.loggedInTv.text = "You are NOT logged in"
+        } else {
+            binding.loggedInTv.text = "You are logged in"
+            loginViewModel.loginValid()
+        }
+    }
+    private fun checkLoggedInStateStart() {
+        if(auth.currentUser != null) {
+            loginViewModel.loginValid()
+            Log.i(LOG_TAG, "Already Logged In!")
+        }
     }
 }
