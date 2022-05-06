@@ -62,6 +62,7 @@ class LoginFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         Log.i(LOG_TAG, "Login Started!")
+//        auth.signOut()
         checkLoggedInStateStart()
     }
 

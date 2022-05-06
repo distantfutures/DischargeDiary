@@ -21,6 +21,7 @@ import com.example.dischargediary.databinding.FragmentDischargeBinding
 import com.example.dischargediary.dischargediary.DischargeViewModelFactory
 import com.google.android.material.snackbar.Snackbar
 
+private const val TAG = "DischargeFragmentCheck"
 class DischargeFragment : Fragment() {
 
     private lateinit var dischargeViewModel: DischargeViewModel
@@ -43,6 +44,7 @@ class DischargeFragment : Fragment() {
         dischargeViewModel = ViewModelProvider(this, viewModelFactory).get(DischargeViewModel::class.java)
 
         binding.dischargeViewModel = dischargeViewModel
+        binding.dischargeFragment = this
         binding.lifecycleOwner = this
 
         //Current Date & Time
@@ -54,7 +56,7 @@ class DischargeFragment : Fragment() {
             if (number != 2) {
                 showNumberOneUi(binding)
                 dischargeViewModel.onSetDischargeColor(dischargeViewModel.dischargeColorButton.value)
-                dischargeViewModel.onSetDischargeConsist(0)
+                onSetDischargeConsist(0)
             } else {
                 showNumberTwoUi(binding)
                 dischargeViewModel.onSetDischargeColor(dischargeViewModel.dischargeColorButton.value)
@@ -129,5 +131,22 @@ class DischargeFragment : Fragment() {
                 showToast(dischargeViewModel.dischargeTime.value)
             }, dischargeViewModel.startHour, dischargeViewModel.startMinute, false).show()
         }, dischargeViewModel.startYear, dischargeViewModel.startMonth, dischargeViewModel.startDay).show()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun onSetDischargeConsist(consist: Int?) {
+        val consist = when (consist) {
+            1 -> R.string.consist_one
+            2 -> R.string.consist_two
+            3 -> R.string.consist_three
+            4 -> R.string.consist_four
+            5 -> R.string.consist_five
+            else -> {
+                null
+            }
+        }
+        val consistString = consist?.let { context?.resources?.getString(it) }
+        dischargeViewModel.setDischargeConsist(consistString.toString())
+        Log.i(TAG, "onSetDischargeConsist $consistString")
     }
 }

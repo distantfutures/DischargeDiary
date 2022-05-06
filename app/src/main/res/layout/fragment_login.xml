@@ -132,8 +132,7 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="30dp"
                 android:layout_marginBottom="16dp"
-                android:textSize="30sp"
-                android:hint="Logged"/>
+                android:textSize="30sp"/>
 
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

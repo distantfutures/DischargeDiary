@@ -135,18 +135,8 @@ class DischargeViewModel(
     }
 
     // Sets dischargeConsist
-    fun onSetDischargeConsist(consist: Int?) {
-        val consistString = when (consist) {
-            1 -> R.string.consist_one.toString()
-            2 -> R.string.consist_two.toString()
-            3 -> R.string.consist_three.toString()
-            4 -> R.string.consist_four.toString()
-            5 -> R.string.consist_five.toString()
-            else -> {
-                "N/A"
-            }
-        }
-        _dischargeConsist.value = consistString
+    fun setDischargeConsist(consist: String?) {
+        _dischargeConsist.value = consist
         Log.i("CheckDischargeViewModel", "onSetDischargeConsist $consist")
     }
 
