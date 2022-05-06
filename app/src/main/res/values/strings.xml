@@ -3,6 +3,7 @@
     <!--    Time     -->
     <string name="new_date_time">"%1s - %2s"</string>
     <string name="minutes_seconds_hint_text">Minutes : Seconds</string>
+    <string name="time_zeros">00:00</string>
     <!--    Headers     -->
     <string name="entry_id">Entry #</string>
     <string name="date">Date:</string>
