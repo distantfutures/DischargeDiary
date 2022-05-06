@@ -32,14 +32,14 @@
                 android:id="@+id/username_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Email"
+                android:hint="@string/email_hint"
                 android:inputType="textEmailAddress" />
 
             <EditText
                 android:id="@+id/password_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Password"
+                android:hint="@string/password_hint"
                 android:inputType="textPassword" />
 
             <Button
@@ -47,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_marginTop="@dimen/margin_top_group"
-                android:text="Login"
+                android:text="@string/login"
                 android:textAlignment="center" />
         </LinearLayout>
 
@@ -68,21 +68,21 @@
                 android:id="@+id/new_user_email_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Email"
+                android:hint="@string/email_hint"
                 android:inputType="textEmailAddress" />
 
             <EditText
                 android:id="@+id/new_password_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Password"
+                android:hint="@string/password_hint"
                 android:inputType="textPassword" />
 
             <EditText
                 android:id="@+id/confirm_new_password_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Confirm Password"
+                android:hint="@string/confirm_password_hint"
                 android:inputType="textPassword" />
 
             <Button
@@ -90,7 +90,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_marginTop="@dimen/margin_top_group"
-                android:text="Register" />
+                android:text="@string/register" />
         </LinearLayout>
 
         <LinearLayout

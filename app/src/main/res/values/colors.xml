@@ -23,6 +23,7 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="light_grey">#1F9A9A9A</color>
+    <color name="mid_grey">#979797</color>
     <color name="lt_grey_tint">#77D3D3D3</color>
     <color name="mid_grey_tint">#77818181</color>
 

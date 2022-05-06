@@ -11,6 +11,13 @@
         <item name="colorOnSecondary">@color/on_secondary</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+        <item name="editTextStyle">@style/EditText</item>
+    </style>
+    <style name="EditText" parent="Widget.AppCompat.EditText">
+        <item name="android:textSize">@dimen/med_text</item>
+        <item name="android:padding">@dimen/input_text_time_pad</item>
+        <item name="android:textColor">@color/on_secondary</item>
+        <item name="android:textColorHint">@color/mid_grey</item>
+        <item name="backgroundTint">@color/mid_grey</item>
     </style>
 </resources>
