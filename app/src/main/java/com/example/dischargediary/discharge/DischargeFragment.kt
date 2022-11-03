@@ -56,7 +56,7 @@ class DischargeFragment : Fragment() {
             if (number != 2) {
                 showNumberOneUi(binding)
                 dischargeViewModel.onSetDischargeColor(dischargeViewModel.dischargeColorButton.value)
-                onSetDischargeConsist(0)
+                dischargeViewModel.onSetDischargeConsist(0)
             } else {
                 showNumberTwoUi(binding)
                 dischargeViewModel.onSetDischargeColor(dischargeViewModel.dischargeColorButton.value)
@@ -131,22 +131,5 @@ class DischargeFragment : Fragment() {
                 showToast(dischargeViewModel.dischargeTime.value)
             }, dischargeViewModel.startHour, dischargeViewModel.startMinute, false).show()
         }, dischargeViewModel.startYear, dischargeViewModel.startMonth, dischargeViewModel.startDay).show()
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun onSetDischargeConsist(consist: Int?) {
-        val consist = when (consist) {
-            1 -> R.string.consist_one
-            2 -> R.string.consist_two
-            3 -> R.string.consist_three
-            4 -> R.string.consist_four
-            5 -> R.string.consist_five
-            else -> {
-                null
-            }
-        }
-        val consistString = consist?.let { context?.resources?.getString(it) }
-        dischargeViewModel.setDischargeConsist(consistString.toString())
-        Log.i(TAG, "onSetDischargeConsist $consistString")
     }
 }

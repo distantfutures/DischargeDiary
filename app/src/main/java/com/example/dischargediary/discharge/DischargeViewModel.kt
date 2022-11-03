@@ -25,6 +25,8 @@ class DischargeViewModel(
     application: Application
 ) : AndroidViewModel(application) {
 
+    private val TAG = "CheckDischargeViewModel"
+
     private val dischargesRepository =
         DischargesRepository(DischargeDatabase.getInstance(application))
 
@@ -76,7 +78,7 @@ class DischargeViewModel(
         get() = _navigateToDiary
 
     init {
-        Log.d("CheckDischargeViewModel", "entryID Test $disType")
+        Log.d(TAG, "entryID Test $disType")
         _dischargeType.value = disType
         getCurrentDateTime()
         _dischargeConsist.value = "N/A"
@@ -131,13 +133,22 @@ class DischargeViewModel(
     fun onSetDischargeColor(colorNumber: Int?) {
         _dischargeColorButton.value = colorNumber
         _dischargeColor.value = colorConverter(dischargeType.value!!, colorNumber)
-        Log.i("CheckDischargeViewModel", "checkDischargeColor ${_dischargeColor.value}")
+        Log.i(TAG, "checkDischargeColor ${_dischargeColor.value}")
     }
 
-    // Sets dischargeConsist
-    fun setDischargeConsist(consist: String?) {
-        _dischargeConsist.value = consist
-        Log.i("CheckDischargeViewModel", "onSetDischargeConsist $consist")
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun onSetDischargeConsist(consist: Int?) {
+        val consistString = when (consist) {
+            1 -> R.string.consist_one.toString()
+            2 -> R.string.consist_two.toString()
+            3 -> R.string.consist_three.toString()
+            4 -> R.string.consist_four.toString()
+            5 -> R.string.consist_five.toString()
+            else -> {
+                "N/A"
+            }
+        }
+        _dischargeConsist.value = consistString
     }
 
     fun onSetDischargeDuration(durationTime: String?) {
@@ -191,7 +202,7 @@ class DischargeViewModel(
         _dischargeDate.value = formatterDate.format(currentDateTime.time)
         _dischargeTime.value = formatterTime.format(currentDateTime.time)
         milliDateTimeFormatter(currentDateTime)
-        Log.i("CheckViewModel", "$startYear $startMonth $startDay")
+        Log.i(TAG, "$startYear $startMonth $startDay")
     }
 
     // Gets New DateTime from Fragment DateTimePickerDialog
@@ -204,9 +215,7 @@ class DischargeViewModel(
         _dischargeDate.value = formatterDate.format(pickDateTime.time).toString()
         _dischargeTime.value = formatterTime.format(pickDateTime.time).toString()
         milliDateTimeFormatter(pickDateTime)
-        Log.i(
-            "CheckViewModel",
-            "calendarTime $pickDateTime Milli ${_dischargeMilli.value.toString()}"
+        Log.i(TAG, "calendarTime $pickDateTime Milli ${_dischargeMilli.value.toString()}"
         )
     }
 
@@ -220,7 +229,7 @@ class DischargeViewModel(
             "EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH
         )
         val simpleFormat = simpleFormatter.format(dateTime.time).toString()
-        Log.i("CheckViewModel", "simpleFormat $simpleFormat")
+        Log.i(TAG, "simpleFormat $simpleFormat")
         val localDate: LocalDateTime = LocalDateTime.parse(simpleFormat, formatter)
         val timeMilli: Long = localDate.atOffset(ZoneOffset.UTC).toInstant().toEpochMilli()
         _dischargeMilli.value = timeMilli

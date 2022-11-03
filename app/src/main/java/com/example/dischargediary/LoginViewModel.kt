@@ -9,7 +9,7 @@ class LoginViewModel: ViewModel(){
     private var _navigateToDiary = MutableLiveData<Boolean>()
             val navigateToDiary: LiveData<Boolean> = _navigateToDiary
     init {
-        _navigateToDiary.value = false
+        _navigateToDiary.value = true
     }
     fun loginValid() {
         _navigateToDiary.value = true

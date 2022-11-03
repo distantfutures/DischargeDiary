@@ -17,6 +17,7 @@ import java.util.*
 const val TAG = "CheckDDVM"
 const val TAG_OUTPUT = "OUTPUT"
 const val EXPORT_WORK_NAME = "export_work"
+
 class DischargeDiaryViewModel(
     application: Application
 ) : AndroidViewModel(application) {
