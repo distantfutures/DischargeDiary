@@ -4,7 +4,6 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +20,6 @@ import com.example.dischargediary.databinding.FragmentDischargeBinding
 import com.example.dischargediary.dischargediary.DischargeViewModelFactory
 import com.google.android.material.snackbar.Snackbar
 
-private const val TAG = "DischargeFragmentCheck"
 class DischargeFragment : Fragment() {
 
     private lateinit var dischargeViewModel: DischargeViewModel
@@ -40,7 +38,6 @@ class DischargeFragment : Fragment() {
         // Gets arguments from Diary Screen, passes into Factory and sets to ViewModel
         val arguments = DischargeFragmentArgs.fromBundle(requireArguments())
         val viewModelFactory = DischargeViewModelFactory(arguments.dischargeTypeArg, application)
-        Log.d("CheckDischargeFrag", "${arguments.dischargeTypeArg}")
         dischargeViewModel = ViewModelProvider(this, viewModelFactory).get(DischargeViewModel::class.java)
 
         binding.dischargeViewModel = dischargeViewModel
@@ -55,12 +52,23 @@ class DischargeFragment : Fragment() {
         ) { number ->
             if (number != 2) {
                 showNumberOneUi(binding)
-                dischargeViewModel.onSetDischargeColor(dischargeViewModel.dischargeColorButton.value)
+                dischargeViewModel.onSetDischargeColor(dischargeViewModel.dischargeColorButton)
                 dischargeViewModel.onSetDischargeConsist(0)
             } else {
                 showNumberTwoUi(binding)
-                dischargeViewModel.onSetDischargeColor(dischargeViewModel.dischargeColorButton.value)
+                dischargeViewModel.onSetDischargeColor(dischargeViewModel.dischargeColorButton)
             }
+        }
+
+        // Submit Button
+        dischargeViewModel.navigateToDiary.observe(viewLifecycleOwner) {
+            if (it == true) {
+                this.findNavController()
+                    .navigate(DischargeFragmentDirections.actionDischargeFragmentToDischargeDiaryFragment())
+                dischargeViewModel.doneNavigating()
+                snackBarEvent("Entry Recorded")
+            }
+            if (it == false) snackBarEvent("Entry Incomplete")
         }
 
         // Duration input - sets info after keyboard closes
@@ -75,24 +83,13 @@ class DischargeFragment : Fragment() {
             }
         }
 
-        // Submit Button
-        dischargeViewModel.navigateToDiary.observe(viewLifecycleOwner) {
-            if (it == true) {
-                this.findNavController()
-                    .navigate(DischargeFragmentDirections.actionDischargeFragmentToDischargeDiaryFragment())
-                dischargeViewModel.doneNavigating()
-                snackBarEvent("Entry Recorded")
-            }
-            if (it == false) {
-                snackBarEvent("Entry Incomplete")
-            }
-        }
         return binding.root
     }
 
     private fun showToast(str: String?) {
         Toast.makeText(context, str, Toast.LENGTH_SHORT).show()
     }
+
     private fun snackBarEvent(str: CharSequence) {
         activity?.let { Snackbar.make(it.findViewById(android.R.id.content), str, Snackbar.LENGTH_SHORT).show() }
     }
@@ -109,6 +106,7 @@ class DischargeFragment : Fragment() {
             color5Button.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.urine_color_five))
         }
     }
+
     private fun showNumberTwoUi(binding: FragmentDischargeBinding) {
         with(binding) {
             consistGroup.visibility = View.VISIBLE

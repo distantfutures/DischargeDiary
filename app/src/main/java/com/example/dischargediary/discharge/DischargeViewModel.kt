@@ -36,87 +36,63 @@ class DischargeViewModel(
     var startHour = 0
     var startMinute = 0
 
-    // Review all LiveData and remove uneccessary
+    private val _dischargeType = MutableLiveData<Int?>()
+    val dischargeType: LiveData<Int?> = _dischargeType
+
     private val _dischargeDate = MutableLiveData<String?>()
-    val dischargeDate: LiveData<String?>
-        get() = _dischargeDate
+    val dischargeDate: LiveData<String?> = _dischargeDate
 
     private val _dischargeTime = MutableLiveData<String?>()
-    val dischargeTime: LiveData<String?>
-        get() = _dischargeTime
-
-    private val _dischargeMilli = MutableLiveData<Long?>()
-    private val dischargeMilli: LiveData<Long?>
-        get() = _dischargeMilli
-
-    private val _dischargeType = MutableLiveData<Int?>()
-    val dischargeType: LiveData<Int?>
-        get() = _dischargeType
-
-    private val _leakageYN = MutableLiveData<Boolean?>()
-    val leakageYN: LiveData<Boolean?>
-        get() = _leakageYN
-
-    private val _dischargeColorButton = MutableLiveData<Int?>()
-    val dischargeColorButton: LiveData<Int?>
-        get() = _dischargeColorButton
-
-    private val _dischargeColor = MutableLiveData<String?>()
-    val dischargeColor: LiveData<String?>
-        get() = _dischargeColor
-
-    private val _dischargeConsist = MutableLiveData<String?>()
-    val dischargeConsist: LiveData<String?>
-        get() = _dischargeConsist
-
-    private val _dischargeDurationTime = MutableLiveData<String?>()
-    val dischargeDurationTime: LiveData<String?>
-        get() = _dischargeDurationTime
+    val dischargeTime: LiveData<String?> = _dischargeTime
 
     private val _navigateToDiary = MutableLiveData<Boolean?>()
-    val navigateToDiary: LiveData<Boolean?>
-        get() = _navigateToDiary
+    val navigateToDiary: LiveData<Boolean?> = _navigateToDiary
+
+    private var dischargeMilli: Long = 0L
+    private var leakageYN: Boolean = false
+    var dischargeColorButton: Int = 0
+    private var dischargeColor: String? = null
+    private var dischargeConsist: String?
+    private var dischargeDurationTime: String? = null
 
     init {
-        Log.d(TAG, "entryID Test $disType")
         _dischargeType.value = disType
         getCurrentDateTime()
-        _dischargeConsist.value = "N/A"
+        dischargeConsist = "N/A"
     }
 
     // Checks if any inputs are unfilled
     private fun unfilled(): Boolean {
         return if (dischargeType.value == 1) {
-            !(dischargeType.value == 0 || dischargeDurationTime.value == null || leakageYN.value == null || dischargeColor.value == null)
+            (dischargeType.value == 0 || dischargeDurationTime == null || dischargeColor == null)
         } else {
-            !(dischargeDurationTime.value == null || leakageYN.value == null || dischargeColor.value == null || dischargeConsist.value == "N/A")
+            (dischargeDurationTime == null || dischargeColor == null || dischargeConsist == "N/A")
         }
     }
 
     // Sets all values to new discharge entry object
     private fun setDischargeData(): DischargeData {
-        val newEntry = DischargeData()
-        newEntry.dischargeType = dischargeType.value!!
-        newEntry.dischargeDate = dischargeDate.value!!
-        newEntry.dischargeTime = dischargeTime.value!!
-        newEntry.dischargeMilli = dischargeMilli.value!!
-        newEntry.dischargeDuration = dischargeDurationTime.value!!
-        newEntry.leakage = leakageYN.value!!
-        newEntry.dischargeColor = dischargeColor.value!!
-        newEntry.dischargeConsistency = dischargeConsist.value!!
-        return newEntry
+        return DischargeData(
+            dischargeType = dischargeType.value!!,
+            dischargeDate = dischargeDate.value!!,
+            dischargeTime = dischargeTime.value!!,
+            dischargeMilli = dischargeMilli,
+            dischargeDuration = dischargeDurationTime!!,
+            leakage = leakageYN,
+            dischargeColor = dischargeColor!!,
+            dischargeConsistency = dischargeConsist!!
+        )
     }
 
     // Inserts entry into Room Database & navigates back to Diary if entry is filled
     fun onSubmitInfo() {
         viewModelScope.launch {
-            val entryFilled = unfilled()
-            if (entryFilled) {
+            if (unfilled()) {
+                _navigateToDiary.value = false
+            } else {
                 val newEntry = setDischargeData()
                 dischargesRepository.insertNewEntry(newEntry)
                 _navigateToDiary.value = true
-            } else {
-                _navigateToDiary.value = false
             }
         }
     }
@@ -126,14 +102,13 @@ class DischargeViewModel(
     }
 
     fun onSetLeakageYN(leakYN: Boolean) {
-        _leakageYN.value = leakYN
+        leakageYN = leakYN
     }
 
     // Converts and sets from dischargeColor button
-    fun onSetDischargeColor(colorNumber: Int?) {
-        _dischargeColorButton.value = colorNumber
-        _dischargeColor.value = colorConverter(dischargeType.value!!, colorNumber)
-        Log.i(TAG, "checkDischargeColor ${_dischargeColor.value}")
+    fun onSetDischargeColor(colorNumber: Int) {
+        dischargeColorButton = colorNumber
+        dischargeColor = colorConverter(dischargeType.value!!, colorNumber)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -148,15 +123,15 @@ class DischargeViewModel(
                 "N/A"
             }
         }
-        _dischargeConsist.value = consistString
+        dischargeConsist = consistString
     }
 
     fun onSetDischargeDuration(durationTime: String?) {
-        _dischargeDurationTime.value = durationTime
+        dischargeDurationTime = durationTime
     }
 
     // Converts button selection to appropriate color pending dischargeType
-    fun colorConverter(group: Int, colorNumber: Int?): String? {
+    private fun colorConverter(group: Int, colorNumber: Int?): String? {
         val colorName: String?
         if (group != 2) {
             colorName = when (colorNumber) {
@@ -202,7 +177,6 @@ class DischargeViewModel(
         _dischargeDate.value = formatterDate.format(currentDateTime.time)
         _dischargeTime.value = formatterTime.format(currentDateTime.time)
         milliDateTimeFormatter(currentDateTime)
-        Log.i(TAG, "$startYear $startMonth $startDay")
     }
 
     // Gets New DateTime from Fragment DateTimePickerDialog
@@ -215,8 +189,6 @@ class DischargeViewModel(
         _dischargeDate.value = formatterDate.format(pickDateTime.time).toString()
         _dischargeTime.value = formatterTime.format(pickDateTime.time).toString()
         milliDateTimeFormatter(pickDateTime)
-        Log.i(TAG, "calendarTime $pickDateTime Milli ${_dischargeMilli.value.toString()}"
-        )
     }
 
     // Sets newly formatted date to LiveData
@@ -232,6 +204,6 @@ class DischargeViewModel(
         Log.i(TAG, "simpleFormat $simpleFormat")
         val localDate: LocalDateTime = LocalDateTime.parse(simpleFormat, formatter)
         val timeMilli: Long = localDate.atOffset(ZoneOffset.UTC).toInstant().toEpochMilli()
-        _dischargeMilli.value = timeMilli
+        dischargeMilli = timeMilli
     }
 }

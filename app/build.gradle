@@ -93,5 +93,8 @@ dependencies {
     // Firebase
     implementation 'com.google.firebase:firebase-auth-ktx:21.0.2'
     implementation 'com.android.support:multidex:1.0.3'
+
+    // Timber
+    implementation 'com.jakewharton.timber:timber:5.0.1'
 }
 
