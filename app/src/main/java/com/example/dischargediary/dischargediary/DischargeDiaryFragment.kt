@@ -2,19 +2,22 @@ package com.example.dischargediary.dischargediary
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.dischargediary.R
 import com.example.dischargediary.databinding.FragmentDischargeDiaryBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DischargeDiaryFragment : Fragment() {
+
+    private val diaryViewModel: DischargeDiaryViewModel by viewModels()
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
@@ -23,9 +26,6 @@ class DischargeDiaryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding: FragmentDischargeDiaryBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_discharge_diary, container, false)
-        val application = requireNotNull(this.activity).application
-        val viewModelFactory = DischargeDiaryViewModelFactory(application)
-        val diaryViewModel = ViewModelProvider(this, viewModelFactory).get(DischargeDiaryViewModel::class.java)
 
         binding.lifecycleOwner = this
         binding.dischargeDiaryViewModel = diaryViewModel
@@ -44,7 +44,6 @@ class DischargeDiaryFragment : Fragment() {
                         diaryViewModel.dischargeTypeArg.value!!
                     )
                 )
-                Log.d("CheckDiaryFrag", "Navigate, ${diaryViewModel.dischargeTypeArg.value!!}")
                 diaryViewModel.doneNavigating()
             }
         }

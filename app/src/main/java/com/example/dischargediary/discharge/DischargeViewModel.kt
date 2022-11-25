@@ -1,34 +1,34 @@
 package com.example.dischargediary.discharge
 
-import android.app.Application
+import android.content.Context
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.dischargediary.R
 import com.example.dischargediary.data.DischargeData
 import com.example.dischargediary.data.DischargeDatabase
 import com.example.dischargediary.repository.DischargesRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.*
+import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.O)
-class DischargeViewModel(
-    disType: Int = 0,
-    application: Application
-) : AndroidViewModel(application) {
-
-    private val TAG = "CheckDischargeViewModel"
+@HiltViewModel
+class DischargeViewModel @Inject constructor(
+    @ApplicationContext context: Context
+) : ViewModel() {
 
     private val dischargesRepository =
-        DischargesRepository(DischargeDatabase.getInstance(application))
+        DischargesRepository(DischargeDatabase.getInstance(context))
 
     var startYear = 0
     var startMonth = 0
@@ -56,7 +56,6 @@ class DischargeViewModel(
     private var dischargeDurationTime: String? = null
 
     init {
-        _dischargeType.value = disType
         getCurrentDateTime()
         dischargeConsist = "N/A"
     }
@@ -113,6 +112,7 @@ class DischargeViewModel(
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun onSetDischargeConsist(consist: Int?) {
+
         val consistString = when (consist) {
             1 -> R.string.consist_one.toString()
             2 -> R.string.consist_two.toString()
@@ -201,7 +201,6 @@ class DischargeViewModel(
             "EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH
         )
         val simpleFormat = simpleFormatter.format(dateTime.time).toString()
-        Log.i(TAG, "simpleFormat $simpleFormat")
         val localDate: LocalDateTime = LocalDateTime.parse(simpleFormat, formatter)
         val timeMilli: Long = localDate.atOffset(ZoneOffset.UTC).toInstant().toEpochMilli()
         dischargeMilli = timeMilli

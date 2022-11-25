@@ -8,7 +8,6 @@ import androidx.core.text.HtmlCompat
 import com.example.dischargediary.R
 import com.example.dischargediary.data.DischargeData
 
-const val TAG = "Util"
 fun formatDischarges(discharges: DischargeData, resources: Resources): Spanned? {
     val sb = StringBuilder()
     sb.apply {

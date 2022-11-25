@@ -1,11 +1,11 @@
 package com.example.dischargediary.repository
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import com.example.dischargediary.data.DischargeData
 import com.example.dischargediary.data.DischargeDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 class DischargesRepository(private val database: DischargeDatabase) {
     val allDischarges: LiveData<List<DischargeData>> = database.dischargeDatabaseDao.getAllDischarges()
@@ -13,14 +13,14 @@ class DischargesRepository(private val database: DischargeDatabase) {
     suspend fun insertNewEntry(newEntry: DischargeData) {
         withContext(Dispatchers.IO) {
             database.dischargeDatabaseDao.addNew(newEntry)
-            Log.i("CheckDischargeViewModel", "Room: $newEntry")
+            Timber.d("Room: $newEntry")
         }
     }
 
     suspend fun deleteEntryNumber(disMilliId:Long) {
         withContext(Dispatchers.IO) {
             database.dischargeDatabaseDao.deleteEntryNumber(disMilliId)
-            Log.d("CheckDiaryVM", "Delete Entry Number! $disMilliId")
+            Timber.d("Delete Entry Number! $disMilliId")
         }
     }
 

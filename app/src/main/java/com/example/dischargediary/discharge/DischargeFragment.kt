@@ -13,16 +13,19 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.dischargediary.R
 import com.example.dischargediary.databinding.FragmentDischargeBinding
-import com.example.dischargediary.dischargediary.DischargeViewModelFactory
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DischargeFragment : Fragment() {
 
-    private lateinit var dischargeViewModel: DischargeViewModel
+    private val dischargeViewModel: DischargeViewModel by viewModels()
+    private val args: DischargeFragmentArgs by navArgs()
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
@@ -30,23 +33,20 @@ class DischargeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         val binding: FragmentDischargeBinding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_discharge, container, false)
-        val application = requireNotNull(this.activity).application
 
         // Gets arguments from Diary Screen, passes into Factory and sets to ViewModel
-        val arguments = DischargeFragmentArgs.fromBundle(requireArguments())
-        val viewModelFactory = DischargeViewModelFactory(arguments.dischargeTypeArg, application)
-        dischargeViewModel = ViewModelProvider(this, viewModelFactory).get(DischargeViewModel::class.java)
+        dischargeViewModel.onSetDischargeType(args.dischargeTypeArg)
 
         binding.dischargeViewModel = dischargeViewModel
         binding.dischargeFragment = this
         binding.lifecycleOwner = this
 
-        //Current Date & Time
+        // Current Date & Time
         binding.dischargeDateTime.setOnClickListener { setNewDateTime() }
-        //Observes Discharge Type & sets UI accordingly
+
+        // Observes Discharge Type & sets UI accordingly
         dischargeViewModel.dischargeType.observe(
             viewLifecycleOwner
         ) { number ->

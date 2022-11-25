@@ -1,7 +1,6 @@
 package com.example.dischargediary
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,12 +11,11 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.dischargediary.databinding.FragmentLoginBinding
 import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import kotlinx.coroutines.tasks.await
 
-
-private const val LOG_TAG = "LoginCheck"
-
+@AndroidEntryPoint
 class LoginFragment : Fragment() {
     /**
      * [Part1] Get ref to Firebase Authentication Object
@@ -28,7 +26,7 @@ class LoginFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // [Part2] Get instance of auth
         auth = FirebaseAuth.getInstance()
 
@@ -40,19 +38,15 @@ class LoginFragment : Fragment() {
 
         binding.buttonRegister.setOnClickListener {
             registerUser(binding)
-            Log.i(LOG_TAG, "Register Clicked")
         }
         binding.buttonLogin.setOnClickListener {
             loginUser(binding)
-            Log.i(LOG_TAG, "Login Clicked")
         }
 
         loginViewModel.navigateToDiary.observe(viewLifecycleOwner) {
             if(it) {
                 this.findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToDischargeDiaryFragment())
                 loginViewModel.doneNavigating()
-            } else {
-
             }
         }
         // Inflate the layout for this fragment
@@ -61,7 +55,6 @@ class LoginFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        Log.i(LOG_TAG, "Login Started!")
 //        auth.signOut()
         checkLoggedInStateStart()
     }
@@ -69,7 +62,6 @@ class LoginFragment : Fragment() {
     private fun registerUser(binding: FragmentLoginBinding) {
         val email = binding.newUserEmailInput.text.toString()
         val password = binding.newPasswordInput.text.toString()
-        Log.i(LOG_TAG, "$email $password")
         val confirmPassword = binding.confirmNewPasswordInput.text.toString()
         if(email.isNotEmpty() && password.isNotEmpty() && password == confirmPassword) {
             CoroutineScope(Dispatchers.IO).launch {
@@ -81,7 +73,6 @@ class LoginFragment : Fragment() {
                 } catch (e:Exception) {
                     withContext(Dispatchers.Main) {
                         Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
-                        Log.i(LOG_TAG, "$e")
                     }
                 }
             }
@@ -93,7 +84,6 @@ class LoginFragment : Fragment() {
     private fun loginUser(binding: FragmentLoginBinding) {
         val email = binding.usernameInput.text.toString()
         val password = binding.passwordInput.text.toString()
-        Log.i(LOG_TAG, "$email $password")
         if(email.isNotEmpty() && password.isNotEmpty()) {
             CoroutineScope(Dispatchers.IO).launch {
                 try {
@@ -104,7 +94,6 @@ class LoginFragment : Fragment() {
                 } catch (e:Exception) {
                     withContext(Dispatchers.Main) {
                         Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
-                        Log.i(LOG_TAG, "$e")
                     }
                 }
             }
@@ -124,7 +113,6 @@ class LoginFragment : Fragment() {
     private fun checkLoggedInStateStart() {
         if(auth.currentUser != null) {
             loginViewModel.loginValid()
-            Log.i(LOG_TAG, "Already Logged In!")
         }
     }
 }

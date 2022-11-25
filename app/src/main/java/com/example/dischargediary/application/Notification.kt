@@ -9,7 +9,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.SystemClock
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
@@ -44,7 +43,6 @@ fun createNotificationChannel(context: Context, message: String) {
     channel.description = description
     val notificationManager = context.getSystemService(AppCompatActivity.NOTIFICATION_SERVICE) as NotificationManager
     notificationManager.createNotificationChannel(channel)
-    Log.i(TAG, "Notification Triggered!")
 
     // Create the notification
     val builder = NotificationCompat.Builder(context, channelId)

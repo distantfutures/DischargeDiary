@@ -32,8 +32,7 @@
         tools:layout="@layout/fragment_discharge" >
         <argument
             android:name="dischargeTypeArg"
-            app:argType="integer"
-            android:defaultValue="0" />
+            app:argType="integer" />
         <action
             android:id="@+id/action_discharge_fragment_to_discharge_diary_fragment"
             app:destination="@id/discharge_diary_fragment"

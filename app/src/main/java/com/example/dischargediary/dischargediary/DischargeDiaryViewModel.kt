@@ -1,6 +1,6 @@
 package com.example.dischargediary.dischargediary
 
-import android.app.Application
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.*
 import androidx.work.ExistingWorkPolicy
@@ -10,21 +10,25 @@ import androidx.work.WorkManager
 import com.example.dischargediary.data.DischargeDatabase
 import com.example.dischargediary.repository.DischargesRepository
 import com.example.dischargediary.workers.ExportDbWorker
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
 const val TAG = "CheckDDVM"
 const val TAG_OUTPUT = "OUTPUT"
 const val EXPORT_WORK_NAME = "export_work"
 
-class DischargeDiaryViewModel(
-    application: Application
-) : AndroidViewModel(application) {
-    private val workManager = WorkManager.getInstance(application)
+@HiltViewModel
+class DischargeDiaryViewModel @Inject constructor(
+    @ApplicationContext context: Context
+) : ViewModel() {
+    private val workManager = WorkManager.getInstance(context)
     internal val outputWorkInfos: LiveData<List<WorkInfo>> = workManager.getWorkInfosByTagLiveData(TAG_OUTPUT)
 
-    private val dischargesRepository = DischargesRepository(DischargeDatabase.getInstance(application))
+    private val dischargesRepository = DischargesRepository(DischargeDatabase.getInstance(context))
     val dischargeDiary = dischargesRepository.allDischarges
 
     private val _dischargeDateTime = MutableLiveData<String?>()

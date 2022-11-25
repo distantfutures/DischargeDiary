@@ -3,9 +3,11 @@ package com.example.dischargediary
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class LoginViewModel: ViewModel(){
-
+@HiltViewModel
+class LoginViewModel @Inject constructor(): ViewModel(){
     private var _navigateToDiary = MutableLiveData<Boolean>()
             val navigateToDiary: LiveData<Boolean> = _navigateToDiary
     init {
