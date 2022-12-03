@@ -19,6 +19,7 @@
     <string name="no">No</string>
     <string name="yes">Yes</string>
     <string name="submit">Submit</string>
+    <string name="incomplete">Entry Incomplete</string>
     <!--    Urine Color     -->
     <string name="urine_color_one">Clear</string>
     <string name="urine_color_two">Light Yellow</string>
@@ -47,4 +48,5 @@
     <string name="login">Login</string>
     <string name="confirm_password_hint">Confirm Password</string>
     <string name="register">Register</string>
+    <string name="n_a">N/A</string>
 </resources>

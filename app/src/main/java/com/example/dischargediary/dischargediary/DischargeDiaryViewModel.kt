@@ -1,7 +1,6 @@
 package com.example.dischargediary.dischargediary
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.*
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequest
@@ -13,6 +12,7 @@ import com.example.dischargediary.workers.ExportDbWorker
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -56,7 +56,7 @@ class DischargeDiaryViewModel @Inject constructor(
         //Add catch exception for null
         viewModelScope.launch {
             dischargesRepository.deleteEntryNumber(disMilliId)
-            Log.d(TAG, "Delete Entry! $disMilliId")
+            Timber.d("Delete Entry! $disMilliId")
         }
     }
 
@@ -87,6 +87,6 @@ class DischargeDiaryViewModel @Inject constructor(
                 OneTimeWorkRequest.from(ExportDbWorker::class.java)
             )
         exportWork.enqueue()
-        Log.i(TAG, "Export Clicked!")
+        Timber.d("Export Clicked!")
     }
 }

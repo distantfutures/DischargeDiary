@@ -24,7 +24,7 @@ import javax.inject.Inject
 @RequiresApi(Build.VERSION_CODES.O)
 @HiltViewModel
 class DischargeViewModel @Inject constructor(
-    @ApplicationContext context: Context
+    @ApplicationContext private val context: Context
 ) : ViewModel() {
 
     private val dischargesRepository =
@@ -36,8 +36,9 @@ class DischargeViewModel @Inject constructor(
     var startHour = 0
     var startMinute = 0
 
-    private val _dischargeType = MutableLiveData<Int?>()
-    val dischargeType: LiveData<Int?> = _dischargeType
+    // TODO: Use dependency injection here to create a singleton
+    private val _dischargeType = MutableLiveData<Int>()
+    val dischargeType: LiveData<Int> = _dischargeType
 
     private val _dischargeDate = MutableLiveData<String?>()
     val dischargeDate: LiveData<String?> = _dischargeDate
@@ -52,12 +53,11 @@ class DischargeViewModel @Inject constructor(
     private var leakageYN: Boolean = false
     var dischargeColorButton: Int = 0
     private var dischargeColor: String? = null
-    private var dischargeConsist: String?
+    private var dischargeConsist: String? = null
     private var dischargeDurationTime: String? = null
 
     init {
         getCurrentDateTime()
-        dischargeConsist = "N/A"
     }
 
     // Checks if any inputs are unfilled
@@ -65,14 +65,14 @@ class DischargeViewModel @Inject constructor(
         return if (dischargeType.value == 1) {
             (dischargeType.value == 0 || dischargeDurationTime == null || dischargeColor == null)
         } else {
-            (dischargeDurationTime == null || dischargeColor == null || dischargeConsist == "N/A")
+            (dischargeDurationTime == null || dischargeColor == null || dischargeConsist == null)
         }
     }
 
     // Sets all values to new discharge entry object
     private fun setDischargeData(): DischargeData {
         return DischargeData(
-            dischargeType = dischargeType.value!!,
+            dischargeType = _dischargeType.value!!,
             dischargeDate = dischargeDate.value!!,
             dischargeTime = dischargeTime.value!!,
             dischargeMilli = dischargeMilli,
@@ -104,59 +104,62 @@ class DischargeViewModel @Inject constructor(
         leakageYN = leakYN
     }
 
-    // Converts and sets from dischargeColor button
-    fun onSetDischargeColor(colorNumber: Int) {
-        dischargeColorButton = colorNumber
-        dischargeColor = colorConverter(dischargeType.value!!, colorNumber)
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun onSetDischargeConsist(consist: Int) {
+        val consistString = context.getString(setConsistRef(consist))
+        dischargeConsist = consistString
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun onSetDischargeConsist(consist: Int?) {
-
-        val consistString = when (consist) {
-            1 -> R.string.consist_one.toString()
-            2 -> R.string.consist_two.toString()
-            3 -> R.string.consist_three.toString()
-            4 -> R.string.consist_four.toString()
-            5 -> R.string.consist_five.toString()
-            else -> {
-                "N/A"
-            }
+    private fun setConsistRef(consist: Int): Int {
+        return when (consist) {
+            1 -> R.string.consist_one
+            2 -> R.string.consist_two
+            3 -> R.string.consist_three
+            4 -> R.string.consist_four
+            5 -> R.string.consist_five
+            else -> R.string.n_a
         }
-        dischargeConsist = consistString
     }
 
     fun onSetDischargeDuration(durationTime: String?) {
         dischargeDurationTime = durationTime
     }
 
+    // Converts and sets from dischargeColor button
+    fun onSetDischargeColor(colorNumber: Int) {
+        dischargeColorButton = colorNumber
+        dischargeColor = colorConverter(dischargeType.value!!, colorNumber)
+    }
+
     // Converts button selection to appropriate color pending dischargeType
     private fun colorConverter(group: Int, colorNumber: Int?): String? {
-        val colorName: String?
-        if (group != 2) {
-            colorName = when (colorNumber) {
-                1 -> R.string.urine_color_one.toString()
-                2 -> R.string.urine_color_two.toString()
-                3 -> R.string.urine_color_three.toString()
-                4 -> R.string.urine_color_four.toString()
-                5 -> R.string.urine_color_five.toString()
-                else -> {
-                    null
-                }
-            }
+        return if (group != 2) {
+            setColorRefOne(colorNumber)?.let { context.resources.getString(it) }
         } else {
-            colorName = when (colorNumber) {
-                1 -> R.string.stool_color_one.toString()
-                2 -> R.string.stool_color_two.toString()
-                3 -> R.string.stool_color_three.toString()
-                4 -> R.string.stool_color_four.toString()
-                5 -> R.string.stool_color_five.toString()
-                else -> {
-                    null
-                }
-            }
+            setColorRefTwo(colorNumber)?.let { context.resources.getString(it) }
         }
-        return colorName
+    }
+
+    private fun setColorRefOne(colorNumber: Int?): Int? {
+        return when (colorNumber) {
+            1 -> R.string.urine_color_one
+            2 -> R.string.urine_color_two
+            3 -> R.string.urine_color_three
+            4 -> R.string.urine_color_four
+            5 -> R.string.urine_color_five
+            else -> null
+        }
+    }
+
+    private fun setColorRefTwo(colorNumber: Int?): Int? {
+        return when (colorNumber) {
+            1 -> R.string.stool_color_one
+            2 -> R.string.stool_color_two
+            3 -> R.string.stool_color_three
+            4 -> R.string.stool_color_four
+            5 -> R.string.stool_color_five
+            else -> null
+        }
     }
 
     fun doneNavigating() {
@@ -194,12 +197,8 @@ class DischargeViewModel @Inject constructor(
     // Sets newly formatted date to LiveData
     @RequiresApi(Build.VERSION_CODES.O)
     fun milliDateTimeFormatter(dateTime: Calendar) {
-        val simpleFormatter = SimpleDateFormat(
-            "EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH
-        )
-        val formatter = DateTimeFormatter.ofPattern(
-            "EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH
-        )
+        val simpleFormatter = SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH)
+        val formatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH)
         val simpleFormat = simpleFormatter.format(dateTime.time).toString()
         val localDate: LocalDateTime = LocalDateTime.parse(simpleFormat, formatter)
         val timeMilli: Long = localDate.atOffset(ZoneOffset.UTC).toInstant().toEpochMilli()

@@ -48,16 +48,12 @@ fun formatDischargesDialog(discharges: DischargeData, resources: Resources): Spa
             append("<br><b>${resources.getString(R.string.duration)}</b> ")
             append(it.dischargeDuration)
             append("<br><b>${resources.getString(R.string.leakage)}</b> ")
-            if (it.leakage) {
-                append(resources.getString(R.string.yes))
-            } else {
-                append(resources.getString(R.string.no))
-            }
+            if (it.leakage) append(resources.getString(R.string.yes)) else append(resources.getString(R.string.no))
             append("<br><b>${resources.getString(R.string.color)}</b> ")
-            append(resources.getString(it.dischargeColor.toInt()))
+            append(it.dischargeColor)
             if (it.dischargeType == 2) {
                 append("<br><b>${resources.getString(R.string.consistency)}</b> ")
-                append(resources.getString(it.dischargeConsistency.toInt()))
+                append(it.dischargeConsistency)
             }
         }
     }
@@ -68,31 +64,31 @@ fun formatDischargesDialog(discharges: DischargeData, resources: Resources): Spa
     }
 }
 
-fun stringToImageRef1(dischargeColor: String) : Int {
+fun stringToImageRef1(dischargeColor: String, res: Resources) : Int {
     return when (dischargeColor) {
         // urine
-        R.string.urine_color_one.toString() -> R.color.urine_color_one
-        R.string.urine_color_two.toString() -> R.color.urine_color_two
-        R.string.urine_color_three.toString() -> R.color.urine_color_three
-        R.string.urine_color_four.toString() -> R.color.urine_color_four
-        R.string.urine_color_five.toString() -> R.color.urine_color_five
+        res.getString(R.string.urine_color_one) -> R.color.urine_color_one
+        res.getString(R.string.urine_color_two) -> R.color.urine_color_two
+        res.getString(R.string.urine_color_three) -> R.color.urine_color_three
+        res.getString(R.string.urine_color_four) -> R.color.urine_color_four
+        res.getString(R.string.urine_color_five) -> R.color.urine_color_five
         // stool
-        R.string.stool_color_one.toString() -> R.color.stool_color_one
-        R.string.stool_color_two.toString() -> R.color.stool_color_two
-        R.string.stool_color_three.toString() -> R.color.stool_color_three
-        R.string.stool_color_four.toString() -> R.color.stool_color_four
-        R.string.stool_color_five.toString() -> R.color.stool_color_five
+        res.getString(R.string.stool_color_one) -> R.color.stool_color_one
+        res.getString(R.string.stool_color_two) -> R.color.stool_color_two
+        res.getString(R.string.stool_color_three) -> R.color.stool_color_three
+        res.getString(R.string.stool_color_four) -> R.color.stool_color_four
+        res.getString(R.string.stool_color_five) -> R.color.stool_color_five
         else -> R.color.white
     }
 }
 
-fun stringToImageRef2(consist: String): Int {
+fun stringToImageRef2(consist: String, res: Resources): Int {
     return when (consist) {
-        R.string.consist_one.toString() -> R.drawable.ic_stool_consistency_01
-        R.string.consist_two.toString() -> R.drawable.ic_stool_consistency_02
-        R.string.consist_three.toString() -> R.drawable.ic_stool_consistency_04
-        R.string.consist_four.toString() -> R.drawable.ic_stool_consistency_05
-        R.string.consist_five.toString() -> R.drawable.ic_stool_consistency_06
+        res.getString(R.string.consist_one) -> R.drawable.ic_stool_consistency_01
+        res.getString(R.string.consist_two) -> R.drawable.ic_stool_consistency_02
+        res.getString(R.string.consist_three) -> R.drawable.ic_stool_consistency_04
+        res.getString(R.string.consist_four) -> R.drawable.ic_stool_consistency_05
+        res.getString(R.string.consist_five) -> R.drawable.ic_stool_consistency_06
         else -> R.drawable.ic_urinate_icon
     }
 }

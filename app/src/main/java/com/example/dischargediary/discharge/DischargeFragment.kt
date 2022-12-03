@@ -61,14 +61,18 @@ class DischargeFragment : Fragment() {
         }
 
         // Submit Button
-        dischargeViewModel.navigateToDiary.observe(viewLifecycleOwner) {
-            if (it == true) {
+        dischargeViewModel.navigateToDiary.observe(viewLifecycleOwner) { nav ->
+            if (nav == true) {
                 this.findNavController()
-                    .navigate(DischargeFragmentDirections.actionDischargeFragmentToDischargeDiaryFragment())
+                    .navigate(DischargeFragmentDirections
+                        .actionDischargeFragmentToDischargeDiaryFragment()
+                    )
                 dischargeViewModel.doneNavigating()
                 snackBarEvent("Entry Recorded")
             }
-            if (it == false) snackBarEvent("Entry Incomplete")
+            if (nav == false) context?.resources?.let { it ->
+                snackBarEvent(it.getString(R.string.incomplete))
+            }
         }
 
         // Duration input - sets info after keyboard closes

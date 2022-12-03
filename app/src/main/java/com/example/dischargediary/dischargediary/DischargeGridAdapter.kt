@@ -19,9 +19,13 @@ import com.example.dischargediary.application.formatDischargesDialog
 import com.example.dischargediary.application.stringToImageRef2
 import com.example.dischargediary.data.DischargeData
 import com.example.dischargediary.databinding.DischargeGridViewBinding
+import timber.log.Timber
 
-const val ADAPTER_TAG = "CheckAdapter"
-class DischargeGridAdapter(private val context: Context, private val fragment: FragmentManager, private val clickListener: DischargeEntryListener) : ListAdapter<DischargeData, DischargeViewHolder>(DiffCallback) {
+class DischargeGridAdapter(
+    private val context: Context,
+    private val fragment: FragmentManager,
+    private val clickListener: DischargeEntryListener
+) : ListAdapter<DischargeData, DischargeViewHolder>(DiffCallback) {
 
     // Starts RV positions at 0
     private var currentSelectedPosition: Int = RecyclerView.NO_POSITION
@@ -63,13 +67,13 @@ class DischargeGridAdapter(private val context: Context, private val fragment: F
             currentSelectedPosition = position
             longSelectedPosition = RecyclerView.NO_POSITION
             notifyDataSetChanged()
-            Log.i(ADAPTER_TAG, "${item.dischargeTime} clicked! Position: $position")
+            Timber.i(item.dischargeTime + " clicked! Position: " + position)
         })
         // Sets LongClickListener for item
         holder.itemView.setOnLongClickListener(View.OnLongClickListener {
             longSelectedPosition = position
             notifyDataSetChanged()
-            Log.i(ADAPTER_TAG, "${item.dischargeTime} Long clicked! Position: $position")
+            Timber.i(item.dischargeTime + " Long clicked! Position: " + position)
             return@OnLongClickListener true
         })
         // Opens basic AlertDialog box. To implement more Entry information later
@@ -85,13 +89,13 @@ class DischargeGridAdapter(private val context: Context, private val fragment: F
         }
     }
 
-    fun showDialog(disMilliId: DischargeData?) {
-        val setIcon = stringToImageRef2(disMilliId?.dischargeConsistency!!)
-        val icon = ResourcesCompat.getDrawable(context.resources!!,setIcon, null)
+    private fun showDialog(disMilliId: DischargeData?) {
+        val setIcon = stringToImageRef2(disMilliId?.dischargeConsistency!!, context.resources)
+        val icon = ResourcesCompat.getDrawable(context.resources, setIcon, null)
         val entryInfo = formatDischargesDialog(disMilliId, context.resources).toString()
         val dialog = AlertDialog("Discharge Entry", entryInfo, icon!!)
         dialog.show(fragment, "Entry Dialog")
-        Log.i(ADAPTER_TAG, "Long clicked! Icon: $icon!!")
+        Timber.i("Long clicked! Icon: " + icon + "!!")
     }
 }
 

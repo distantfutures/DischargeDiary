@@ -32,7 +32,7 @@ fun TextView.setDataText(disMilliId: DischargeData?) {
 @BindingAdapter("dischargeGraphic")
 fun ImageView.setDischargeGraphic(disMilliId: DischargeData?) {
     disMilliId?.let {
-        setBackgroundResource(stringToImageRef1(disMilliId.dischargeColor))
-        setImageResource(stringToImageRef2(disMilliId.dischargeConsistency))
+        setBackgroundResource(stringToImageRef1(it.dischargeColor, context.resources))
+        setImageResource(stringToImageRef2(it.dischargeConsistency, context.resources))
     }
 }
