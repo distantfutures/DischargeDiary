@@ -8,7 +8,8 @@ import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-class DateTime {
+class DateTimeUtil {
+    private val calInstance: Calendar = Calendar.getInstance()
     var startYear = 0
     var startMonth = 0
     var startDay = 0
@@ -21,14 +22,13 @@ class DateTime {
 
     // Gets initial DateTime from Fragment DateTimePickerDialog
     fun currentDateTimeInstance(): Pair<String, String> {
-        val dateTimeInstance = Calendar.getInstance()
-        startYear = dateTimeInstance.get(Calendar.YEAR)
-        startMonth = dateTimeInstance.get(Calendar.MONTH)
-        startDay = dateTimeInstance.get(Calendar.DAY_OF_MONTH)
-        startHour = dateTimeInstance.get(Calendar.HOUR_OF_DAY)
-        startMinute = dateTimeInstance.get(Calendar.MINUTE)
-        dateTimeInstance.set(startYear, startMonth, startDay, startHour, startMinute)
-        currentDateTime = dateTimeInstance
+        startYear = calInstance.get(Calendar.YEAR)
+        startMonth = calInstance.get(Calendar.MONTH)
+        startDay = calInstance.get(Calendar.DAY_OF_MONTH)
+        startHour = calInstance.get(Calendar.HOUR_OF_DAY)
+        startMinute = calInstance.get(Calendar.MINUTE)
+        calInstance.set(startYear, startMonth, startDay, startHour, startMinute)
+        currentDateTime = calInstance
         return Pair(formatterDate.format(currentDateTime.time), formatterTime.format(currentDateTime.time))
     }
 
@@ -36,10 +36,9 @@ class DateTime {
     // Gets New DateTime from Fragment DateTimePickerDialog
     @RequiresApi(Build.VERSION_CODES.O)
     fun pickADateTime(year: Int, month: Int, day: Int, hour: Int, minute: Int): Pair<String, String> {
-        val pickDateTime = Calendar.getInstance()
-        pickDateTime.set(year, month, day, hour, minute)
-        pickedDateTime = pickDateTime
-        return Pair(formatterDate.format(pickDateTime.time), formatterTime.format(pickDateTime.time))
+        calInstance.set(year, month, day, hour, minute)
+        pickedDateTime = calInstance
+        return Pair(formatterDate.format(calInstance.time), formatterTime.format(calInstance.time))
     }
 
     // Sets newly formatted date to LiveData

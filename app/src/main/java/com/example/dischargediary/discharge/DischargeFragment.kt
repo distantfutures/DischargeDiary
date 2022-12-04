@@ -20,13 +20,13 @@ import com.example.dischargediary.UiSetter
 import com.example.dischargediary.databinding.FragmentDischargeBinding
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class DischargeFragment : Fragment() {
 
     private val dischargeViewModel: DischargeViewModel by viewModels()
     private val args: DischargeFragmentArgs by navArgs()
+    private val uiSet = UiSetter()
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
@@ -37,7 +37,6 @@ class DischargeFragment : Fragment() {
         val binding: FragmentDischargeBinding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_discharge, container, false)
 
-        val uiSet = UiSetter()
 
         // Gets arguments from Diary Screen, passes into Factory and sets to ViewModel
         dischargeViewModel.onSetDischargeType(args.dischargeTypeArg)
@@ -89,7 +88,6 @@ class DischargeFragment : Fragment() {
                 else -> true
             }
         }
-
         return binding.root
     }
 
@@ -100,15 +98,13 @@ class DischargeFragment : Fragment() {
         DatePickerDialog(requireActivity(), { _, year, month, day ->
             TimePickerDialog(requireActivity(), { _, hour, minute ->
                 dischargeViewModel.pickNewDateTime(year, month, day, hour, minute)
-                showToast(dischargeViewModel.dischargeDate.value)
-                showToast(dischargeViewModel.dischargeTime.value)
+                showToast(dischargeViewModel.dischargeDate.value + dischargeViewModel.dischargeTime.value)
             }, dt.startHour, dt.startMinute, false).show()
         }, dt.startYear, dt.startMonth, dt.startDay).show()
-        Timber.d("XX dateTime: $dt")
     }
 
     private fun showToast(str: String?) {
-        Toast.makeText(context, str, Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, str, Toast.LENGTH_LONG).show()
     }
 
     private fun snackBarEvent(str: CharSequence) {
