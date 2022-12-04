@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.dischargediary.R
+import com.example.dischargediary.UiSetter
 import com.example.dischargediary.data.DischargeData
 import com.example.dischargediary.data.DischargeDatabase
 import com.example.dischargediary.repository.DischargesRepository
@@ -27,6 +27,7 @@ class DischargeViewModel @Inject constructor(
     @ApplicationContext private val context: Context
 ) : ViewModel() {
 
+    private var uiSet: UiSetter = UiSetter()
     private val dischargesRepository =
         DischargesRepository(DischargeDatabase.getInstance(context))
 
@@ -106,19 +107,8 @@ class DischargeViewModel @Inject constructor(
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun onSetDischargeConsist(consist: Int) {
-        val consistString = context.getString(setConsistRef(consist))
+        val consistString = context.getString(uiSet.stringConsistRef(consist))
         dischargeConsist = consistString
-    }
-
-    private fun setConsistRef(consist: Int): Int {
-        return when (consist) {
-            1 -> R.string.consist_one
-            2 -> R.string.consist_two
-            3 -> R.string.consist_three
-            4 -> R.string.consist_four
-            5 -> R.string.consist_five
-            else -> R.string.n_a
-        }
     }
 
     fun onSetDischargeDuration(durationTime: String?) {
@@ -126,40 +116,9 @@ class DischargeViewModel @Inject constructor(
     }
 
     // Converts and sets from dischargeColor button
-    fun onSetDischargeColor(colorNumber: Int) {
-        dischargeColorButton = colorNumber
-        dischargeColor = colorConverter(dischargeType.value!!, colorNumber)
-    }
-
-    // Converts button selection to appropriate color pending dischargeType
-    private fun colorConverter(group: Int, colorNumber: Int?): String? {
-        return if (group != 2) {
-            setColorRefOne(colorNumber)?.let { context.resources.getString(it) }
-        } else {
-            setColorRefTwo(colorNumber)?.let { context.resources.getString(it) }
-        }
-    }
-
-    private fun setColorRefOne(colorNumber: Int?): Int? {
-        return when (colorNumber) {
-            1 -> R.string.urine_color_one
-            2 -> R.string.urine_color_two
-            3 -> R.string.urine_color_three
-            4 -> R.string.urine_color_four
-            5 -> R.string.urine_color_five
-            else -> null
-        }
-    }
-
-    private fun setColorRefTwo(colorNumber: Int?): Int? {
-        return when (colorNumber) {
-            1 -> R.string.stool_color_one
-            2 -> R.string.stool_color_two
-            3 -> R.string.stool_color_three
-            4 -> R.string.stool_color_four
-            5 -> R.string.stool_color_five
-            else -> null
-        }
+    fun onSetDischargeColor(buttonNumber: Int) {
+        dischargeColorButton = buttonNumber
+        dischargeColor = uiSet.mapButtonNumberToColors(dischargeType.value!!, buttonNumber, context)
     }
 
     fun doneNavigating() {

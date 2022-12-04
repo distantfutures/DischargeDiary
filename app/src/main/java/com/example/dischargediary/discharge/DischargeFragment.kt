@@ -10,13 +10,13 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.dischargediary.R
+import com.example.dischargediary.UiSetter
 import com.example.dischargediary.databinding.FragmentDischargeBinding
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,9 +32,11 @@ class DischargeFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val binding: FragmentDischargeBinding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_discharge, container, false)
+
+        val uiSet = UiSetter()
 
         // Gets arguments from Diary Screen, passes into Factory and sets to ViewModel
         dischargeViewModel.onSetDischargeType(args.dischargeTypeArg)
@@ -51,11 +53,11 @@ class DischargeFragment : Fragment() {
             viewLifecycleOwner
         ) { number ->
             if (number != 2) {
-                showNumberOneUi(binding)
+                uiSet.showUiOf(1, binding, requireContext())
                 dischargeViewModel.onSetDischargeColor(dischargeViewModel.dischargeColorButton)
                 dischargeViewModel.onSetDischargeConsist(0)
             } else {
-                showNumberTwoUi(binding)
+                uiSet.showUiOf(2, binding, requireContext())
                 dischargeViewModel.onSetDischargeColor(dischargeViewModel.dischargeColorButton)
             }
         }
@@ -83,44 +85,11 @@ class DischargeFragment : Fragment() {
                     dischargeViewModel.onSetDischargeDuration(time.toString())
                     false
                 }
-                else -> { true }
+                else -> true
             }
         }
 
         return binding.root
-    }
-
-    private fun showToast(str: String?) {
-        Toast.makeText(context, str, Toast.LENGTH_SHORT).show()
-    }
-
-    private fun snackBarEvent(str: CharSequence) {
-        activity?.let { Snackbar.make(it.findViewById(android.R.id.content), str, Snackbar.LENGTH_SHORT).show() }
-    }
-
-    // Sets appropriate colors for Discharge Color pending DischargeType selection
-    private fun showNumberOneUi(binding: FragmentDischargeBinding) {
-        with(binding) {
-            consistGroup.visibility = View.GONE
-            dischargeButtonToggleGroup.check(R.id.numberOneButton)
-            color1Button.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.urine_color_one))
-            color2Button.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.urine_color_two))
-            color3Button.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.urine_color_three))
-            color4Button.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.urine_color_four))
-            color5Button.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.urine_color_five))
-        }
-    }
-
-    private fun showNumberTwoUi(binding: FragmentDischargeBinding) {
-        with(binding) {
-            consistGroup.visibility = View.VISIBLE
-            dischargeButtonToggleGroup.check(R.id.numberTwoButton)
-            color1Button.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.stool_color_one))
-            color2Button.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.stool_color_two))
-            color3Button.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.stool_color_three))
-            color4Button.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.stool_color_four))
-            color5Button.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.stool_color_five))
-        }
     }
 
     // Opens Date and Time picker dialog
@@ -133,5 +102,13 @@ class DischargeFragment : Fragment() {
                 showToast(dischargeViewModel.dischargeTime.value)
             }, dischargeViewModel.startHour, dischargeViewModel.startMinute, false).show()
         }, dischargeViewModel.startYear, dischargeViewModel.startMonth, dischargeViewModel.startDay).show()
+    }
+
+    private fun showToast(str: String?) {
+        Toast.makeText(context, str, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun snackBarEvent(str: CharSequence) {
+        activity?.let { Snackbar.make(it.findViewById(android.R.id.content), str, Snackbar.LENGTH_SHORT).show() }
     }
 }
