@@ -1,4 +1,4 @@
-package com.example.dischargediary
+package com.example.dischargediary.login
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

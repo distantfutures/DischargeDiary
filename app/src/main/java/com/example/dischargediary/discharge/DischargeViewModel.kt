@@ -7,11 +7,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.dischargediary.DateTimeUtil
-import com.example.dischargediary.UiSetter
 import com.example.dischargediary.data.DischargeData
 import com.example.dischargediary.data.DischargeDatabase
 import com.example.dischargediary.repository.DischargesRepository
+import com.example.dischargediary.util.DateTimeUtil
+import com.example.dischargediary.util.UiSetterUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
@@ -23,7 +23,7 @@ class DischargeViewModel @Inject constructor(
     @ApplicationContext private val context: Context
 ) : ViewModel() {
 
-    private var uiSet = UiSetter()
+    private var uiSet = UiSetterUtil()
     private val dateTime = DateTimeUtil()
     private val dischargesRepository =
         DischargesRepository(DischargeDatabase.getInstance(context))

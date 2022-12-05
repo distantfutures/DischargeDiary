@@ -49,4 +49,5 @@
     <string name="confirm_password_hint">Confirm Password</string>
     <string name="register">Register</string>
     <string name="n_a">N/A</string>
+    <string name="entry_recorded">Entry Recorded</string>
 </resources>

@@ -1,12 +1,13 @@
-package com.example.dischargediary
+package com.example.dischargediary.util
 
 import android.content.Context
 import android.os.Build
 import android.view.View
 import androidx.annotation.RequiresApi
+import com.example.dischargediary.R
 import com.example.dischargediary.databinding.FragmentDischargeBinding
 
-class UiSetter {
+class UiSetterUtil {
 
     // Sets appropriate colors for Discharge Color pending DischargeType selection
     @RequiresApi(Build.VERSION_CODES.M)
@@ -89,7 +90,7 @@ class UiSetter {
     // Converts button selection to appropriate color pending dischargeType
     fun mapButtonNumberToColors(group: Int, buttonNumber: Int, context: Context): String {
         // TODO: Change group to enum class
-        val uiSet = UiSetter()
+        val uiSet = UiSetterUtil()
         return when (group) {
             1 -> uiSet.stringColorRef(group, buttonNumber).let { context.resources.getString(it) }
             2 -> uiSet.stringColorRef(group, buttonNumber).let { context.resources.getString(it) }

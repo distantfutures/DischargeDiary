@@ -2,13 +2,13 @@ package com.example.dischargediary.discharge
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -16,9 +16,10 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.dischargediary.R
-import com.example.dischargediary.UiSetter
 import com.example.dischargediary.databinding.FragmentDischargeBinding
-import com.google.android.material.snackbar.Snackbar
+import com.example.dischargediary.util.UiSetterUtil
+import com.example.dischargediary.util.showToast
+import com.example.dischargediary.util.snackBarEvent
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -26,7 +27,7 @@ class DischargeFragment : Fragment() {
 
     private val dischargeViewModel: DischargeViewModel by viewModels()
     private val args: DischargeFragmentArgs by navArgs()
-    private val uiSet = UiSetter()
+    private val uiSet = UiSetterUtil()
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
@@ -45,13 +46,8 @@ class DischargeFragment : Fragment() {
         binding.dischargeFragment = this
         binding.lifecycleOwner = this
 
-        // Current Date & Time
-        binding.dischargeDateTime.setOnClickListener { setNewDateTime() }
-
         // Observes Discharge Type & sets UI accordingly
-        dischargeViewModel.dischargeType.observe(
-            viewLifecycleOwner
-        ) { number ->
+        dischargeViewModel.dischargeType.observe(viewLifecycleOwner) { number ->
             if (number != 2) {
                 uiSet.showUiOf(1, binding, requireContext())
                 dischargeViewModel.onSetDischargeColor(dischargeViewModel.dischargeColorButton)
@@ -70,12 +66,13 @@ class DischargeFragment : Fragment() {
                         .actionDischargeFragmentToDischargeDiaryFragment()
                     )
                 dischargeViewModel.doneNavigating()
-                snackBarEvent("Entry Recorded")
+                snackBarEvent(binding.root, requireContext().getString(R.string.entry_recorded))
             }
-            if (nav == false) context?.resources?.let { it ->
-                snackBarEvent(it.getString(R.string.incomplete))
-            }
+            if (nav == false) snackBarEvent(binding.root, requireContext().getString(R.string.incomplete))
         }
+
+        // Current Date & Time
+        binding.dischargeDateTime.setOnClickListener { setNewDateTime(requireContext()) }
 
         // Duration input - sets info after keyboard closes
         binding.durationInput.setOnEditorActionListener { _, actionId, _ ->
@@ -93,21 +90,13 @@ class DischargeFragment : Fragment() {
 
     // Opens Date and Time picker dialog
     @RequiresApi(Build.VERSION_CODES.O)
-    fun setNewDateTime() {
+    private fun setNewDateTime(context: Context) {
         val dt = dischargeViewModel.startDateTime.value ?: return
         DatePickerDialog(requireActivity(), { _, year, month, day ->
             TimePickerDialog(requireActivity(), { _, hour, minute ->
                 dischargeViewModel.pickNewDateTime(year, month, day, hour, minute)
-                showToast(dischargeViewModel.dischargeDate.value + dischargeViewModel.dischargeTime.value)
+                showToast(dischargeViewModel.dischargeDate.value + dischargeViewModel.dischargeTime.value, context)
             }, dt.startHour, dt.startMinute, false).show()
         }, dt.startYear, dt.startMonth, dt.startDay).show()
-    }
-
-    private fun showToast(str: String?) {
-        Toast.makeText(context, str, Toast.LENGTH_LONG).show()
-    }
-
-    private fun snackBarEvent(str: CharSequence) {
-        activity?.let { Snackbar.make(it.findViewById(android.R.id.content), str, Snackbar.LENGTH_SHORT).show() }
     }
 }

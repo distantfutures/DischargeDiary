@@ -1,4 +1,4 @@
-package com.example.dischargediary
+package com.example.dischargediary.util
 
 import android.os.Build
 import androidx.annotation.RequiresApi
