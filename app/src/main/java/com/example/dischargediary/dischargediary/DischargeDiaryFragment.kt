@@ -32,7 +32,6 @@ class DischargeDiaryFragment : Fragment() {
 
         // Sets clicklistener with entry reference, then binds to RecyclerView
         val adapter = DischargeGridAdapter(
-            activity?.application!!,
             parentFragmentManager,
             DischargeEntryListener { disMilli ->
             diaryViewModel.deleteEntryFromRepository(disMilli)

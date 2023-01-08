@@ -35,6 +35,20 @@ fun formatDischarges(discharges: DischargeData, resources: Resources): Spanned? 
     }
 }
 
+fun formatDischargeTime(discharges: DischargeData): Spanned? {
+    val sb = StringBuilder()
+    sb.apply {
+        discharges.let {
+            append("<b>${it.dischargeDate}</b> <br>${it.dischargeTime}")
+        }
+    }
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        Html.fromHtml(sb.toString(), Html.FROM_HTML_MODE_LEGACY)
+    } else {
+        HtmlCompat.fromHtml(sb.toString(), HtmlCompat.FROM_HTML_MODE_LEGACY)
+    }
+}
+
 fun formatDischargesDialog(discharges: DischargeData, resources: Resources): Spanned? {
     val sb = StringBuilder()
     sb.apply {

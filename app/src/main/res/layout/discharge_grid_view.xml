@@ -16,6 +16,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/discharge_entry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingBottom="10dp">
@@ -24,6 +25,7 @@
             android:id="@+id/discharge_image"
             android:layout_width="@dimen/grid_image"
             android:layout_height="@dimen/grid_image"
+            android:layout_marginBottom="6dp"
             app:dischargeGraphic="@{dischargeData}"
             app:layout_constraintBottom_toTopOf="@id/info_text"
             app:layout_constraintEnd_toEndOf="parent"
@@ -52,9 +54,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="Text Placeholder"
-            android:textAlignment="textStart"
+            android:textAlignment="center"
             android:textSize="@dimen/grid_text"
             android:gravity="center"
+            android:padding="2dp"
+            android:background="@drawable/border_color"
             app:layout_constraintEnd_toEndOf="@id/discharge_image"
             app:layout_constraintStart_toStartOf="@id/discharge_image"
             app:layout_constraintTop_toBottomOf="@+id/discharge_image"

@@ -12,12 +12,12 @@
     <dimen name="color_buttons">75dp</dimen>
 
     <dimen name="grid_image">110dp</dimen>
-    <dimen name="grid_text">10sp</dimen>
+    <dimen name="grid_text">12sp</dimen>
 
     <dimen name="lg_text">24sp</dimen>
     <dimen name="med_text">20sp</dimen>
     <dimen name="sm_text">16sp</dimen>
     <dimen name="title_text">18sp</dimen>
 
-    <dimen name="corner_radius">16dp</dimen>
+    <dimen name="corner_radius">10dp</dimen>
 </resources>

@@ -25,7 +25,7 @@ fun bindRecyclerView(recycler: RecyclerView, data: List<DischargeData>?) {
 @BindingAdapter("listDataFormatted")
 fun TextView.setDataText(disMilliId: DischargeData?) {
     disMilliId?.let {
-        text = formatDischarges(disMilliId, context.resources)
+        text = formatDischargeTime(disMilliId)
     }
 }
 
